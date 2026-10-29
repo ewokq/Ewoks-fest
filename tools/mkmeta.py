@@ -65,7 +65,7 @@ for s in SET:
     if len(dropBars)>1 and dropBars[1]-a0<=72:
         e=dropBars[1];end=next((x[1] for x in S if x[0]==e),e+8);end=min(end+8,a['bars'])
     else:end=min(d0+40,a['bars'])
-    item=dict(id=s['id'],g=s['g'],genre=s['genre'],title=m['title'],artist=m['artist'],file='music/'+s['id']+'.mp3',page=m['page'],lic='CC BY 3.0' if '3.0' in m['lic'] else m['lic'],lic_url=m['lic_url'].replace('http://','https://'),samples=[[x['title'],x['artist'],x['url']] for x in s.get('samples',[])],
+    item=dict(id=s['id'],g=s['g'],genre=s['genre'],title=m['title'],artist=m['artist'],file='music/'+s['id']+'.mp3',page=m['page'],lic=('CC BY-NC 3.0' if 'by-nc' in m['lic_url'] else 'CC BY 3.0' if '/by/3.0' in m['lic_url'] else m['lic']),lic_url=m['lic_url'].replace('http://','https://'),samples=[[x['title'],x['artist'],x['url']] for x in s.get('samples',[])],
               bpm=a['bpm'],off=a['off'],dur=a['dur'],bars=a['bars'],secs=S,drops=[round(a['off']+b*240/a['bpm'],2) for b in dropBars],short=[a0,end],dj=s['dj'],note=s.get('note',''))
     out.append(item)
     print(s['id'],a['bpm'],'drops@bars',dropBars,'short',[a0,end],round((end-a0)*240/a['bpm']),'s')

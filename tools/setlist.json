@@ -1,35 +1,51 @@
 [
  {
-  "key": "Reiswerk/52740",
-  "id": "mouse",
+  "key": "Levihica/47608",
+  "id": "sailboat",
   "g": "progressive",
-  "genre": "Electro Swing House",
+  "genre": "Progressive House",
   "dj": "kito",
   "samples": [
    {
-    "url": "https://ccmixter.org/files/stellarartwars/52279",
-    "user": "stellarartwars",
-    "id": 52279,
-    "title": "mouse in my house",
-    "artist": "stellarartwars",
-    "lic": "CC BY 3.0"
+    "url": "https://ccmixter.org/files/snowflake/45446",
+    "user": "snowflake",
+    "id": 45446,
+    "title": "Sailboat",
+    "artist": "Madam Snowflake",
+    "lic": "CC BY-NC 3.0"
    }
   ]
  },
  {
-  "key": "Robbero/50420",
-  "id": "mind",
-  "g": "techhouse",
-  "genre": "Electro / Nu-Disco House",
+  "key": "7OOP3D/35783",
+  "id": "broken",
+  "g": "melodic",
+  "genre": "Melodic Dubstep",
   "dj": "lumen",
   "samples": [
    {
-    "url": "https://ccmixter.org/files/donnieozone/49919",
-    "user": "donnieozone",
-    "id": 49919,
-    "title": "Mind",
-    "artist": "Donnie Ozone",
-    "lic": "CC BY 3.0"
+    "url": "https://ccmixter.org/files/reblaw27/18661",
+    "user": "reblaw27",
+    "id": 18661,
+    "title": "Broken Acappella",
+    "artist": "reblaw27",
+    "lic": "CC BY-NC 3.0"
+   },
+   {
+    "url": "https://ccmixter.org/files/casimps1/28535",
+    "user": "casimps1",
+    "id": 28535,
+    "title": "Mellow Piano Triplets",
+    "artist": "Clarence Simpson",
+    "lic": "CC BY-NC 3.0"
+   },
+   {
+    "url": "https://ccmixter.org/files/casimps1/33941",
+    "user": "casimps1",
+    "id": 33941,
+    "title": "Broken",
+    "artist": "Clarence Simpson",
+    "lic": "CC BY-NC 3.0"
    }
   ]
  },
@@ -76,35 +92,43 @@
   "samples": []
  },
  {
-  "key": "SackJo22/43036",
-  "id": "normal",
+  "key": "VJ_Memes/31129",
+  "id": "hero",
   "g": "peaktechno",
-  "genre": "Techno",
+  "genre": "Dubstep / Drum & Bass",
   "dj": "vanta",
   "samples": [
    {
-    "url": "https://ccmixter.org/files/AnalogByNature/41473",
-    "user": "AnalogByNature",
-    "id": 41473,
-    "title": "Analog By Nature - Are You Ready",
-    "artist": "AnalogByNature",
-    "lic": "CC BY 3.0"
+    "url": "https://ccmixter.org/files/aamu/27232",
+    "user": "aamu",
+    "id": 27232,
+    "title": "Hero",
+    "artist": "Aamu",
+    "lic": "CC BY-NC 3.0"
    }
   ]
  },
  {
-  "key": "George_Ellinas/28107",
-  "id": "mine",
+  "key": "F_Fact/53509",
+  "id": "acceptance",
   "g": "trance",
-  "genre": "Trance",
+  "genre": "Festival Trance",
   "dj": "lumen",
   "samples": [
    {
-    "url": "https://ccmixter.org/files/snowflake/27820",
-    "user": "snowflake",
-    "id": 27820,
-    "title": "Mine + Yours = Ours",
-    "artist": "Madam Snowflake",
+    "url": "https://ccmixter.org/files/mentorrecords/12985",
+    "user": "mentorrecords",
+    "id": 12985,
+    "title": "Ya Ghaly",
+    "artist": "mentorrecords",
+    "lic": "CC BY-NC 3.0"
+   },
+   {
+    "url": "https://ccmixter.org/files/MissJudged/49841",
+    "user": "MissJudged",
+    "id": 49841,
+    "title": "Acceptance",
+    "artist": "MissJudged",
     "lic": "CC BY 3.0"
    }
   ]
