@@ -21,13 +21,19 @@ Pick one on the menu, or hit **Random**. Each genre has its own synth patches, p
 - **Play the Show**: a scored set with intro, builds, drops and a breakdown.
 - **Freestyle**: jam with no score pressure.
 - **Watch Auto-Show**: the game runs the show. Tap pads to jump in.
-- **My Song (YouTube)** *(new in v1.2)*: run the show to your own track. See below.
+- **My Song (YouTube)** *(v1.3: audio only, no video)*: run the show to your own track. See below.
 
 ## My Song (YouTube)
 1. On the menu, tap **🎵 MY SONG (YOUTUBE)**.
 2. Paste any YouTube link: `youtube.com/watch?v=…`, `youtu.be/…`, `shorts/…`, `music.youtube.com`, `m.youtube.com`. Timestamps like `&t=1m30s` work too.
 3. Pick the song's BPM (124, 126, 128, 130, 138, 140, 150 or 174). If you're not sure, use **TAP** in the game. Then hit **▶ PLAY MY SONG**.
-4. While you play, the video stays visible in a corner. Tap ⤢ to make it bigger or smaller (it never gets smaller than 200×200). The game's own synth music is muted, so the video is your soundtrack.
+4. While you play you only hear the song; the video is hidden. The game's own synth music is muted, so your song is the soundtrack. If your phone doesn't start the music on its own within a couple of seconds (iPhones sometimes need a direct tap), a **▶ Tap to start music** prompt pops up with the player's play button. Tap it once and the player hides again as soon as the song starts.
+
+### Screen layout (v1.3)
+Top of the screen, left to right: **CROWD HYPE** meter (top left), the **BUILD-UP / DROP** section and its progress bar (top middle), and your **SCORE** with the camera, sound, full-screen and pause buttons (top right). It stays clear of the notch, the Dynamic Island and the home bar in both portrait and landscape.
+
+### Auto BPM (new in v1.3)
+**🎤 AUTO BPM** is on by default (toggle it on the My Song screen or tap the green pill above the buttons in-game). When your song starts, the game asks once for the microphone, listens to the song coming out of your speaker for about 8 seconds, then sets the BPM and lines up beat 1 for you. It keeps fine-tuning every few seconds with small, smooth corrections. The pill shows the detected BPM and a 4-bar confidence meter. If the mic is blocked or it can't hear a clear beat, nothing changes and the manual buttons below work as before. Tapping TAP, SYNC 1, BPM or −/+ yourself pauses auto-tuning for 15 seconds. Works best with the volume up and the phone speaker (not headphones, since the mic has to hear the song).
 
 | Button | What it does |
 |---|---|

@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-title" content="Ewok Fest">
 <meta name="application-name" content="Drop Control 3D">
 <meta name="description" content="Drop Control 3D · Ewok Fest — run the lights and pyro for an EDM festival headliner. Seven genres, crowd POV, playable on iPhone.">
-<meta name="game-version" content="v1.2">
+<meta name="game-version" content="v1.3">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -30,12 +30,15 @@ button{font:inherit;color:inherit;touch-action:manipulation;cursor:pointer}
 #combo{font-size:12px;font-weight:700;color:#7ff;min-height:15px}
 #combo.bump{animation:bump .18s}
 @keyframes bump{50%{transform:scale(1.25)}}
-#mid{flex:1;max-width:360px;text-align:center}
+/* v1.3 HUD: CROWD top-left · BUILD-UP/section top-middle · SCORE top-right */
+#left,#right{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:6px}#left{align-items:flex-start}
+#scoreBox{text-align:right;min-width:96px}
+#mid{flex:0 1 340px;min-width:0;text-align:center}
 #section{font-weight:900;letter-spacing:.22em;font-size:14px}
 #prog{height:4px;background:rgba(255,255,255,.15);border-radius:3px;margin-top:5px;overflow:hidden}
 #progFill{height:100%;width:0;background:linear-gradient(90deg,#ff2bd6,#20e3ff)}
 #right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
-#hypeBox{width:160px}
+#hypeBox{width:160px;max-width:100%}
 #hypeBar{height:9px;border-radius:5px;background:rgba(255,255,255,.14);overflow:hidden;margin-top:3px}
 #hypeFill{height:100%;width:0;background:linear-gradient(90deg,#20e3ff,#ff2bd6,#ffe14a);transition:width .12s}
 .iconRow{display:flex;gap:6px;pointer-events:auto}
@@ -105,8 +108,10 @@ button{font:inherit;color:inherit;touch-action:manipulation;cursor:pointer}
  .panel{padding:4px 9px}
 }
 @media (orientation:portrait){
- #top{flex-wrap:wrap}#mid{order:3;flex-basis:100%;max-width:none}#hypeBox{width:120px}
- #beat{top:calc(188px + env(safe-area-inset-top))}#cue{top:calc(262px + env(safe-area-inset-top))}
+ #top{gap:6px;left:calc(8px + env(safe-area-inset-left));right:calc(8px + env(safe-area-inset-right))}#mid{flex:1.25 1 0;padding:5px 6px}#section{font-size:12px;letter-spacing:.14em}#genreLbl{font-size:9px}
+ #hypeBox{width:100%;padding:5px 8px}#scoreBox{min-width:0;width:100%;padding:5px 8px}#score{font-size:18px}.lbl{font-size:9px;letter-spacing:.1em}
+ .iconRow{display:grid;grid-template-columns:repeat(2,36px);gap:5px}.ib{width:36px;height:36px}
+ #beat{top:calc(160px + env(safe-area-inset-top))}#cue{top:calc(234px + env(safe-area-inset-top))}
  #judge{top:44%}
  :root{--pad:min(84px,calc((100vw - 64px - env(safe-area-inset-left) - env(safe-area-inset-right))/4))}
 }
@@ -144,17 +149,19 @@ button{font:inherit;color:inherit;touch-action:manipulation;cursor:pointer}
 .ytItem b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .ytItem span{font-size:10.5px;opacity:.6}
 .ytHow{font-size:12px}
-#ytBox{position:fixed;z-index:40;width:200px;height:200px;display:none;background:#000;border-radius:10px;box-shadow:0 0 0 1px rgba(255,255,255,.25),0 6px 24px rgba(0,0,0,.6);
-  left:calc(8px + env(safe-area-inset-left));top:calc(50% - 100px)}
+/* v1.3: audio-only. The YouTube player stays rendered at full 200x200 (iOS keeps audio playing) but is invisible: opacity ~0, no pointer events, tucked in a corner. */
+#ytBox{position:fixed;z-index:1;width:200px;height:200px;left:0;bottom:0;opacity:.01;pointer-events:none;overflow:hidden;background:transparent;border-radius:10px}
 #ytBox iframe,#ytPlayer{width:100%;height:100%;display:block;border:0;border-radius:10px}
-#ytSize{position:absolute;right:-40px;top:0;width:34px;height:34px;border-radius:10px;border:1px solid rgba(255,255,255,.3);background:rgba(8,10,26,.75);font-size:16px;font-weight:900}
-.ytsetup #ytBox,.ytplay #ytBox{display:block}
-.ytbig #ytBox{width:356px;height:200px}
-.ytsetup #ytSetup{padding-left:calc(222px + env(safe-area-inset-left))}
-.ytsetup.ytbig #ytSetup{padding-left:calc(410px + env(safe-area-inset-left))}
-.ytplay #ytBox{top:calc(6px + env(safe-area-inset-top))}
-.ytplay #top{left:calc(260px + env(safe-area-inset-left))}
-.ytplay.ytbig #top{left:calc(416px + env(safe-area-inset-left))}
+/* fallback: briefly reveal the player so a direct tap can start the music on iOS */
+#ytTapWrap{display:none;position:fixed;inset:0;z-index:60;background:rgba(0,0,8,.55);pointer-events:none}
+body.ytreveal #ytTapWrap{display:block}
+body.ytreveal #ytBox{z-index:61;opacity:1;pointer-events:auto;left:calc(50% - 100px);bottom:auto;top:calc(50% - 100px);box-shadow:0 0 0 2px #fff,0 0 30px rgba(255,43,214,.7)}
+#ytTapLbl{position:absolute;left:50%;top:calc(50% - 160px);transform:translateX(-50%);white-space:nowrap;padding:10px 16px;border-radius:14px;background:linear-gradient(135deg,#ff2bd6,#ff7a1a);font-weight:900;font-size:16px;letter-spacing:.03em;box-shadow:0 4px 18px rgba(0,0,0,.5)}
+#ytTapSub{position:absolute;left:50%;top:calc(50% + 112px);transform:translateX(-50%);white-space:nowrap;font-size:12px;opacity:.85;text-align:center}
+#ytAB{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 6px);white-space:nowrap;min-height:30px;padding:0 12px;border-radius:15px;border:1px solid rgba(61,255,110,.55);background:rgba(8,10,26,.72);font-size:12px;font-weight:800;letter-spacing:.03em;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+#ytAB.ok{border-color:#3dff6e;color:#c9ffd6}#ytAB.low{border-color:#ffb02e;color:#ffe2a8}#ytAB.off{border-color:rgba(255,255,255,.25);opacity:.75}
+.chip.ytauto{width:100%;min-height:44px;font-weight:900;font-size:14px;margin-top:8px}.chip.ytauto.sel{background:linear-gradient(135deg,#1fd46a,#14a0ff);border-color:#fff;color:#fff}
+.ytAutoHow{font-size:11.5px;opacity:.75;margin:4px 2px 2px;line-height:1.35}
 #ytCtl{display:none;position:absolute;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom));pointer-events:auto;touch-action:none;
   gap:7px;grid-template-columns:repeat(3,1fr);width:min(330px,calc(100vw - 4*var(--pad) - 80px - env(safe-area-inset-left) - env(safe-area-inset-right)))}
 .ytplay #ytCtl{display:grid}
@@ -164,23 +171,13 @@ button{font:inherit;color:inherit;touch-action:manipulation;cursor:pointer}
 .yc.hit{animation:ychit .25s}
 @keyframes ychit{0%{transform:scale(.88);background:#fff;color:#111}100%{transform:scale(1)}}
 @media (orientation:portrait){
- #ytBox{left:calc(50% - 100px);top:calc(8px + env(safe-area-inset-top))}
- .ytsetup #ytSetup{padding-left:10px;padding-top:calc(216px + env(safe-area-inset-top));align-items:flex-start}
- .ytsetup.ytbig #ytSetup{padding-left:10px}
- .ytbig #ytBox{width:min(356px,94vw);left:calc(50% - min(178px,47vw))}
  #ytBpms{grid-template-columns:repeat(4,1fr)}
- .ytplay #top{left:calc(10px + env(safe-area-inset-left));top:calc(214px + env(safe-area-inset-top))}
- .ytplay #beat{top:calc(392px + env(safe-area-inset-top))}
- .ytplay #cue{top:calc(466px + env(safe-area-inset-top))}
- .ytplay #judge{top:62%}
- .ytplay #ytBox{top:calc(6px + env(safe-area-inset-top))}
- #ytSize{right:auto;left:-40px}
  #ytCtl{width:calc(100vw - 24px - env(safe-area-inset-left) - env(safe-area-inset-right));max-width:460px;grid-template-columns:repeat(6,1fr);bottom:calc(var(--pad)*2 + 34px + env(safe-area-inset-bottom))}
  .yc{font-size:11.5px}
 }
 body.ytsetup #rotate{display:none!important}
 .ytplay #rotate{display:none!important}
-@media (max-height:500px){#ytRecent{max-height:96px}.ytHow{display:none}.chip.bpm{min-height:40px}#ytBpms{gap:4px}}
+@media (max-height:500px){.ytAutoHow{display:none}#ytRecent{max-height:96px}.ytHow{display:none}.chip.bpm{min-height:40px}#ytBpms{gap:4px}}
 </style>
 </head>
 <body>
@@ -188,10 +185,10 @@ body.ytsetup #rotate{display:none!important}
 <div id="flash"></div>
 <div id="hud" class="hidden">
   <div id="top">
-    <div class="panel" id="scoreBox"><div class="lbl" id="scoreLbl">SCORE</div><div id="score">0</div><div id="combo"></div></div>
+    <div id="left"><div class="panel" id="hypeBox"><div class="lbl">CROWD HYPE</div><div id="hypeBar"><div id="hypeFill"></div></div></div></div>
     <div class="panel" id="mid"><div id="section">INTRO</div><div id="prog"><div id="progFill"></div></div><div id="genreLbl">BIG ROOM · 128 BPM</div></div>
     <div id="right">
-      <div class="panel" id="hypeBox"><div class="lbl">CROWD HYPE</div><div id="hypeBar"><div id="hypeFill"></div></div></div>
+      <div class="panel" id="scoreBox"><div class="lbl" id="scoreLbl">SCORE</div><div id="score">0</div><div id="combo"></div></div>
       <div class="iconRow">
         <button class="ib" id="bCam" aria-label="Camera"><svg viewBox="0 0 24 24"><path d="M3 8h3l2-3h8l2 3h3v11H3z"/><circle cx="12" cy="13" r="3.5"/></svg></button>
         <button class="ib" id="bMute" aria-label="Sound"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path id="muteWave" d="M16 9c1.5 1.5 1.5 4.5 0 6M18.5 6.5c3 3 3 8 0 11"/></svg></button>
@@ -208,6 +205,7 @@ body.ytsetup #rotate{display:none!important}
   <div class="pads" id="padsL"></div>
   <div class="pads" id="padsR"></div>
   <div id="ytCtl">
+    <button id="ytAB" aria-label="Auto BPM on/off">🎤 AUTO BPM</button>
     <button class="yc" id="ytBpmBtn">128 BPM</button>
     <button class="yc" id="ytTap">TAP</button>
     <button class="yc" id="ytSync">SYNC 1</button>
@@ -238,7 +236,7 @@ body.ytsetup #rotate{display:none!important}
     <div class="warn">⚠ Contains flashing lights &amp; strobes. Set “Flashing: Reduced” if you're sensitive. Best with sound on.</div>
     <div class="ios hidden" id="iosNote">🔇 No sound? Turn off Silent mode (switch on the side) &amp; raise the volume.</div>
     <div class="settings"><button class="chip" id="bHelp">? How to play</button></div>
-    <div class="ver">DROP CONTROL 3D · v1.2</div>
+    <div class="ver">DROP CONTROL 3D · v1.3</div>
   </div>
 </div>
 
@@ -261,12 +259,14 @@ body.ytsetup #rotate{display:none!important}
   <div class="title" style="font-size:clamp(26px,7vmin,40px)">MY SONG</div><div class="sub">PLAY THE SHOW TO ANY YOUTUBE TRACK</div>
   <div class="ytRow"><input id="ytUrl" type="url" inputmode="url" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" placeholder="Paste a YouTube link…" aria-label="YouTube link"><button class="chip ytp" id="ytClear" aria-label="Clear">✕</button><button class="chip ytp" id="ytPaste">Paste</button></div>
   <div id="ytMsg"></div>
-  <div class="glbl">SONG BPM <span style="opacity:.6;letter-spacing:.05em">· not sure? use TAP in-game</span></div>
+  <button class="chip ytauto sel" id="ytAutoT">🎤 AUTO BPM: ON</button>
+  <div class="ytAutoHow">Auto BPM listens to your song through the mic and matches the beat for you (best with the volume up). Your iPhone will ask for the mic once.</div>
+  <div class="glbl" id="ytBpmLbl">SONG BPM · not sure? use TAP in-game</div>
   <div id="ytBpms"></div>
   <button class="big ytb" id="ytGo">▶ PLAY MY SONG</button>
   <div class="glbl hidden" id="ytRecentLbl">RECENT</div>
   <div id="ytRecent"></div>
-  <div class="how ytHow">In the show: hit <b>TAP</b> on the beat 4+ times to set the tempo, <b>SYNC 1</b> on the first beat of a bar, <b>− / +</b> to nudge, and <b>DROP!</b> the moment the drop hits — then fire pyro for a <b>DROP SLAM</b>. The game's own music is muted; your video is the soundtrack. Needs internet (everything else works offline). If an upload won't play, try another upload of the song.</div>
+  <div class="how ytHow">With <b>🎤 AUTO BPM</b> on, the game listens through the mic and locks the BPM and beat 1 by itself after ~8 s, then keeps fine-tuning. Prefer to do it by hand? Hit <b>TAP</b> on the beat 4+ times to set the tempo, <b>SYNC 1</b> on the first beat of a bar, <b>− / +</b> to nudge, and <b>DROP!</b> the moment the drop hits — then fire pyro for a <b>DROP SLAM</b>. The game's own music is muted; your song is the soundtrack (audio only, no video). Needs internet (everything else works offline). If an upload won't play, try another upload of the song.</div>
   <button class="big ghost" id="ytBack">◀ BACK</button>
 </div></div>
 
@@ -285,7 +285,8 @@ body.ytsetup #rotate{display:none!important}
 <div id="rotate" class="hidden">↻ Rotate to landscape for the best view <button id="bRotX" aria-label="Dismiss">×</button></div>
 <div id="fps" class="hidden"></div>
 
-<div id="ytBox"><div id="ytPlayer"></div><button id="ytSize" aria-label="Resize video">⤢</button></div>
+<div id="ytTapWrap"><div id="ytTapLbl">▶ Tap to start music</div><div id="ytTapSub">Tap the ▶ in the video · it hides again once your song starts</div></div>
+<div id="ytBox"><div id="ytPlayer"></div></div>
 <script>void 0,
 /**
  * @license
@@ -1602,7 +1603,7 @@ const LS={get(k,d){try{const v=localStorage.getItem('dropctl_'+k);return v==null
 const clamp=(v,a,b)=>v<a?a:v>b?b:v, lerp=(a,b,t)=>a+(b-a)*t, rnd=(a,b)=>a+Math.random()*(b-a);
 
 // ================= MUSIC / GENRES =================
-const VERSION='v1.2';
+const VERSION='v1.3';
 const chord=(r,q)=>{const iv=q==='m'?[0,3,7]:q==='M'?[0,4,7]:q==='s'?[0,5,7]:[0,3,7,10];let n=r+24;while(n<53)n+=12;while(n>64)n-=12;return {r,n:iv.map(x=>n+x)};};
 const PRG=(...a)=>a.map(([r,q])=>chord(r,q));
 function ARR(a){const nm=[['INTRO','intro'],['BUILD-UP','build'],['DROP','drop'],['BREAKDOWN','break'],['BUILD-UP','build'],['DROP','drop'],['OUTRO','outro']];let b=0;return a.map((l,i)=>{const s={n:nm[i][0],t:nm[i][1],a:b,b:b+l};b+=l;return s;});}
@@ -1654,7 +1655,50 @@ function parseYouTube(input){
   return ID.test(id)?{id,start}:null;
 }
 /*/YTPARSE*/
-const YT={on:false,api:'none',player:null,ready:false,id:null,start:0,bpm:LS.get('ytBpm',128),off:0,state:-1,vt:0,rt:0,raw:-1,taps:[],drop:null,dropReact:-99,slamUntil:-9,title:'',pending:false,big:!(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent))&&innerWidth>900,err:''};
+/*TEMPO*/
+// ---- Auto BPM: pure onset + tempo estimation (unit-tested in src/test-tempo.js) ----
+// makeOnset(): returns fn(lowBand, highBand) -> onset strength for one block (log-energy flux, half-wave rectified)
+function makeOnset(){let pl=null,ph=null;return function(lo,hi){let el=0,eh=0;const n=lo.length;for(let i=0;i<n;i++){el+=lo[i]*lo[i];eh+=hi[i]*hi[i];}
+  const l=Math.log(1e-10+el/n),h=Math.log(1e-10+eh/n);const fl=pl===null?0:Math.max(0,l-pl),fh=ph===null?0:Math.max(0,h-ph);pl=l;ph=h;return 0.7*fl+0.3*fh;};}
+// EDM tempo prior: house/big room/trance/dubstep 120-150 and DnB 170-176 preferred; slow (halftime) values discouraged
+function tempoPrior(b){return b<95?0.55:b<110?0.75:b<=152?1:b<165?0.82:b<=177?0.97:0.8;}
+// estimateTempo(env, fps) -> {bpm, conf 0..1, phase (frame index of a beat), down (0..3 beat offset of the likely "1"), z} or null
+function estimateTempo(env,fps,o){o=o||{};const lo=o.min||70,hi=o.max||180,n=env.length;if(n<fps*4)return null;
+  const w=Math.max(2,Math.round(fps*0.2)),ps=new Float64Array(n+1);for(let i=0;i<n;i++)ps[i+1]=ps[i]+env[i];
+  const x=new Float32Array(n);let m2=0;for(let i=0;i<n;i++){const a=Math.max(0,i-w),b=Math.min(n,i+w+1);const v=Math.max(0,env[i]-(ps[b]-ps[a])/(b-a));x[i]=v;m2+=v*v;}
+  if(m2<=1e-12)return {bpm:0,conf:0,phase:0,down:0,z:0,r:0};
+  let mx=0;for(let i=0;i<n;i++)mx+=x[i];mx/=n;const xc=new Float32Array(n);for(let i=0;i<n;i++)xc[i]=x[i]-mx; // zero-mean copy for autocorrelation
+  const maxLag=Math.min(n-2,Math.max(Math.ceil(60*fps/lo*4)+2,Math.floor(n*0.6))),ac=new Float32Array(maxLag+2);
+  for(let l=0;l<=maxLag+1&&l<n;l++){let s=0;for(let i=0;i+l<n;i++)s+=xc[i]*xc[i+l];ac[l]=s/(n-l);}
+  const ac0=ac[0]||1e-12;
+  const A=t=>{if(t>maxLag)return 0;const i=Math.floor(t),f=t-i;return ac[i]*(1-f)+ac[i+1]*f;};
+  // peak-picking autocorrelation: take the max within +-1 frame so slight tempo drift still counts
+  const AP=t=>Math.max(A(t-1),A(t-0.5),A(t),A(t+0.5),A(t+1));
+  const WK=[1,0.7,0.5,0.4];
+  const S=b=>{const L=60*fps/b;let s=0,ws=0;for(let k=1;k<=4;k++){if(k*L>maxLag)break;s+=AP(k*L)*WK[k-1];ws+=WK[k-1];}return ws?s/ws:0;};
+  const grid=[];for(let b=lo;b<=hi+1e-9;b+=0.5)grid.push([b,S(b)]);
+  let mean=0;grid.forEach(g=>mean+=g[1]);mean/=grid.length;let sd=0;grid.forEach(g=>sd+=(g[1]-mean)*(g[1]-mean));sd=Math.sqrt(sd/grid.length)||1e-9;
+  let best=null;for(const [b,s] of grid){const v=s*tempoPrior(b);if(!best||v>best[2])best=[b,s,v];}
+  let bpm=best[0];
+  // octave folding: halftime reads (e.g. 70, 87) become 140 / 174 if the double tempo is also well supported
+  if(bpm<100&&bpm*2<=hi+1&&S(bpm*2)>=0.6*best[1])bpm=bpm*2;
+  // DnB: a kick pattern on 1 and the "and" of 2 can read as 2/3 tempo (~115); prefer 172-175 if it is nearly as strong
+  else if(bpm>=105&&bpm<=120&&bpm*1.5<=hi+1&&S(bpm*1.5)>=0.75*best[1])bpm=bpm*1.5;
+  // fine refinement with exact (non peak-picked) autocorrelation
+  const SF=b=>{const L=60*fps/b;let s=0;for(let k=1;k<=16;k++){if(k*L>maxLag)break;s+=A(k*L);}return s;}; // long-lag harmonics = fine tempo resolution
+  let fb=bpm,fs=-1;for(let b=bpm-0.6;b<=bpm+0.6;b+=0.05){const s=SF(b);if(s>fs){fs=s;fb=b;}}bpm=Math.round(fb*10)/10;
+  // confidence: how far the winner stands out (z) AND how periodic the onsets really are (r = normalized autocorrelation); noise has r ~ 0
+  const z=(S(bpm)-mean)/sd, r=S(bpm)/ac0, conf=Math.max(0,Math.min(1,(z-1.2)/3))*Math.max(0,Math.min(1,(r-0.08)/0.22));
+  // phase: comb over the window, most recent beats weigh more
+  const P=60*fps/bpm,X=t=>{if(t<0||t>n-1)return 0;const i=Math.floor(t),f=t-i;return x[i]*(1-f)+(i+1<n?x[i+1]:0)*f;};
+  let bp=0,bv=-1;for(let p=0;p<P;p+=0.25){let s=0;for(let t=p,k=0;t<n;t+=P,k++)s+=(X(t-1)*0.25+X(t)*0.5+X(t+1)*0.25)*(0.6+0.4*t/n);if(s>bv){bv=s;bp=p;}}
+  // likely downbeat: the beat slot (of 4) with the strongest onsets
+  const slot=[0,0,0,0];for(let t=bp,k=0;t<n;t+=P,k++)slot[k%4]+=X(t);let down=0;for(let j=1;j<4;j++)if(slot[j]>slot[down])down=j;
+  return {bpm,conf,phase:bp,down,z,r};
+}
+/*/TEMPO*/
+
+const YT={on:false,api:'none',player:null,ready:false,id:null,start:0,bpm:LS.get('ytBpm',128),off:0,state:-1,vt:0,rt:0,raw:-1,taps:[],drop:null,dropReact:-99,slamUntil:-9,title:'',pending:false,err:'',revealT:0,checkN:0};
 const YT_BPMS=[124,126,128,130,138,140,150,174];
 function ytGenre(){return {id:'yt',name:'MY SONG',bpm:YT.bpm,desc:'Your YouTube track',arr:ARR([16,16,16,16,16,16,16]),prog:GENRES[1].prog,
   pals:YT.pals||(YT.pals=[GENRES[(Math.random()*GENRES.length)|0].pals[0],['#ffffff','#9fb4ff','#ffd27a'],GENRES[(Math.random()*GENRES.length)|0].pals[1]]),style:{strobe:1,laser:1}};}
@@ -2433,7 +2477,8 @@ const scored=()=>game.mode==='show'||game.mode==='yt';
 function retrig(el,cls){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);}
 function showJudge(txt,col,small){$judge.style.color=col;$judge.innerHTML='';$judge.appendChild(document.createTextNode(txt));if(small){const s=document.createElement('small');s.textContent=small;$judge.appendChild(s);}retrig($judge,'show');}
 function showCount(txt){$count.textContent=txt;retrig($count,'show');}
-let toastTimer=0;function toast(m,ms){$toast.textContent=m;$toast.classList.toggle('long',m.length>44);$toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$toast.classList.remove('show'),ms||1500);}
+let toastTimer=0;function toast(m,ms){$toast.textContent=m; {const ab=document.body.classList.contains('ytplay')&&$('ytAB'),r=ab&&ab.offsetParent?ab.getBoundingClientRect():null; $toast.style.bottom=r&&r.height?(innerHeight-r.top+8)+'px':'';} // in My Song mode keep toasts above the Auto BPM pill
+  $toast.classList.toggle('long',m.length>44);$toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$toast.classList.remove('show'),ms||1500);}
 const dots=[...document.querySelectorAll('#dots i')];
 function beatDots(bi){dots.forEach((d,i)=>d.classList.toggle('on',i===bi));}
 
@@ -2519,7 +2564,7 @@ function showScreen(name){
 function startMode(mode){
   initAudio();
   YT.on=mode==='yt'; document.body.classList.toggle('ytplay',YT.on); document.body.classList.remove('ytsetup');
-  if(YT.on){ setGenre(ytGenre()); SHOW_BARS=1e6; YT.drop=null; YT.dropReact=-99; YT.slamUntil=-9; ytLabel(); }
+  if(YT.on){ setGenre(ytGenre()); SHOW_BARS=1e6; YT.drop=null; YT.dropReact=-99; YT.slamUntil=-9; ytLabel(); AB.locked=false; AB.conf=0; AB.hold=0; AB.disagree=0; if(AB.state==='locked'||AB.state==='listening')AB.state='idle'; abUI(); if(YT.state===1)abStart(); }
   else { setGenre(resolveGenre()); setT('genre',G.name+' \u00B7 '+G.bpm+' BPM'); }
   Object.assign(game,{mode,state:'playing',score:0,combo:0,maxCombo:0,hype:mode==='auto'?50:30,hits:0,accSum:0,perfect:0,great:0,good:0,off:0,slams:0,cues:0,lastFx:[],cool:{},coolDur:{},beatHits:{},slammed:{},lastHitT:-9,pumpT:0});
   setCue(null); rockets.length=0;
@@ -2532,15 +2577,15 @@ function startMode(mode){
   $('scoreLbl').textContent=mode==='show'||mode==='yt'?'SCORE':'MODE';
   $('score').classList.toggle('word',!(mode==='show'||mode==='yt'));
   showScreen(null);
-  if(YT.on){ if(!LS.get('ytTip',false)){LS.set('ytTip',true);} setTimeout(()=>{if(game.mode==='yt'&&game.state==='playing')toast('Tap TAP on the beat, SYNC on a "1", DROP! when it drops',3600);},900); }
+  if(YT.on){ if(!LS.get('ytTip',false)){LS.set('ytTip',true);} setTimeout(()=>{if(game.mode==='yt'&&game.state==='playing')toast(AB.on?'Finding the beat… hit DROP! when it drops':'Tap TAP on the beat, SYNC on a "1", DROP! when it drops',3600);},900); }
   else if(!LS.get('tutSeen',false)&&mode!=='auto'&&!params.has('bar')&&!params.has('notut')){LS.set('tutSeen',true);showTutorial();}
 }
 function toAttract(){ seq.running=false; clock.audio=false; clock.want=false; clock.t0=realNow()-(DROP1-2)*BAR; lastBeat=Math.floor(getT()/BEAT); setCue(null); }
-function pauseGame(){ if(game.state!=='playing') return; clock.pausedAt=getT(); game.state='paused'; if(YT.on) ytCall('pauseVideo'); if(A.ctx&&clock.audio) A.ctx.suspend().catch(()=>{}); showScreen('pause'); }
-function resumeGame(){ if(game.state!=='paused') return; game.state='playing'; if(YT.on){ ytCall('playVideo'); showScreen(null); return; } initAudio(); if(clock.audio&&A.ctx) A.ctx.resume().catch(()=>{}); else {clock.t0=realNow()-clock.pausedAt; if(A.ctx&&A.ctx.state==='running')audioBack();} clock.stuck=0; showScreen(null); }
-function quitToMenu(){ if(YT.on){ytCall('pauseVideo');YT.on=false;document.body.classList.remove('ytplay','ytsetup');} game.state='menu'; hideTutorial(); setGenre(resolveGenre()); toAttract(); if(A.ctx&&A.ctx.state==='suspended') A.ctx.resume().catch(()=>{}); showScreen('menu'); }
+function pauseGame(){ if(game.state!=='playing') return; ytReveal(false); abStop(true); clock.pausedAt=getT(); game.state='paused'; if(YT.on) ytCall('pauseVideo'); if(A.ctx&&clock.audio) A.ctx.suspend().catch(()=>{}); showScreen('pause'); }
+function resumeGame(){ if(game.state!=='paused') return; game.state='playing'; if(YT.on){ ytCall('playVideo'); showScreen(null); ytAutoplayCheck(); return; } initAudio(); if(clock.audio&&A.ctx) A.ctx.resume().catch(()=>{}); else {clock.t0=realNow()-clock.pausedAt; if(A.ctx&&A.ctx.state==='running')audioBack();} clock.stuck=0; showScreen(null); }
+function quitToMenu(){ ytReveal(false); abStop(); if(YT.on){ytCall('pauseVideo');YT.on=false;document.body.classList.remove('ytplay','ytsetup');} game.state='menu'; hideTutorial(); setGenre(resolveGenre()); toAttract(); if(A.ctx&&A.ctx.state==='suspended') A.ctx.resume().catch(()=>{}); showScreen('menu'); }
 function endShow(){
-  const ytBars=YT.on?Math.max(8,Math.floor(getT()/BAR)):0; if(YT.on){YT.on=false;document.body.classList.remove('ytplay');}
+  ytReveal(false); abStop(); const ytBars=YT.on?Math.max(8,Math.floor(getT()/BAR)):0; if(YT.on){YT.on=false;document.body.classList.remove('ytplay');}
   game.state='results'; if(game.mode==='show') LS.set('tutDone',true); setGenre(resolveGenre()); toAttract();
   const acc=game.hits?game.accSum/game.hits:0, activity=Math.min(1,game.hits/((ytBars||SHOW_BARS)*4*0.6)), gs=acc*0.65+activity*0.35;
   const grade=game.hits<10?'D':gs>=0.9?'S':gs>=0.8?'A':gs>=0.66?'B':gs>=0.5?'C':'D';
@@ -2686,14 +2731,17 @@ function ytEnsurePlayer(id,start){
   try{
     YT.player=new window.YT.Player('ytPlayer',{width:'100%',height:'100%',videoId:id,playerVars:pv,events:{
       onReady:()=>{YT.ready=true; if(settings.muted)ytCall('mute'); if(YT.id!==id)YT.player.cueVideoById({videoId:YT.id,startSeconds:YT.start}); if(YT.pending){YT.pending=false;ytCall('playVideo');ytAutoplayCheck();} },
-      onStateChange:e=>{YT.state=e.data; if(e.data===1){YT.err='';ytTitle();} if(e.data===5||e.data===1)ytTitle(); if(e.data===0&&YT.on)YT.ended=true; if(YT.on&&game.state==='playing'){ if(e.data===2)toast('Video paused \u2014 the beat waits for it'); } },
+      onStateChange:e=>{YT.state=e.data; if(e.data===1){YT.err='';ytTitle();} if(e.data===5||e.data===1)ytTitle(); if(e.data===0&&YT.on)YT.ended=true; if(e.data===1){ytReveal(false);if(YT.on&&game.state==='playing')abStart();} if(YT.on&&game.state==='playing'){ if(e.data===2){toast('Music paused \u2014 the beat waits for it');ytAutoplayCheck(1200);} } },
       onError:e=>ytOnError(e.data)
     }});
   }catch(e){ytMsg("Couldn't start the YouTube player. Try again.");return false;}
   return true;
 }
-function ytOnError(code){const m=YT_ERR[code]||"This video can't be played here. Try another upload of the song."; YT.err=m; ytMsg(m); if(YT.on&&game.state==='playing'){toast(m,4500);} return m;}
-function ytAutoplayCheck(){setTimeout(()=>{if(YT.on&&game.state==='playing'&&YT.state!==1&&YT.state!==3&&!YT.err)toast('Tap \u25B6 on the video to start your song',3500);},1800);}
+function ytOnError(code){const m=YT_ERR[code]||"This video can't be played here. Try another upload of the song."; YT.err=m; ytMsg(m); ytReveal(false); if(YT.on&&game.state==='playing'){toast(m,4500);} return m;}
+// iOS fallback: if the hidden player hasn't started ~2.5 s after PLAY, briefly reveal it with a "Tap to start music" overlay; it hides again once playing.
+function ytReveal(on){document.body.classList.toggle('ytreveal',!!on);}
+function ytAutoplayCheck(ms){clearTimeout(YT.revealT);YT.checkN=0;const chk=()=>{if(!(YT.on&&game.state==='playing')||YT.err||YT.state===1){if(YT.state===1)ytReveal(false);return;}
+  if(YT.state===3&&YT.checkN++<3){YT.revealT=setTimeout(chk,1200);return;} ytReveal(true);};YT.revealT=setTimeout(chk,ms||2500);}
 function ytTitle(){const d=ytCall('getVideoData');if(d&&d.title){YT.title=d.title;ytMsg('\u2713 '+d.title,true);ytRemember();}}
 function ytRecent(){const r=LS.get('ytRecent',[]);return Array.isArray(r)?r:[];}
 function ytRemember(){if(!YT.id)return;let r=ytRecent().filter(x=>x&&x.id!==YT.id);const prev=ytRecent().find(x=>x&&x.id===YT.id)||{};
@@ -2721,8 +2769,8 @@ function ytInputChanged(){
 }
 function ytOpenSetup(){ initAudio(); game.state='menu'; YT.on=false; document.body.classList.remove('ytplay'); document.body.classList.add('ytsetup');
   ['menu','pause','results'].forEach(s=>$(s).classList.add('hidden')); $('hud').classList.add('hidden'); $('ytSetup').classList.remove('hidden');
-  ytBpmChips(); ytRenderRecent(); loadYTApi(); if($('ytUrl').value) ytInputChanged(); }
-function ytCloseSetup(){ $('ytSetup').classList.add('hidden'); document.body.classList.remove('ytsetup'); ytCall('pauseVideo'); showScreen('menu'); }
+  ytBpmChips(); abSetupUI(); ytRenderRecent(); loadYTApi(); if($('ytUrl').value) ytInputChanged(); }
+function ytCloseSetup(){ ytReveal(false); abStop(); $('ytSetup').classList.add('hidden'); document.body.classList.remove('ytsetup'); ytCall('pauseVideo'); showScreen('menu'); }
 function ytPlay(){ // runs inside the tap handler so iOS lets the video start
   const p=parseYouTube($('ytUrl').value);
   if(!p){ytMsg($('ytUrl').value.trim()?"That doesn't look like a YouTube link. Paste the whole link from the Share button.":'Paste a YouTube link first.');return;}
@@ -2739,15 +2787,16 @@ function ytTap(e){
   const now=(e&&e.timeStamp>0&&Math.abs(e.timeStamp/1000-realNow())<0.5)?e.timeStamp/1000:realNow(), T=YT.taps; if(T.length&&now-T[T.length-1]>2) T.length=0; T.push(now); if(T.length>9)T.shift();
   const b=$('ytTap'); retrig(b,'hit');
   if(T.length>=4){const iv=(T[T.length-1]-T[0])/(T.length-1); let bpm=60/iv; while(bpm<90)bpm*=2; while(bpm>190)bpm/=2; bpm=Math.round(bpm*2)/2;
-    const near=YT_BPMS.find(x=>Math.abs(x-bpm)<=1); ytSetBpm(near||bpm,true);
+    abManual(); const near=YT_BPMS.find(x=>Math.abs(x-bpm)<=1); ytSetBpm(near||bpm,true);
     const vt=ytTime(), k=Math.round((vt-YT.off)/BEAT); YT.off=vt-k*BEAT; lastBeat=Math.floor(getT()/BEAT);
     b.textContent='TAP '+(Math.round(YT.bpm*10)/10);} else b.textContent='TAP '+T.length+'/4';
   buzz(8);
 }
 function ytSync(){ // tap on a "1" (downbeat): sets the phase so bars/phrases line up
+  abManual();
   const vt=ytTime(), k=Math.round((vt-YT.off)/BAR); YT.off=vt-k*BAR; YT.offSet=true; lastBeat=Math.floor(getT()/BEAT); retrig($('ytSync'),'hit'); toast('Synced to beat 1'); buzz(12); ytRemember();
 }
-function ytNudge(d){YT.off+=d; lastBeat=Math.floor(getT()/BEAT); toast((d>0?'Later':'Earlier')+' '+Math.abs(d*1000|0)+' ms'); ytRemember();}
+function ytNudge(d){abManual();YT.off+=d; lastBeat=Math.floor(getT()/BEAT); toast((d>0?'Later':'Earlier')+' '+Math.abs(d*1000|0)+' ms'); ytRemember();}
 function ytDrop(){
   if(!(YT.on&&game.state==='playing'))return;
   const t=getT(), rb=Math.max(0,Math.floor(t/BAR+0.25));
@@ -2757,16 +2806,108 @@ function ytDrop(){
   showJudge('DROP!','#ff2bd6','+'+(500*cm).toLocaleString()+' \u00B7 FIRE PYRO NOW FOR A SLAM');
   if(A.ctx&&A.ctx.state==='running')crowdCheer(A.ctx.currentTime,1); buzz([40,30,60]); retrig($('ytDropB'),'hit');
 }
-function ytHud(info){}
+function ytHud(info){abApply();}
+// ================= AUTO BPM (listens to the song through the mic) =================
+// YouTube's audio can't be read by the page (cross-origin iframe), so we listen to it through the microphone instead.
+const AB={on:LS.get('ytAuto',true),state:'off',stream:null,nodes:[],ctx:null,own:false,env:[],t0:0,blk:512,sr:48000,d:null,dS:[],bpm:0,conf:0,locked:false,lastEst:0,pend:0,hold:0,disagree:0,ests:0,IN_LAT:0.02,MIN:0.3};
+const abFps=()=>AB.sr/AB.blk;
+function abSession(t){try{if(navigator.audioSession)navigator.audioSession.type=t;}catch(e){}}
+async function abStart(){
+  if(!AB.on||AB.stream||AB.state==='asking'||!(YT.on&&game.state==='playing'))return;
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia||!window.isSecureContext){AB.state='nomic';abUI();return;}
+  initAudio(); AB.state='asking'; abUI();
+  let s;
+  try{ abSession('play-and-record'); // iOS: record + keep playing through the speaker
+    s=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false,channelCount:1}});
+  }catch(e){abSession('playback');AB.state=(e&&e.name==='NotAllowedError')?'denied':'nomic';abUI();toast(AB.state==='denied'?'Mic blocked \u2014 use TAP / SYNC to match the beat':'No mic available \u2014 use TAP / SYNC',3200);abResumeOut();return;}
+  if(!AB.on||!(YT.on&&game.state==='playing')){s.getTracks().forEach(t=>t.stop());abSession('playback');AB.state='off';abUI();abResumeOut();return;}
+  AB.stream=s;
+  try{ abGraph(A.ctx,false); }catch(e){ // some browsers refuse a mic source on a context at a different sample rate: use a separate analysis context
+    try{const AC=window.AudioContext||window.webkitAudioContext,tr=s.getAudioTracks()[0],sr=(tr&&tr.getSettings&&tr.getSettings().sampleRate)||undefined;abGraph(new AC(sr?{sampleRate:sr}:{}),true);}catch(e2){abStop();AB.state='nomic';abUI();return;}
+  }
+  AB.state='listening'; AB.env=[]; AB.d=null; AB.dS=[]; AB.lastEst=0; AB.ests=0; abUI(); abResumeOut();
+}
+function abGraph(c,own){
+  const src=c.createMediaStreamSource(AB.stream), lp=c.createBiquadFilter(), hp=c.createBiquadFilter(), mg=c.createChannelMerger(2), pr=c.createScriptProcessor(AB.blk,2,1), z=c.createGain();
+  lp.type='lowpass';lp.frequency.value=150;lp.Q.value=0.7; hp.type='highpass';hp.frequency.value=3000; z.gain.value=0;
+  src.connect(lp);src.connect(hp);lp.connect(mg,0,0);hp.connect(mg,0,1);mg.connect(pr);pr.connect(z);z.connect(c.destination); // z = silent: the mic is never played back
+  const on=makeOnset(); AB.sr=c.sampleRate; AB.ctx=c; AB.own=own; AB.nodes=[src,lp,hp,mg,pr,z]; AB.t0=-1;
+  pr.onaudioprocess=e=>{const ib=e.inputBuffer, bt=AB.blk/AB.sr; if(AB.t0<0){AB.t0=e.playbackTime-bt*2;AB.T0p=e.playbackTime;AB.cnt=0;} // ctx time of the first captured block (approx)
+    // keep the envelope on the audio clock: if blocks were dropped (busy main thread), pad the gap so the tempo isn't skewed.
+    // cumulative (expected vs actual) so per-block timing jitter never adds spurious padding
+    const lag=Math.floor((e.playbackTime-AB.T0p)/bt+0.5)-AB.cnt; if(lag>0&&lag<200){AB.gaps=(AB.gaps||0)+lag;AB.cnt+=lag;for(let i=0;i<lag;i++)AB.env.push(0);} else if(lag>=200){AB.T0p=e.playbackTime;AB.cnt=0;AB.env=[];AB.t0=e.playbackTime-bt*2;}
+    AB.cnt++; AB.nf=(AB.nf||0)+1;
+    AB.env.push(on(ib.getChannelData(0),ib.numberOfChannels>1?ib.getChannelData(1):ib.getChannelData(0)));
+    const keep=Math.ceil(abFps()*14); if(AB.env.length>keep*1.5){const cut=AB.env.length-keep;AB.env.splice(0,cut);AB.t0+=cut*AB.blk/AB.sr;}};
+  if(c.state!=='running')c.resume().catch(()=>{});
+}
+function abResumeOut(){ // iOS can suspend/interrupt audio when the mic turns on/off: bring game audio back
+  [0,250,900].forEach(ms=>setTimeout(()=>{if(A.ctx&&A.ctx.state!=='running'&&A.ctx.state!=='closed'&&game.state!=='paused'&&!document.hidden)A.ctx.resume().catch(()=>{});if(AB.own&&AB.ctx&&AB.ctx.state!=='running')AB.ctx.resume().catch(()=>{});},ms));
+}
+function abStop(keepState){
+  AB.nodes.forEach(n=>{try{n.disconnect();}catch(e){}}); if(AB.nodes[4])AB.nodes[4].onaudioprocess=null; AB.nodes=[];
+  if(AB.stream){AB.stream.getTracks().forEach(t=>t.stop());AB.stream=null;abSession('playback');abResumeOut();}
+  if(AB.own&&AB.ctx){try{AB.ctx.close();}catch(e){}} AB.ctx=null; AB.own=false; AB.env=[]; AB.pend=0;
+  if(!keepState&&AB.state!=='denied'&&AB.state!=='nomic')AB.state=AB.on?'idle':'off'; abUI();
+}
+function abToggle(){AB.on=!AB.on;LS.set('ytAuto',AB.on);if(AB.on){if(AB.state==='denied'||AB.state==='nomic')AB.state='off';AB.locked=false;if(YT.on&&game.state==='playing'&&YT.state===1)abStart();else abUI();toast('\uD83C\uDFA4 Auto BPM on');}else{abStop();AB.state='off';abUI();toast('Auto BPM off \u2014 manual BPM');}abSetupUI();}
+// called every ~0.5 s while playing: estimate tempo on the last ~10 s and lock / refine
+function abTick(){
+  if(!(YT.on&&game.state==='playing')){return;}
+  if(AB.on&&!AB.stream&&AB.state!=='asking'&&AB.state!=='denied'&&AB.state!=='nomic'&&YT.state===1){abStart();return;}
+  if(!AB.stream||!AB.ctx||YT.state!==1||AB.t0<0)return;
+  // map mic (audio context) time -> song time. A pause/seek/stall changes the offset: then start over
+  const d=ytTime()-AB.ctx.currentTime; AB.dS.push(d); if(AB.dS.length>9)AB.dS.shift(); const dm=AB.dS.slice().sort((a,b)=>a-b)[AB.dS.length>>1];
+  if(AB.d!==null&&Math.abs(dm-AB.d)>0.15){AB.env=[];AB.t0=-1;AB.dS=[d];AB.d=null;AB.lastEst=0;return;} AB.d=dm;
+  const fps=abFps(), have=AB.env.length/fps, now=realNow();
+  if(!AB.locked){AB.state='listening';abUI(Math.max(0,Math.ceil(7-have)));}
+  if(have<(AB.locked?6:7)||now-AB.lastEst<(AB.locked?3:2))return;
+  AB.lastEst=now;
+  const N=Math.min(AB.env.length,Math.round(fps*10)), off0=AB.env.length-N, r=estimateTempo(AB.env.slice(off0),fps);
+  if(!r)return; AB.ests++;
+  AB.conf=AB.conf?AB.conf*0.5+r.conf*0.5:r.conf;
+  if(r.conf<AB.MIN){ if(!AB.locked&&AB.ests>=4&&AB.ests%4===0)toast('\uD83C\uDFA4 Can\'t hear a clear beat \u2014 turn the volume up, or use TAP',3000); abUI(); return; }
+  // song time (video clock) of a detected beat, as heard by the mic
+  const beatVt=AB.t0+(off0+r.phase)*AB.blk/AB.sr-AB.IN_LAT+AB.d;
+  if(!AB.locked||(now<AB.hold?false:Math.abs(r.bpm-YT.bpm)>=4&&r.conf>=0.5&&++AB.disagree>=3)){
+    // first lock (or the song clearly changed tempo): set BPM and put beat 1 on the detected downbeat
+    AB.disagree=0; if(now<AB.hold&&AB.locked)return;
+    ytSetBpm(r.bpm,true); const down=beatVt+r.down*BEAT; YT.off=down-Math.round((down-YT.off)/BAR)*BAR; YT.offSet=true; lastBeat=Math.floor(getT()/BEAT);
+    AB.locked=true; AB.bpm=r.bpm; AB.state='locked'; abUI(); toast('\uD83C\uDFA4 Locked to your song: '+r.bpm+' BPM',2400); buzz(15); ytRemember(); return;
+  }
+  if(Math.abs(r.bpm-YT.bpm)<4)AB.disagree=0;
+  if(now<AB.hold){abUI();return;} // user just set the beat by hand: leave it alone for a bit
+  // refine smoothly: tempo eases toward the estimate, phase drifts toward the detected beats (never more than half a beat)
+  if(Math.abs(r.bpm-YT.bpm)<4&&Math.abs(r.bpm-YT.bpm)>0.12){ytSetBpm(YT.bpm+(r.bpm-YT.bpm)*0.4,true);}
+  AB.bpm=r.bpm;
+  let e=((beatVt-YT.off)%BEAT+BEAT)%BEAT; if(e>BEAT/2)e-=BEAT; AB.pend=clamp(e*0.6,-BEAT/4,BEAT/4);
+  AB.state='locked'; abUI();
+}
+function abApply(){ // per frame: apply the pending phase correction gradually (max 40 ms per second => no visible jumps)
+  const now=realNow(),dt=Math.min(0.1,now-(AB.lastApply||now)); AB.lastApply=now; if(!AB.pend)return; const mx=0.04*dt, s=clamp(AB.pend,-mx,mx); AB.pend=Math.abs(AB.pend-s)<1e-5?0:AB.pend-s; YT.off+=s; lastBeat=Math.floor(getT()/BEAT);
+}
+function abManual(){AB.hold=realNow()+15;AB.pend=0;}
+function abUI(secsLeft){const b=$('ytAB');if(!b)return;const bars=n=>'\u25AE'.repeat(n)+'\u25AF'.repeat(4-n);
+  const c=Math.max(0,Math.min(4,Math.round(AB.conf*4)));let t,cls='';
+  if(!AB.on){t='\uD83C\uDFA4 AUTO BPM: OFF';cls='off';}
+  else if(AB.state==='asking')t='\uD83C\uDFA4 Allow the mic to auto-match BPM';
+  else if(AB.state==='denied'){t='\uD83C\uDFA4 Mic blocked \u00B7 use TAP';cls='off';}
+  else if(AB.state==='nomic'){t='\uD83C\uDFA4 No mic \u00B7 use TAP';cls='off';}
+  else if(AB.state==='locked'){t='\uD83C\uDFA4 AUTO '+(Math.round(YT.bpm*10)/10)+' BPM '+bars(c);cls=AB.conf<AB.MIN?'low':'ok';}
+  else if(AB.state==='listening')t='\uD83C\uDFA4 Listening\u2026'+(secsLeft?' '+secsLeft+'s':' '+bars(c));
+  else t='\uD83C\uDFA4 AUTO BPM: waiting for the song';
+  if(b.textContent!==t)b.textContent=t; b.className=cls;}
+function abSetupUI(){const b=$('ytAutoT');if(!b)return;b.classList.toggle('sel',AB.on);b.textContent=AB.on?'\uD83C\uDFA4 AUTO BPM: ON':'\uD83C\uDFA4 AUTO BPM: OFF';$('ytBpmLbl').textContent=AB.on?'STARTING BPM \u00B7 auto-match will fix it':'SONG BPM \u00B7 not sure? use TAP in-game';}
+setInterval(abTick,500);
+
 $('ytUrl').addEventListener('input',ytInputChanged);
 $('ytUrl').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('ytUrl').blur();ytPlay();}});
 click('bYT',ytOpenSetup); click('ytBack',ytCloseSetup); click('ytGo',ytPlay);
 click('ytPaste',()=>{ if(navigator.clipboard&&navigator.clipboard.readText){navigator.clipboard.readText().then(t=>{$('ytUrl').value=t||'';ytInputChanged();}).catch(()=>{$('ytUrl').focus();ytMsg('Long-press the box and choose Paste.');});} else {$('ytUrl').focus();ytMsg('Long-press the box and choose Paste.');} });
 click('ytClear',()=>{$('ytUrl').value='';ytMsg('');$('ytUrl').focus();});
-click('ytSize',()=>{YT.big=!YT.big;document.body.classList.toggle('ytbig',YT.big);});
-document.body.classList.toggle('ytbig',YT.big);
-click('ytBpmBtn',()=>{const i=YT_BPMS.indexOf(Math.round(YT.bpm));ytSetBpm(YT_BPMS[(i+1)%YT_BPMS.length]);});
+click('ytBpmBtn',()=>{abManual();const i=YT_BPMS.indexOf(Math.round(YT.bpm));ytSetBpm(YT_BPMS[(i+1)%YT_BPMS.length]);});
 ['ytTap','ytSync','ytDropB'].forEach(id=>{const fn={ytTap,ytSync,ytDropB:ytDrop}[id];$(id).addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();fn(e);});});
+click('ytAB',abToggle); click('ytAutoT',abToggle);
 click('ytMinus',()=>ytNudge(-0.02)); click('ytPlus',()=>ytNudge(0.02));
 addEventListener('keydown',e=>{if(!(YT.on&&game.state==='playing'))return; if(e.code==='KeyT')ytTap(); else if(e.code==='KeyY')ytSync(); else if(e.code==='KeyB')ytDrop(); else if(e.code==='Comma')ytNudge(-0.02); else if(e.code==='Period')ytNudge(0.02);});
 
@@ -2806,7 +2947,7 @@ function frame(now){
 }
 drawBooth(PALS[0].map(hex)); buildGenreCards(); applyQuality(qLevel); labelSettings(); setMuted(settings.muted); showScreen('menu');
 requestAnimationFrame(frame);
-window.__dropControl={yt:YT,parseYouTube,ytDrop:()=>ytDrop(),ytErr:c=>ytOnError(c),ytTime:()=>ytTime(),getT:()=>getT(),version:VERSION,game,fx,cam,startMode,userHit,trigger,quality:()=>qLevel,particles:()=>P.n,applyQuality,genre:()=>G.id,setGenreChoice:id=>pickGenre(id),cycleCam,drop1:()=>DROP1,audioState:()=>A.ctx?A.ctx.state:'none',fov:()=>camera.fov};
+window.__dropControl={yt:YT,ab:AB,estimateTempo,ytReveal:on=>ytReveal(on),parseYouTube,ytDrop:()=>ytDrop(),ytErr:c=>ytOnError(c),ytTime:()=>ytTime(),getT:()=>getT(),version:VERSION,game,fx,cam,startMode,userHit,trigger,quality:()=>qLevel,particles:()=>P.n,applyQuality,genre:()=>G.id,setGenreChoice:id=>pickGenre(id),cycleCam,drop1:()=>DROP1,audioState:()=>A.ctx?A.ctx.state:'none',fov:()=>camera.fov};
 })();
 </script>
 </body>
