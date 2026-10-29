@@ -53,6 +53,17 @@ Keyboard: T is TAP, Y is SYNC, B is DROP!, and , / . nudge the beat.
 
 This mode needs an internet connection and uses YouTube's official embedded player. Everything else in the game works offline. If you see *"This upload can't play outside YouTube"*, the uploader has turned off embedding, so try another upload of the same song. If the game is opened as a local file, YouTube may refuse to play, so use the web link instead.
 
+## Coins & Shop (new in v1.4)
+Every finished show pays **coins** into a wallet saved on your device: 25 for playing, plus up to 600 from your score (about 0.6 × √score), plus a grade bonus (S +100, A +60, B +40, C +25, D +10). Freestyle and Auto modes don't earn coins, and My Song shows need at least 16 bars. Spend them in the **🛒 SHOP**, which you can open from the menu or the results screen.
+
+**Stages** are bigger venues with a bigger crowd and a score multiplier:
+Warehouse Rave (free, ×1.0) · Open-Air Festival 500 (×1.1) · Cathedral Mainstage 1,500 (×1.2) · Mega Mainstage 3,500 (×1.35) · Ewok Forest 8,000 (×1.5).
+
+**Effects** either upgrade an existing pad's look or add a NEW pad (up to 3 extra pads, keys U / I / O):
+Gold Confetti 150 · RGB Lasers 200 · Blue Flames 250 · Green Flames 250 · Chase Strobes 300 · Colour Smoke Jets 350 · Streamer Cannons 400 · LED Visual Pack 450 · Laser Fan Array 600 · Audience Blinders 600 · Aerial Shells 800 · NEW PAD Sparkular 700 · NEW PAD Comet Mines 1,000 · NEW PAD Kinetic Rig 1,200.
+
+Every item has a 👁 preview. Buying asks you to confirm first, and you can equip or unequip anything you own. If you played v1.3, you keep the Cathedral stage and get 300 welcome coins.
+
 ## Controls
 | | Touch | Keyboard |
 |---|---|---|
