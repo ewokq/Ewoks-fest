@@ -1,0 +1,52 @@
+# FESTIVAL CONTROL v2.0: Roadmap / spec coverage
+
+This file covers every section of SPEC.txt (34 sections). Legend: ✅ done · 🟡 partial (the alternative used is listed) · ⏳ deferred.
+Platform: one self-contained HTML5 file (Three.js r160 + Web Audio), touch-first for iPhone Safari (portrait and landscape, safe areas), with desktop keyboard and mouse. The old v1.4 game is still playable at `/classic/`.
+
+| # | Section | Status | Notes |
+|---|---------|--------|-------|
+| 1 | Your role | ✅ | Built as a playable game, not a design doc. |
+| 2 | Game identity | ✅ | "FESTIVAL CONTROL": you are the lighting and show operator. All brands, artists, tracks and venues are fictional. |
+| 3 | Core gameplay | ✅ | DJ set → you run lights, lasers, LED and pyro → the crowd reacts → score → unlocks → replay or sandbox. Show Operator and Sandbox (Free Play) modes. |
+| 4 | Festival environment | ✅ / 🟡 | All 8 environments: night, desert with mountains, coastal, indoor arena, warehouse, cyberpunk, sunset-to-night (animated sky), rain (particles plus a wet reflective floor). Stage, truss, towers, LED walls, side screens, FOH booth, barricade, crowd. Partial: the geometry is stylised and low-poly so it runs on mobile, and there is no detailed backstage area. |
+| 5 | DJ and music | ✅ / 🟡 | Procedural EDM synth in 12 genres (13 tracks) with the full 10-part arrangement (intro → outro). The timeline publishes beat, bar, section and drop events. 6 fictional DJs with animations. Partial: synthesised audio, not studio stems. |
+| 6 | Lighting control | ✅ | 7 fixture types (beam, spot, wash, strobe, blinder, pixel strip, laser). Per fixture: intensity, colour, pan/tilt, zoom, gobo, prism, shutter/strobe, colour FX, movement FX (circle, figure-8, wave, sweep…) with speed, size, phase and spread. Flash, strobe, blackout and blinders. |
+| 7 | Fixture grouping | ✅ | 8 built-in groups (keys 1–8), user groups (saved), multi-select, odd/even/half selection. With nothing selected, edits apply to all fixtures. |
+| 8 | Colours and palettes | ✅ | 8 palettes, a colour picker, saved swatches, primary/secondary colours, palette chase and colour-FX modes. |
+| 9 | Pyro and special effects | ✅ | Flames, CO2, confetti, streamers, sparks (fountain and waterfall) and fireworks (outdoor only). Arm safety, cooldowns, firing patterns (all, L→R, R→L, out, in, alternate, random), a max-simultaneous limit, macros (Drop Hit, Flame Wave, Pre-drop Blackout, Triple Flame, Spark Curtain, Grand Finale) and haze/fog. All effects are simulated. |
+| 10 | Live show dashboard | ✅ | HUD showing track, DJ, BPM, time, section and countdown to the next section, an intensity meter, a crowd meter, a beat dot, a section timeline (tap to seek in sandbox), live score and a pads bar. |
+| 11 | Virtual lighting console | ✅ / 🟡 | 7-tab touch console (LIGHTS, COLOR, MOVE, FX, LED, CUES, SHOW) with a full-dashboard mode, a compact mode and console skins. Partial: an original layout inspired by real consoles, with no real console brand and no DMX/Art-Net output. |
+| 12 | Automation and manual control | ✅ | Manual, Assisted (follows sections automatically) and Programmed (runs the cue program). Manual overrides sit on top of automation and can be released. Quantize: off, beat, bar. |
+| 13 | Music-to-visual sync | ✅ | The beat grid drives chases, movement FX, LED content and pulses. Effects can be quantized. The drop and build engine reacts to section events. |
+| 14 | LED screens | ✅ | 16 procedural shader content styles (geometric, waves, gradient, EQ, tunnel, text…). Speed, brightness, colour mode, beat-reactive. Saved LED presets. Main wall plus side screens. Some styles are sold in the shop. |
+| 15 | Crowd simulation | ✅ / 🟡 | Instanced crowd of up to 2,600+ (scaled by quality and venue), with reaction states (idle, bounce, jump, hands up, cheer) driven by music energy and the show. Phone lights, cheer audio, engagement model. Partial: simple low-poly figures. |
+| 16 | Cameras | ✅ | FOH booth, stage overview, in the crowd, DJ booth and a free camera (drag/pinch/WASD to move, rotate and zoom, plus speed, reset and cinematic auto-orbit). Cinematic, clean and compact HUD modes. |
+| 17 | Intensity and energy | ✅ | A show-intensity model compared against music energy. Scoring rewards contrast before drops and penalises being "always max". |
+| 18 | Game modes | ✅ | Career (7 venues, club → mega-festival), Show (scored, any track), Free Play sandbox, 7 Challenges, Tutorial, and My Song (YouTube). |
+| 19 | Career and unlocks | ✅ | Credits per show (venue reward × score), missions, score thresholds unlock the next venue, and a shop with 39 items (equipment, pyro, LED content, music, DJs, console skins). Owned gear feeds into your rig, capped by the venue. |
+| 20 | Scoring and analysis | ✅ | 7 categories: timing, music sync, creativity, crowd, dynamics, composition, technical. Overall score and grade, a graph of intensity vs music energy vs crowd with drop markers, per-drop hit/miss, and tips. |
+| 21 | Replay and recording | 🟡 | Every scored show is recorded as an action log. Watch it again from the analysis or SHOW tab, and use REC in the sandbox. Alternative/limit: replays live for the current session only and are not saved to storage (cues, programs, presets and groups are saved). No video export; use the device's screen recording. |
+| 22 | UI and controls | ✅ | Touch-first with large pads, hold-to-flash/strobe, safe areas, portrait and landscape. Desktop keyboard shortcuts (rebindable) and mouse. Help mode (tap any control to explain it). Basic gamepad mapping (flash, blackout, GO, flames, cameras, menu); precision editing doesn't need a gamepad. |
+| 23 | Graphics and visual quality | ✅ / 🟡 | Additive beam cones, haze, bloom post-processing, lasers, emissive LED walls, particles, reflective wet floor. Partial: no true volumetric raymarching and no real-time shadows (too heavy for mobile); faked with additive cones, haze and bloom. |
+| 24 | Graphics settings and performance | ✅ / 🟡 | Quality presets plus adaptive auto quality, resolution scale, FPS cap, antialiasing, bloom, reflections, crowd/particle/LED quality, draw distance, performance mode, FPS display. Deferred: shadow and per-light-quality toggles (no shadows are rendered, so no fake toggle is shown). |
+| 25 | Accessibility | ✅ | Photosensitivity warning, reduce flashing, disable strobes, reduce motion and camera shake, colour-blind-friendly HUD, UI and text scale, beginner mode, large tutorial text, spoken tutorial (speech synthesis), rebindable keys, haptics toggle. |
+| 26 | Sound design | ✅ | Procedural music plus crowd ambience and cheers, pyro sounds (flame whoosh, CO2 blast, firework launch and burst), UI sounds. Separate volume buses: master, music, crowd, environment, FX, UI. |
+| 27 | Tutorial | 🟡 | Interactive 9-step tutorial that waits for each real action: open the console, select a group, colour/palette, preset, flash on the beat, arm and fire pyro, LED style, switch camera. Help mode (tap any control) and the Help screen cover the rest. Alternative: cue programming, sequence playback, overriding automation and save/replay are explained in Help and tooltips instead of guided steps. |
+| 28 | Save system | ✅ | localStorage with versioning, validation and safe fallback: career, owned items, settings, cues, programs, presets, LED presets, groups, swatches, macros, key bindings. Export/import/reset under Settings → Data. |
+| 29 | Technical implementation | ✅ | Separate modules: core/state and save, data, audio (music and timeline), yt, scene, fixtures, LED, SFX, crowd, DJ, show (cues, automation, CMD bus), score, camera, console, UI, main (loop and performance monitor). An event Bus publishes music timing. Errors are caught per effect (one failure doesn't stop the show), with graceful fallbacks for missing audio or YouTube, bad saves and WebGL problems. |
+| 30 | MVP | ✅ | All 20 MVP items are present and wired to real controls. |
+| 31 | Development phases | ✅ / 🟡 | Phases 1–4 (MVP, expansion, career, polish) are implemented. Later-phase ideas (multiplayer, mod/workshop support, VR) are ⏳ deferred. |
+| 32 | QA and testing | ✅ | Automated headless Chrome tests (test/controls.js, test/flow.js) in mobile portrait, mobile landscape and desktop: every console control, pad, HUD button and key gets a change check; a full career show runs to the analysis; rewards, persistence and the shop are tested; no console errors. |
+| 33 | Design philosophy | ✅ | Easy to start (assisted mode, tutorial, beginner mode), deep to master (full console, cue programming, quantize, scoring that rewards contrast and musicality). |
+| 34 | Final acceptance criteria | ✅ / 🟡 | Met within browser and mobile limits. Exceptions are listed under section 21 (replay storage), section 23 (no true volumetrics or shadows) and "My Song" below. |
+
+## My Song (YouTube): audio-only mode
+- Paste a YouTube link. The video plays through the official IFrame API with the picture hidden (audio only).
+- **Limitation:** browsers don't let a page analyse the audio of a cross-origin YouTube iframe. Auto BPM instead uses (a) the microphone (it listens to the speaker output, on-device tempo estimation) when permission is granted, or (b) manual BPM, TAP tempo, SYNC to the downbeat, nudge, and mark-drop.
+- Sections and drops come from the beat grid plus the drops you mark.
+- Scoring works on the beat grid.
+
+## Deferred
+- Real-time shadows; true volumetric light (raymarched).
+- Persistent replay library; video export.
+- Multiplayer; DMX/Art-Net output; VR; mod workshop.
