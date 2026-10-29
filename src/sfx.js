@@ -66,7 +66,7 @@ function explode(s){const n=Math.round(220*clamp(ST.particleQ,0.25,1.5)),c=C3(s.
 function integrate(P_,dt){const p=P_.pos.array,c=P_.col.array,s=P_.sz.array,n=P_.n;let alive=0;
   for(let i=0;i<n;i++){if(P_.life[i]>=P_.max[i]){if(p[i*3+1]>-900){p[i*3+1]=-999;c[i*4+3]=0;}continue;}alive++;P_.life[i]+=dt;const t=P_.life[i]/P_.max[i];const dr=Math.exp(-P_.drag[i]*dt);
     P_.vx[i]*=dr;P_.vy[i]=P_.vy[i]*dr-P_.grav[i]*dt;P_.vz[i]*=dr;const kd=P_.kind[i];
-    if(kd===PK.conf||kd===PK.strm){P_.ph[i]+=dt*6;P_.vx[i]+=Math.sin(P_.ph[i])*dt*2;if(p[i*3+1]<0.05){P_.vy[i]=0;P_.vx[i]=0;P_.vz[i]=0;p[i*3+1]=0.05;}}
+    if(kd===PK.conf||kd===PK.strm){P_.ph[i]+=dt*6;P_.vx[i]+=Math.sin(P_.ph[i])*dt*2;const fy=(p[i*3+2]>CRW.z0&&p[i*3+2]<CRW.z1&&Math.abs(p[i*3])<CRW.hw0+(p[i*3+2]-CRW.z0)*0.55+CRW.z0*0.55)?1.72+((i*0.37)%0.25):0.05;if(p[i*3+1]<fy&&P_.vy[i]<=0){P_.vy[i]=0;P_.vx[i]=0;P_.vz[i]=0;p[i*3+1]=fy+(fy>1?Math.max(0,Math.sin(CRW.u?CRW.u.uBeat.value*Math.PI:0))*CRW.jump*0.08:0);}}
     p[i*3]+=P_.vx[i]*dt;p[i*3+1]+=P_.vy[i]*dt;p[i*3+2]+=P_.vz[i]*dt;
     let r=P_.r[i],g=P_.gg[i],b=P_.b[i],a=P_.a0[i];
     if(kd===PK.fire){g=lerp(0.85,0.2,t);b=lerp(0.4,0.02,t);r=lerp(1,0.8,t);a*=t<0.1?t*10:(1-t);r*=3;g*=3;b*=3;}

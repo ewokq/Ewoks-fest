@@ -1,5 +1,5 @@
 // Core: utilities, device, event bus, versioned save system, settings, key bindings, command log (drives replay + scoring)
-const VERSION='v2.0';
+const VERSION='v2.1';
 const SAVE_VERSION=1;
 const params=new URLSearchParams(location.search);
 const UA=navigator.userAgent||'';
@@ -40,7 +40,7 @@ const Store={ok:true,
   del(k){try{localStorage.removeItem(LSK+k);}catch(e){}}};
 const DEF_SETTINGS={quality:'auto',resScale:1,fpsCap:0,aa:!IS_MOBILE,shadows:false,volumetric:2,reflections:true,crowdQ:1,particleQ:1,ledQ:1,lightQ:1,bloom:true,drawDist:1,perfMode:false,showFps:false,
   uiScale:1,textScale:1,colorBlind:false,reduceShake:false,reduceMotion:false,reduceFlash:false,noStrobe:false,flashWarn:true,beginner:false,tutBig:false,tutSpeak:false,camSens:1,
-  vol:{master:0.9,music:0.85,crowd:0.6,env:0.5,fx:0.6,ui:0.5},maxFx:6,quantize:'beat',skin:'default',haptics:true};
+  vol:{master:0.9,music:0.85,crowd:0.6,env:0.5,fx:0.6,ui:0.5},maxFx:6,quantize:'beat',skin:'default',haptics:true,uiMode:'simple',hints:true,autoArm:true};
 const ACTIONS=[['playPause','Play / pause music','Space'],['menu','Pause menu','Escape'],['lights','Open lighting controls','KeyQ'],['fx','Open special-effects controls','KeyE'],['led','Open LED controls','KeyR'],['dash','Full dashboard','Tab'],
  ['cueZ','Fire selected lighting cue','KeyZ'],['cueX','Apply selected visual (LED) preset','KeyX'],['cueC','Fire selected special-effect sequence','KeyC'],['cam','Switch camera','KeyV'],['go','GO next cue','Enter'],['mode','Toggle LIVE / PROGRAMMING','KeyF'],
  ['flash','Flash / bump (hold)','KeyJ'],['blackout','Blackout','KeyK'],['strobe','Strobe (hold)','KeyL'],['arm','Arm / disarm pyro','KeyP'],['flames','Fire flames','KeyT'],['co2','Fire CO2','KeyY'],['confetti','Fire confetti','KeyN'],['sparks','Fire sparks','KeyM'],['fireworks','Launch fireworks','KeyG'],
@@ -50,7 +50,7 @@ function defBindings(){const b={};ACTIONS.forEach(a=>b[a[0]]=a[2]);return b;}
 // ---- versioned save ----
 function freshSave(){return {v:SAVE_VERSION,created:Date.now(),settings:JSON.parse(JSON.stringify(DEF_SETTINGS)),bind:defBindings(),
   career:{credits:400,xp:0,rep:0,venue:0,best:{},missions:{},challenges:{},shows:0},owned:[],skin:'default',
-  groups:[],presets:[],cues:[],programs:{},ledPresets:[],macros:[],festivals:[],swatches:['#ff2bd6','#20e3ff','#ffffff','#ffb300'],favorites:[],tutorialDone:false,seenWarn:false,lastTrack:'bigroom'};}
+  groups:[],presets:[],cues:[],programs:{},ledPresets:[],macros:[],festivals:[],swatches:['#ff2bd6','#20e3ff','#ffffff','#ffb300'],favorites:[],tutorialDone:false,seenWarn:false,welcomed:false,lastTrack:'bigroom'};}
 let SAVE, SAVE_NOTE='';
 function sanitizeSave(s){
   const f=freshSave(); if(!s||typeof s!=='object'||Array.isArray(s)) throw new Error('not an object');

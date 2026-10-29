@@ -1,5 +1,5 @@
 // Cameras: FOH booth, stage overview, in the crowd, DJ booth, free orbit (drag / pinch / wheel / on-screen pad / WASD). Tap on the 3D view selects fixtures when the console is open.
-const CAM_MODES=[['foh','FOH booth'],['stage','Stage overview'],['crowd','In the crowd'],['dj','DJ booth'],['free','Free camera']];
+const CAM_MODES=[['foh','FOH booth'],['stage','Stage overview'],['crowd','In the crowd'],['faces','Facing the crowd'],['dj','DJ booth'],['free','Free camera']];
 const CAM={mode:'foh',shake:0,th:0,ph:0.18,r:46,tgt:new THREE.Vector3(0,5,0),pos:new THREE.Vector3(0,7,44),look:new THREE.Vector3(0,5,0),blend:1,keys:{},zoom:1,ptrs:new Map(),pinch0:0,down:null,t:0};
 const _cp=new THREE.Vector3(),_cl=new THREE.Vector3();
 function camSet(m,instant){if(!CAM_MODES.find(x=>x[0]===m))m='foh';if(m==='free'&&CAM.mode!=='free'){const A=G.anch,d=_cp.copy(G.cam.position).sub(CAM.tgt.set(0,A?A.ledY*0.6:5,0));CAM.r=clamp(d.length(),6,120);CAM.th=Math.atan2(d.x,d.z);CAM.ph=Math.asin(clamp(d.y/CAM.r,-0.1,1.3));}
@@ -10,6 +10,7 @@ function camTarget(dt,o){const A=G.anch;if(!A)return;const t=CAM.t,portrait=G.H>
    case 'foh':p.set(Math.sin(t*0.07)*1.2,6.2,A.fohZ-2.5);l.set(0,A.ledY*0.62,0);if(portrait)p.z=Math.min(A.fohZ-2.5,A.fohZ*0.82);break;
    case 'stage':p.set(Math.sin(t*0.05)*A.W*0.7,13+Math.sin(t*0.08)*2,24+Math.cos(t*0.05)*4);l.set(0,4.5,6);break;
    case 'crowd':{const bob=CRW.jump*Math.max(0,Math.sin((o.beat%1)*Math.PI))*0.18*(ST.reduceMotion?0.2:1);p.set(Math.sin(t*0.11)*3,1.85+bob,G.crowdZ0+9);l.set(0,A.ledY*0.75,0);break;}
+   case 'faces':p.set(Math.sin(t*0.09)*4,2.6+Math.sin(t*0.13)*0.3,G.crowdZ0-1.6);l.set(Math.sin(t*0.09)*2,1.4,G.crowdZ0+12);break;
    case 'dj':p.set(0.6,A.DH+2.5,A.booth.z-4.2);l.set(0,4,30);break;
    case 'free':{const k=CAM.keys,sp=dt*1.2*ST.camSens;if(k.l)CAM.th-=sp;if(k.r)CAM.th+=sp;if(k.u)CAM.ph+=sp*0.6;if(k.d)CAM.ph-=sp*0.6;if(k.i)CAM.r*=1-dt*0.9;if(k.o)CAM.r*=1+dt*0.9;
      CAM.ph=clamp(CAM.ph,-0.05,1.35);CAM.r=clamp(CAM.r,5,130);l.copy(CAM.tgt);p.set(Math.sin(CAM.th)*Math.cos(CAM.ph),Math.sin(CAM.ph),Math.cos(CAM.th)*Math.cos(CAM.ph)).multiplyScalar(CAM.r).add(l);p.y=Math.max(0.6,p.y);break;}}}

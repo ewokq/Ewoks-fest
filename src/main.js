@@ -51,6 +51,7 @@ function tickAll(dt){const playing=SEQ.playing;if(SES){songPos();pumpEvents();gr
   ledTick(dt,SHOW.led,curPalette(),bp,SES?AN.kick:0.4*Math.max(0,1-(bp%1)*4),en,SHOW.blackout);
   if(SES){engTick(dt);crowdLevel(ENG.e,dt);}
   crowdTick(dt,{beat:bp,e:SES?ENG.e:0.55,energy:en,sec,playing:SES?playing:true,flash:SHOW.flash,strobeOn:SHOW.strobeHold});
+  if(SES)crowdAudioTick(dt,{e:ENG.e,sec,playing,size:clamp(CRW.n/6000,0,1)});
   djTick(dt,{beat:bp,sec,playing:SES?playing:true,energy:en,dj:SES?SES.djObj:DJS[0],moves:owns('dj_moves')||(SES&&SES.mode!=='career')});
   camTick(dt,{beat:bp});
   if(SES){hudTick(dt);padsTick();tlDraw();if(CON.needs&&!CON.dragging)renderPanel();gamepadTick();if(SEQ.ended&&!SES.done)finishShow(true);}
@@ -62,6 +63,6 @@ function boot(){try{initScene();}catch(e){scr(`<h2>Can't start 3D</h2><p>${esc(e
   // first touch anywhere unlocks audio on iOS
   const un=()=>{try{initAudio();if(A.ctx&&A.ctx.state==='suspended')A.ctx.resume();}catch(e){}};addEventListener('pointerdown',un,{capture:true});addEventListener('keydown',un,{capture:true});
   document.addEventListener('visibilitychange',()=>{if(document.hidden&&SES&&SEQ.playing&&!TR.yt&&!UI.scr)pauseScreen();});
-  menuScreen();RUN.booted=true;requestAnimationFrame(frame);
-  window.__fc={SHOW,CMD,FIX,FXS,SCORE:()=>SCORE,ENG,SEQ,SAVE:()=>SAVE,ST,TR:()=>TR,SES:()=>SES,CRW,DJ,CAM,AN,A,G,CON,UI,LEDRT,AUTO,SEL,YT,computeScore,startSession,finishShow,menuScreen,careerRig,careerFx,transportSeek,songPos,beatPos,ERRORS,persist,UA:UA_,CA,padAct,conOpen,renderPanel,camSet,keyAct,TUT,VERSION,Bus,curSec,liveScore,TRACKS,SHOP,VENUES,secAt,musBar,Store};}
+  if(!SAVE.welcomed&&!SAVE.tutorialDone&&!SAVE.career.shows)welcomeScreen();else menuScreen();RUN.booted=true;requestAnimationFrame(frame);
+  window.__fc={transportPause,SIM,setUiMode,simTick,simHint,simAct,TUT,welcomeScreen,UA_,nextMarker,curSecObj,beatPos,SHOW,CMD,FIX,FXS,SCORE:()=>SCORE,ENG,SEQ,SAVE:()=>SAVE,ST,TR:()=>TR,SES:()=>SES,CRW,DJ,CAM,AN,A,G,CON,UI,LEDRT,AUTO,SEL,YT,computeScore,startSession,finishShow,menuScreen,careerRig,careerFx,transportSeek,songPos,beatPos,ERRORS,persist,UA:UA_,CA,padAct,conOpen,renderPanel,camSet,keyAct,TUT,VERSION,Bus,curSec,liveScore,TRACKS,SHOP,VENUES,secAt,musBar,Store};}
 boot();

@@ -10,11 +10,14 @@
 <meta name="apple-mobile-web-app-title" content="Festival Control">
 <meta name="application-name" content="Festival Control">
 <meta name="description" content="FESTIVAL CONTROL: run the lights, lasers, LED walls and pyro of a giant EDM festival mainstage. Playable on iPhone and desktop.">
-<meta name="game-version" content="v2.0">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="game-version" content="v2.1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=2.1">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="manifest" href="manifest.webmanifest">
-<title>FESTIVAL CONTROL v2.0</title>
+<link rel="manifest" href="manifest.webmanifest?v=2.1">
+<title>FESTIVAL CONTROL v2.1</title>
 <style>
 :root{--ui:1;--txt:1;--acc:#ff2bd6;--acc2:#20e3ff;--ok:#3dff8e;--warn:#ffb300;--bad:#ff3b3b;--bg:rgba(8,9,20,.86);--bg2:rgba(20,22,42,.92);--line:rgba(255,255,255,.12);
  --sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px);--sal:env(safe-area-inset-left,0px);--sar:env(safe-area-inset-right,0px);--panelW:min(46vw,470px)}
@@ -120,6 +123,71 @@ input[type=range]::-moz-range-thumb{width:1.3rem;height:1.3rem;border-radius:50%
  .meter{width:2.6rem}
  #vol{width:3.6rem}
 }
+
+/* ---- v2.1 Simple console ---- */
+#bPro{font-size:.78rem;font-weight:900;letter-spacing:.06em;min-width:3rem;min-height:3rem;color:#ffd27a;border-color:rgba(255,210,122,.45)}
+#bPro.on{background:#ffd27a;color:#000}
+.ib,.tb{min-width:3rem;min-height:3rem}
+body:not(.pro) #pads,body:not(.pro) #bCon,body:not(.pro) #modeTag,body:not(.pro) #tPreset{display:none!important}
+body.pro #spads{display:none}
+#spads{display:grid;grid-template-columns:repeat(12,minmax(3.1rem,1fr));gap:.35rem;margin-bottom:.4rem}
+.sp{min-height:3.7rem;min-width:48px;padding:.25rem .15rem;border-radius:.9rem;background:rgba(20,22,46,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.05;position:relative;overflow:hidden;touch-action:manipulation}
+.sp i{font-style:normal;font-size:1.35rem;line-height:1.1}
+.sp b{font-size:.74rem;font-weight:900;letter-spacing:.02em;white-space:nowrap}
+.sp small{font-size:.58rem;opacity:.7;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis;min-height:.7rem}
+.sp.hit{background:#fff;color:#000}
+.sp.on{background:linear-gradient(180deg,#3a2a70,#1b1b48);border-color:var(--acc2)}
+.sp.dim{opacity:.42}
+.sp.pyro{border-color:rgba(255,110,40,.55)}
+.sp-drop{background:linear-gradient(135deg,#ff2bd6,#ff7a1a);color:#fff;border-color:#fff}
+.sp-drop b{font-size:.85rem}
+.sp.glow{animation:spGlow .9s ease-in-out infinite;border-color:#fff}
+@keyframes spGlow{0%,100%{box-shadow:0 0 0 2px rgba(255,255,255,.85),0 0 12px 2px rgba(32,227,255,.7)}50%{box-shadow:0 0 0 3px #fff,0 0 26px 8px rgba(255,43,214,.85)}}
+#guide{position:absolute;left:50%;transform:translateX(-50%);top:calc(var(--sat) + 3.9rem);display:flex;flex-direction:column;align-items:center;gap:.35rem;pointer-events:none;width:min(94vw,34rem)}
+#cdown{font-weight:900;font-size:1.05rem;letter-spacing:.08em;padding:.35rem .8rem;border-radius:1rem;background:linear-gradient(135deg,rgba(255,43,214,.9),rgba(255,122,26,.9));box-shadow:0 0 18px rgba(255,43,214,.6);text-shadow:0 1px 2px #000}
+#cdown.num{font-size:3.2rem;padding:.1rem 1.1rem;line-height:1.1;border-radius:1.4rem}
+#cdown.tick{animation:cdTick .45s ease-out}
+@keyframes cdTick{0%{transform:scale(1.6);opacity:.3}100%{transform:scale(1);opacity:1}}
+#hint{font-size:.92rem;font-weight:700;padding:.45rem .8rem;border-radius:.8rem;background:rgba(10,10,30,.82);border:1px solid rgba(32,227,255,.55);text-align:center;max-width:100%;text-shadow:0 1px 2px #000}
+#combo{font-weight:900;font-size:.85rem;color:#ffd27a;letter-spacing:.06em;text-shadow:0 0 8px rgba(255,210,122,.7)}
+#pop{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);font-weight:900;font-size:2rem;letter-spacing:.06em;pointer-events:none;opacity:0;white-space:nowrap;text-shadow:0 0 14px rgba(255,255,255,.6),0 2px 4px #000}
+#pop.show{opacity:1}#pop.go{animation:popA .9s ease-out forwards}
+#pop.perfect{color:#7dffb8}#pop.great{color:#9ad8ff;font-size:1.6rem}#pop.miss{color:#ff9a9a;font-size:1rem}#pop.drop{color:#fff;font-size:2.6rem;background:linear-gradient(90deg,var(--acc2),var(--acc));-webkit-background-clip:text;background-clip:text;color:transparent}#pop.combo{color:#ffd27a}
+@keyframes popA{0%{transform:translate(-50%,-30%) scale(.7);opacity:0}18%{transform:translate(-50%,-50%) scale(1.12);opacity:1}70%{opacity:1}100%{transform:translate(-50%,-90%) scale(1);opacity:0}}
+#tutPtr{position:fixed;z-index:31;border:3px solid #fff;border-radius:1rem;pointer-events:none;box-shadow:0 0 0 4px rgba(255,43,214,.7),0 0 24px rgba(255,43,214,.9);animation:ptr 1s ease-in-out infinite}
+@keyframes ptr{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+body.insession #toast{top:auto;bottom:calc(var(--botH,7.4rem) + .6rem)}
+#upd{position:fixed;z-index:70;left:50%;transform:translateX(-50%);bottom:calc(var(--sab) + 1rem);padding:.7rem 1.1rem;border-radius:1rem;background:linear-gradient(135deg,var(--acc2),var(--acc));color:#000;font-weight:900;min-height:48px;cursor:pointer}
+body:not(.pro) #suggest{display:none}
+body.pro #pads{flex-wrap:wrap;overflow:visible;display:grid;grid-template-columns:repeat(auto-fill,minmax(4.1rem,1fr))}
+body.pro .pad{min-width:0;min-height:3rem}
+#panel{bottom:calc(var(--botH,7.4rem) + .2rem)!important}
+/* menu */
+.hero{text-align:center}
+.playBig{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;min-height:5.2rem;margin:.6rem 0;font-size:1.8rem;font-weight:900;letter-spacing:.08em;border-radius:1.2rem;background:linear-gradient(135deg,#ff2bd6,#ff7a1a);color:#fff;border:0;box-shadow:0 0 30px rgba(255,43,214,.45)}
+.playBig span{font-size:.8rem;font-weight:600;letter-spacing:.02em;opacity:.9}
+.menuBig{display:grid;grid-template-columns:repeat(auto-fill,minmax(9.5rem,1fr));gap:.5rem}
+.menuBig button{min-height:4.6rem;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;text-align:left;padding:.6rem .8rem}
+.menuBig button b{font-size:1.08rem}.menuBig button span{font-size:.76rem;opacity:.72}.menuBig button i{font-style:normal;font-size:1.4rem}
+.menuSmall{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;margin-top:.7rem}
+.menuSmall button,.menuSmall a{min-height:48px;display:inline-flex;align-items:center;font-size:.85rem;padding:.3rem .8rem}
+.linkBtn{background:none;border:0;color:var(--acc2);text-decoration:underline;min-height:48px;width:100%}
+.welcome{text-align:center;max-width:30rem;margin:0 auto}.welcome p{font-size:1.02rem;line-height:1.4}.wIcon{font-size:2.6rem}
+.screen.wel .card{max-width:34rem}
+#tut .tbtn{min-height:44px;margin-left:.3rem}
+@media (orientation:portrait){
+ #spads{grid-template-columns:repeat(4,1fr)}
+ body:not(.pro) #bRestart,body:not(.pro) #vol{display:none}
+ body.pro #pads{grid-template-columns:repeat(5,1fr)}
+ body.pro .pad{font-size:.7rem;padding:.25rem .15rem}
+ #tTrack{font-size:.85rem}
+ #pop{font-size:1.7rem}
+}
+@media (orientation:landscape) and (max-height:500px){
+ .sp{min-height:3.3rem}.sp i{font-size:1.1rem}.sp b{font-size:.66rem}.sp small{display:none}
+ #guide{top:calc(var(--sat) + 3.4rem)}#cdown.num{font-size:2.4rem}#hint{font-size:.82rem;padding:.3rem .6rem}
+ .tb,.ib{min-height:3.25rem;min-width:3.25rem}
+}
 /* screens */
 .screen{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 30%,rgba(60,20,90,.55),rgba(3,3,10,.92));padding:calc(var(--sat) + .6rem) calc(var(--sar) + .6rem) calc(var(--sab) + .6rem) calc(var(--sal) + .6rem);touch-action:pan-y}
 .screen.clear{background:rgba(3,3,10,.55)}
@@ -194,15 +262,19 @@ canvas.graph{display:block;border-radius:.5rem;background:rgba(255,255,255,.03)}
    <div class="meter" data-help="INTENSITY: how intense your show is right now. The white line is the music energy. You do not have to follow it."><i id="mInt"></i><u id="mMus"></u><b>INT</b></div>
    <div class="meter" data-help="CROWD: audience engagement."><i id="mEng"></i><b>CROWD</b></div>
   </div>
+  <button id="bPro" class="ib" data-help="PRO: switch between the Simple pads and the full Pro console (every control)." aria-label="Open the pro console">PRO</button>
   <button id="bCam" class="ib" data-help="Camera (V): FOH booth, stage overview, audience, DJ booth, free camera." aria-label="Camera">&#127909;</button>
   <button id="bCon" class="ib" data-help="Lighting console (Q). Tab opens the full dashboard." aria-label="Console">&#127899;</button>
  </div>
  <div id="suggest" class="hidden"></div>
+ <div id="guide"><div id="cdown" class="hidden"></div><div id="hint" class="hidden"></div><div id="combo" class="hidden"></div></div>
+ <div id="pop"></div>
  <div id="banner" class="hidden"></div>
  <div id="ytCtl" class="hidden"></div>
  <div id="freePad" class="hidden"></div>
  <div id="panel" class="hidden"><div id="tabs"></div><div id="selbar"></div><div id="pbody"></div></div>
  <div id="bottom">
+  <div id="spads"></div>
   <div id="pads"></div>
   <div id="tlrow">
    <button id="bRestart" class="tb" data-help="Restart the song." aria-label="Restart">&#9198;</button>
@@ -221,6 +293,8 @@ canvas.graph{display:block;border-radius:.5rem;background:rgba(255,255,255,.03)}
 <div id="helpCap" class="hidden"></div>
 <div id="tut" class="hidden"></div>
 <div id="fps" class="hidden"></div>
+<div id="tutPtr" class="hidden"></div>
+<div id="upd" class="hidden"></div>
 <div id="ytBox"><div id="ytPlayer"></div></div>
 <div id="ytTapWrap"><div id="ytTapLbl">&#9654; Tap the video to start the music</div></div>
 <input id="fileIn" type="file" accept="application/json,.json" class="hidden">

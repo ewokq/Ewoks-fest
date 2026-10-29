@@ -2,7 +2,7 @@
 const {launch,page,closeModal}=require('./lib');
 const vp=process.argv[2]||'portrait';const SKIP=new Set(['endShow','restart','impShow','expShow','replay','cine','clean','compact']);
 (async()=>{const b=await launch();const {p,errs}=await page(b,vp);const out={vp,tabs:{},pads:{},noEffect:[],extra:{}};
- await p.evaluate(()=>{__fc.SAVE().seenWarn=true;__fc.ST.quantize='off';__fc.startSession({mode:'free',venue:6,env:'night',track:'bigroom',style:'spectacular',crowdSize:'massive',auto:'manual',scored:false,rig:__fc.careerRig?undefined:undefined});});
+ await p.evaluate(()=>{__fc.SAVE().seenWarn=true;__fc.ST.quantize='off';__fc.startSession({mode:'free',venue:6,env:'night',track:'bigroom',style:'spectacular',crowdSize:'massive',auto:'manual',scored:false,rig:__fc.careerRig?undefined:undefined});__fc.setUiMode('pro');});
  await p.waitForTimeout(1500);
  await p.click('#bCon');await p.waitForTimeout(300);out.extra.panelOpen=await p.evaluate(()=>__fc.CON.open);
  await p.evaluate(()=>{__fc.FXS.armed=true;});
@@ -34,6 +34,23 @@ const vp=process.argv[2]||'portrait';const SKIP=new Set(['endShow','restart','im
   const before=await p.evaluate(()=>__fp());const ph=await p.$(`#pads [data-p="${id}"]`);await ph.scrollIntoViewIfNeeded();const bb=await ph.boundingBox();
   if(!bb){out.pads[id]='not visible';continue;}await p.mouse.move(bb.x+bb.width/2,bb.y+bb.height/2);await p.mouse.down();await p.waitForTimeout(150);const mid=await p.evaluate(()=>__fp());await p.mouse.up();await p.waitForTimeout(150);const after=await p.evaluate(()=>__fp());
   out.pads[id]=(mid!==before||after!==before)?'changed':'NO EFFECT';if(out.pads[id]!=='changed')out.noEffect.push('pad:'+id);}
+ // ---- v2.1 Simple console sweep ----
+ await p.evaluate(()=>{__fc.setUiMode('simple');__fc.FXS.armed=false;});await p.waitForTimeout(300);out.simple={};
+ for(const id of await p.$$eval('#spads [data-s]',e=>e.map(x=>x.dataset.s))){await p.evaluate(()=>{__fc.FXS.cool={};});
+  const before=await p.evaluate(()=>__fp());const tb=await p.evaluate(()=>document.getElementById('toast').textContent);const el=await p.$(`#spads [data-s="${id}"]`);const bb=await el.boundingBox();
+  if(!bb){out.simple[id]='not visible';out.noEffect.push('simple:'+id);continue;}
+  await p.mouse.move(bb.x+bb.width/2,bb.y+bb.height/2);await p.mouse.down();await p.waitForTimeout(150);const mid=await p.evaluate(()=>__fp());await p.mouse.up();await p.waitForTimeout(150);const after=await p.evaluate(()=>__fp());
+  const ta=await p.evaluate(()=>document.getElementById('toast').textContent);
+  out.simple[id]=(mid!==before||after!==before)?'changed':(ta!==tb&&ta?'toast:'+ta.slice(0,60):'NO EFFECT');if(out.simple[id]==='NO EFFECT')out.noEffect.push('simple:'+id);}
+ out.simpleAutoArmed=await p.evaluate(()=>__fc.FXS.armed);
+ // clipping / touch-target check (Simple and Pro)
+ out.clip={};for(const m of ['simple','pro']){await p.evaluate(m=>__fc.setUiMode(m),m);await p.waitForTimeout(250);
+  out.clip[m]=await p.evaluate(()=>{const W=innerWidth,H=innerHeight,bad=[],small=[];document.querySelectorAll('#topbar button, #bottom button, #spads .sp').forEach(e=>{if(e.offsetParent===null)return;const r=e.getBoundingClientRect();if(!r.width)return;
+    if(r.left<-1||r.top<-1||r.right>W+1||r.bottom>H+1)bad.push(e.id||e.dataset.s||e.dataset.p||e.textContent.trim().slice(0,10));
+    if(Math.min(r.width,r.height)<44)small.push((e.id||e.dataset.s||e.dataset.p||e.textContent.trim().slice(0,10))+':'+Math.round(r.width)+'x'+Math.round(r.height));
+    if(e.scrollWidth>e.clientWidth+2&&e.classList.contains('sp'))bad.push('text-overflow:'+e.dataset.s);});
+   const pads=document.getElementById('pads'),cut=pads.offsetParent&&pads.scrollWidth>pads.clientWidth+2;return {offscreen:bad,under44:small,padsScroll:!!cut};});}
+ await p.evaluate(()=>__fc.setUiMode('pro'));
  // HUD buttons
  for(const id of ['bCam','bPlay','bPlay','bRec','bRec']){const b0=await p.evaluate(()=>__fp());await p.click('#'+id);await p.waitForTimeout(200);const b1=await p.evaluate(()=>__fp());out.extra[id+'_'+Math.random().toString(36).slice(2,4)]=b0!==b1?'changed':'NO EFFECT';}
  out.extra.replay=await p.evaluate(async()=>{__fc.CMD.rec={track:'x',start:__fc.songPos(),log:[]};__fc.CMD.run('pal',['ice',null]);__fc.SES().lastReplay=__fc.CMD.rec;__fc.CMD.rec=null;return __fc.SES().lastReplay.log.length;});

@@ -1,7 +1,9 @@
-# FESTIVAL CONTROL v2.0: Roadmap / spec coverage
+# FESTIVAL CONTROL v2.1: Roadmap / spec coverage
 
 This file covers every section of SPEC.txt (34 sections). Legend: ✅ done · 🟡 partial (the alternative used is listed) · ⏳ deferred.
 Platform: one self-contained HTML5 file (Three.js r160 + Web Audio), touch-first for iPhone Safari (portrait and landscape, safe areas), with desktop keyboard and mouse. The old v1.4 game is still playable at `/classic/`.
+
+**v2.1 (user friendliness + living crowd):** new main menu with a big PLAY button (a random track at Horizon Mainstage, assisted, short); a first-launch welcome and guided show; a Simple console by default (12 big labelled pads: Colors, Looks, LED, Lasers, Flash, Strobe, Blackout, CO2, Flames, Confetti, Fireworks, DROP!) with a Pro toggle for the full 7-tab console; hints, a drop countdown (DROP IN N BARS → 4·3·2·1), glowing suggested pads, PERFECT/GREAT/PERFECT DROP! popups and combos, haptics, sounds; auto-arming pyro in Simple mode; an 8-step tutorial with a pointer ring; touch targets ≥48px, checked by automated clipping tests in portrait, landscape and desktop; cache-busting meta tags, `?v=` asset queries and an in-game "new version" banner. Crowd: instanced human figures animated per person (own beat phase, head nods, fist pumps, build-up claps, unison drop jumps, breakdown sway with phones), circle pits for heavy genres, shoulder riders, flags and totems, glowsticks, cheer bursts and energy waves from front to back, crowd audio, confetti that lands on the crowd, near/far LOD, and a close-up "faces" camera.
 
 | # | Section | Status | Notes |
 |---|---------|--------|-------|
@@ -19,7 +21,7 @@ Platform: one self-contained HTML5 file (Three.js r160 + Web Audio), touch-first
 | 12 | Automation and manual control | ✅ | Manual, Assisted (follows sections automatically) and Programmed (runs the cue program). Manual overrides sit on top of automation and can be released. Quantize: off, beat, bar. |
 | 13 | Music-to-visual sync | ✅ | The beat grid drives chases, movement FX, LED content and pulses. Effects can be quantized. The drop and build engine reacts to section events. |
 | 14 | LED screens | ✅ | 16 procedural shader content styles (geometric, waves, gradient, EQ, tunnel, text…). Speed, brightness, colour mode, beat-reactive. Saved LED presets. Main wall plus side screens. Some styles are sold in the shop. |
-| 15 | Crowd simulation | ✅ / 🟡 | Instanced crowd of up to 2,600+ (scaled by quality and venue), with reaction states (idle, bounce, jump, hands up, cheer) driven by music energy and the show. Phone lights, cheer audio, engagement model. Partial: simple low-poly figures. |
+| 15 | Crowd simulation | ✅ / 🟡 | v2.1: per-person animation, circle pits, shoulder riders, flags/totems, cheer waves, phone lights, near/far LOD. Instanced crowd of up to 4,000+ (scaled by quality and venue), with reaction states (idle, bounce, jump, hands up, cheer) driven by music energy and the show. Phone lights, cheer audio, engagement model. Partial: simple low-poly figures. |
 | 16 | Cameras | ✅ | FOH booth, stage overview, in the crowd, DJ booth and a free camera (drag/pinch/WASD to move, rotate and zoom, plus speed, reset and cinematic auto-orbit). Cinematic, clean and compact HUD modes. |
 | 17 | Intensity and energy | ✅ | A show-intensity model compared against music energy. Scoring rewards contrast before drops and penalises being "always max". |
 | 18 | Game modes | ✅ | Career (7 venues, club → mega-festival), Show (scored, any track), Free Play sandbox, 7 Challenges, Tutorial, and My Song (YouTube). |

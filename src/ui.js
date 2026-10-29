@@ -9,17 +9,17 @@ const backBtn=(to)=>`<button data-u="${to||'menu'}">&#8592; Back</button>`;
 const opt=(list,cur)=>list.map(([v,n])=>`<option value="${esc(v)}"${String(v)===String(cur)?' selected':''}>${esc(n)}</option>`).join('');
 // ---------- main menu ----------
 function menuScreen(){if(SES)endSession();const c=SAVE.career;
-  scr(`<h1 style="margin:.2rem 0">FESTIVAL CONTROL <small class="muted">${VERSION}</small></h1><p class="muted" style="margin-top:0">You are the lighting & show operator of an EDM mainstage. Run the lights, LED wall, lasers and pyro live to the music.</p>
-  <div class="menuGrid">
-   <button data-u="career"><b>Career</b><span>Venue ${c.venue+1}/7 · ${c.credits} credits</span></button>
-   <button data-u="quick"><b>Show</b><span>Scored show on any track</span></button>
-   <button data-u="free"><b>Free Play</b><span>Sandbox: full rig, no score</span></button>
-   <button data-u="challenges"><b>Challenges</b><span>${Object.keys(c.challenges).length}/${CHALLENGES.length} completed</span></button>
-   <button data-u="mysong"><b>My Song (YouTube)</b><span>Audio only + Auto BPM</span></button>
-   <button data-u="tutorial"><b>Tutorial</b><span>${SAVE.tutorialDone?'Completed ✓':'Learn the console in 3 min'}</span></button>
-   <button data-u="settings"><b>Settings</b><span>Graphics, audio, access, keys</span></button>
-   <button data-u="help"><b>Help</b><span>Controls & tips</span></button>
-  </div><p class="muted" style="font-size:.8rem">Old version: <a href="classic/" style="color:var(--acc)">Drop Control 3D (classic v1.4)</a>${SAVE_NOTE?'<br><b style="color:var(--ok)">'+esc(SAVE_NOTE)+'</b>':''}</p>`);SAVE_NOTE='';}
+  scr(`<div class="hero"><h1 style="margin:.2rem 0">FESTIVAL CONTROL <small class="muted">${VERSION}</small></h1><p class="muted" style="margin:0">Run the lights, LED wall, lasers and pyro for a festival crowd.</p></div>
+  <button class="playBig" data-u="play">▶ PLAY<span>Quick 2-minute show · random track · scored</span></button>
+  <div class="menuBig menuGrid">
+   <button data-u="career"><i>🏆</i><b>Career</b><span>Venue ${c.venue+1}/7 · ${c.credits} credits</span></button>
+   <button data-u="free"><i>🎛️</i><b>Free Play</b><span>Everything unlocked, no score</span></button>
+   <button data-u="mysong"><i>🎵</i><b>My Song</b><span>Play to a YouTube song</span></button>
+   <button data-u="tutorial"><i>🎓</i><b>Tutorial</b><span>${SAVE.tutorialDone?'Completed ✓':'2 minutes, +100 credits'}</span></button>
+   <button data-u="settings"><i>⚙️</i><b>Settings</b><span>Console, graphics, sound</span></button>
+  </div>
+  <div class="menuSmall"><button data-u="quick">Show setup</button><button data-u="challenges">Challenges ${Object.keys(c.challenges).length}/${CHALLENGES.length}</button><button data-u="help">Help</button><a href="classic/" style="color:var(--acc)">Classic v1.4</a></div>
+  ${SAVE_NOTE?'<p style="text-align:center"><b style="color:var(--ok)">'+esc(SAVE_NOTE)+'</b></p>':''}`);SAVE_NOTE='';}
 UA_.menu=()=>menuScreen();
 // ---------- quick show / free play setup ----------
 function setupScreen(mode){const st=UI.setup=UI.setup&&UI.setup.mode===mode?UI.setup:{mode,track:SAVE.lastTrack||'bigroom',env:'night',dj:'',style:'energetic',crowd:'arena',auto:mode==='free'?'assisted':'manual',short:false,venue:4};
@@ -96,11 +96,11 @@ const TUT_STEPS=[['Welcome, operator! Open the lighting console: tap 🎛 (top r
  ['Open the LED tab and change the LED wall style.',(e,n,a)=>e==='cmd'&&n==='led'&&a[0]==='style'],
  ['Switch camera: tap 🎥 or press V.',(e)=>e==='cam'],
  ['Done! Shows are scored on timing, music sync, variety and the crowd. End the session from the SHOW tab, or play a Career show.',()=>false]];
-function tutShow(){const t=$('tut');if(!TUT.on){t.classList.add('hidden');return;}t.classList.remove('hidden');t.classList.toggle('big',!!ST.tutBig);const s=TUT_STEPS[TUT.i];
-  t.innerHTML=`<b>Step ${TUT.i+1}/${TUT_STEPS.length}</b> ${esc(s[0])} <button class="chip" data-tt="skip">${TUT.i===TUT_STEPS.length-1?'Close':'Skip'}</button>`;
+function tutShow(){const t=$('tut');if(!TUT.on){t.classList.add('hidden');return;}if(TUT.i===0)TUT.pro=ST.uiMode==='pro';const SS=tutSteps();t.classList.remove('hidden');t.classList.toggle('big',!!ST.tutBig);const s=SS[TUT.i];const last=TUT.i===SS.length-1;
+  t.innerHTML=`<b>Step ${TUT.i+1}/${SS.length}</b> ${esc(s[0])} `+(last?`<button class="chip sel tbtn" data-tt="close">Keep playing</button><button class="chip tbtn" data-tt="menu">Main menu</button>`:`<button class="chip tbtn" data-tt="skip">Skip step</button><button class="chip tbtn" data-tt="end">End tutorial</button>`);
   if(ST.tutSpeak&&window.speechSynthesis){try{speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(s[0]));}catch(e){}}
-  if(TUT.i===TUT_STEPS.length-1&&!SAVE.tutorialDone){SAVE.tutorialDone=true;SAVE.career.credits+=100;persist(false);toast('Tutorial complete: +100 credits',2500);}}
-function tutEv(e,n,a){if(!TUT.on)return;const s=TUT_STEPS[TUT.i];if(s&&s[1](e,n,a||[])){TUT.i++;sfx('ok');tutShow();}}
+  if(last&&!SAVE.tutorialDone){SAVE.tutorialDone=true;SAVE.career.credits+=100;persist(false);toast('Tutorial complete: +100 credits',2500);}}
+function tutEv(e,n,a){if(!TUT.on)return;if(!TUT.pro&&TUT.lastT&&realNow()-TUT.lastT<0.35)return;const s=tutSteps()[TUT.i];const f=s&&(TUT.pro?s[1]:s[2]);if(f&&f(e,n,a||[])){TUT.i++;TUT.lastT=realNow();sfx('ok');buzz([15,30,15]);tutShow();}}
 // ---------- settings ----------
 const SET_DEF={graphics:[['quality','Quality','sel',[['auto','Auto (adaptive)'],['0.6','Low'],['0.8','Medium'],['1','High']]],['resScale','Resolution scale','rng',[0.5,1.5,0.05]],['fpsCap','Frame cap','sel',[[0,'Unlimited'],[30,'30 fps'],[60,'60 fps']]],
    ['bloom','Bloom glow','chk'],['reflections','Floor reflections','chk'],['crowdQ','Crowd density (on next show)','rng',[0.25,1.5,0.05]],['particleQ','Particle quality','rng',[0.25,1.5,0.05]],['ledQ','LED wall quality','rng',[0.5,1,0.05]],['drawDist','Draw distance','rng',[0.5,1.5,0.05]],
@@ -108,7 +108,7 @@ const SET_DEF={graphics:[['quality','Quality','sel',[['auto','Auto (adaptive)'],
  audio:[['vol.master','Master','rng',[0,1,0.01]],['vol.music','Music','rng',[0,1,0.01]],['vol.crowd','Crowd','rng',[0,1,0.01]],['vol.env','Environment / ambience','rng',[0,1,0.01]],['vol.fx','Effects (pyro, CO2)','rng',[0,1,0.01]],['vol.ui','Interface clicks','rng',[0,1,0.01]]],
  access:[['reduceFlash','Reduce flashing','chk'],['noStrobe','Disable strobe effects','chk'],['reduceShake','Reduce camera shake','chk'],['reduceMotion','Reduce motion','chk'],['flashWarn','Show photosensitivity warning','chk'],['colorBlind','Colour-blind friendly HUD','chk'],
    ['uiScale','Interface size','rng',[0.8,1.4,0.05]],['textScale','Text size','rng',[0.8,1.5,0.05]],['tutBig','Large tutorial text','chk'],['tutSpeak','Read tutorial aloud','chk'],['haptics','Vibration (where supported)','chk']],
- gameplay:[['beginner','Beginner suggestions','chk'],['quantize','Quantize cues/macros','sel',[['off','Off'],['half','½ beat'],['beat','Beat'],['bar','Bar']]],['camSens','Camera sensitivity','rng',[0.3,2,0.05]],['maxFx','Max simultaneous FX','rng',[2,12,1]]]};
+ gameplay:[['uiMode','Console','sel',[['simple','Simple (big pads)'],['pro','Pro (full console)']]],['hints','Hints & drop countdown','chk'],['autoArm','Auto-arm pyro in Simple mode','chk'],['beginner','Beginner suggestions (Pro)','chk'],['quantize','Quantize cues/macros','sel',[['off','Off'],['half','½ beat'],['beat','Beat'],['bar','Bar']]],['camSens','Camera sensitivity','rng',[0.3,2,0.05]],['maxFx','Max simultaneous FX','rng',[2,12,1]]]};
 const getS=k=>k.startsWith('vol.')?ST.vol[k.slice(4)]:ST[k];
 function setS(k,v){if(k.startsWith('vol.'))ST.vol[k.slice(4)]=v;else ST[k]=v;dirty();applySettings();}
 function settingsScreen(){const T=UI.setTab;const tabs=[['graphics','Graphics'],['audio','Audio'],['access','Accessibility'],['gameplay','Gameplay'],['keys','Controls'],['data','Data']];let h='';
@@ -163,7 +163,7 @@ function warnThen(fn){if(!ST.flashWarn||SAVE.seenWarn){fn();return;}
 // ---------- settings application ----------
 function applySettings(){const b=document.body,r=document.documentElement.style;r.setProperty('--ui',ST.uiScale);r.setProperty('--txt',ST.textScale);document.documentElement.style.fontSize=(15*ST.uiScale*ST.textScale)+'px';
   ['amber','ice','acid'].forEach(s=>b.classList.toggle('skin-'+s,SAVE.skin===s));b.classList.toggle('cb',!!ST.colorBlind);$('fps').classList.toggle('hidden',!ST.showFps);
-  if(typeof G!=='undefined'&&G.R){if(ST.quality!=='auto')G.quality=+ST.quality;if(ST.perfMode)G.quality=Math.min(G.quality,0.55);applyDpr();}setVolumes();ytVol&&ytVol();}
+  if(typeof G!=='undefined'&&G.R){if(ST.quality!=='auto')G.quality=+ST.quality;if(ST.perfMode)G.quality=Math.min(G.quality,0.55);applyDpr();}setVolumes();ytVol&&ytVol();if(typeof applyUiMode==='function')applyUiMode();}
 // ---------- screen event delegation ----------
 function screenInput(){const sc=$('scard');
   sc.addEventListener('click',e=>{const el=e.target.closest('[data-u]');if(!el)return;const f=UA_[el.dataset.u];if(f){uiClick();f(el.dataset.v,el);}});
@@ -180,7 +180,8 @@ function hudInput(){$('bMenu').onclick=()=>{uiClick();pauseScreen();};$('bCam').
   $('bBack').onclick=()=>{if(!SES.scored&&TR&&!TR.yt)transportSeek(Math.max(0,songPos()-8*TR.bar));};$('bFwd').onclick=()=>{if(!SES.scored&&TR&&!TR.yt)transportSeek(songPos()+8*TR.bar);};
   const v=$('vol');v.value=ST.vol.music;v.oninput=()=>{ST.vol.music=+v.value;dirty();setVolumes();ytVol();};
   $('bRec').onclick=()=>toggleRec();$('helpCap').onclick=()=>setHelpMode(false);
-  $('tut').addEventListener('click',e=>{if(e.target.dataset.tt){if(TUT.i>=TUT_STEPS.length-1){TUT.on=false;tutShow();}else{TUT.i++;tutShow();}}});
+  $('tut').addEventListener('click',e=>{const k=e.target.dataset.tt;if(!k)return;const SS=tutSteps();if(k==='menu'){TUT.on=false;tutShow();menuScreen();return;}if(k==='end'){TUT.on=false;tutShow();toast('Tutorial closed – replay it from the menu any time');return;}if(TUT.i>=SS.length-1||k==='close'){TUT.on=false;tutShow();}else{TUT.i++;tutShow();}});
+  Bus.on('pro',m=>tutEv('pro',m));
   // help mode: intercept taps on anything with data-help
   document.addEventListener('click',e=>{if(!document.body.classList.contains('helpmode'))return;if(e.target.closest('#helpCap'))return;const h=e.target.closest('[data-help]');if(h){e.preventDefault();e.stopPropagation();$('helpCap').textContent='ℹ '+h.dataset.help+'  (tap here to exit help mode)';}},true);
   document.addEventListener('pointerdown',e=>{if(document.body.classList.contains('clean')&&!e.target.closest('#screen,#modal')){document.body.classList.remove('clean');e.stopPropagation();}},true);
@@ -201,6 +202,7 @@ function hudTick(dt){if(!SES||!TR)return;const now=realNow(),bp=beatPos(),fr=bp-
     if(nm&&nm.m.kind==='drop'&&nm.bars<=4)msg=(pyro&&!FXS.armed?'Drop coming: ARM the pyro now. ':'')+'Go dark or minimal, then hit FLASH / FLAMES on the drop!';
     else if(sec&&sec.t==='drop'&&bp-sec.a*4<8)msg='DROP! Fire your effects on the beat.';else if(sec&&sec.t==='break')msg='Breakdown: calm colours, slow movement, no pyro.';else if(sec&&sec.t==='build')msg='Build-up: raise intensity and speed, add strobes near the end.';}
   sg.textContent=msg;sg.classList.toggle('hidden',!msg);
+  simTick();const bh=$('bottom').offsetHeight;if(bh&&bh!==UI.botH){UI.botH=bh;document.documentElement.style.setProperty('--botH',bh+'px');}
   if(ST.showFps)$('fps').textContent=(G.fps||0).toFixed(0)+' fps · q'+G.quality.toFixed(2);
   const sc=!!SES.scored;$('bBack').classList.toggle('hidden',sc||TR.yt);$('bFwd').classList.toggle('hidden',sc||TR.yt);$('bRec').classList.toggle('hidden',SES.mode!=='free');}
 // ---------- keyboard ----------
@@ -223,4 +225,4 @@ function keyAct(a,down){if(!down){padAct(a,false);return;}const tabs={lights:'li
 const GP={prev:[]};
 function gamepadTick(){if(!SES||UI.scr||!navigator.getGamepads)return;let p=null;try{p=[...navigator.getGamepads()].find(x=>x);}catch(e){}if(!p)return;const map={0:'flash',1:'blackout',2:'go',3:'flames',4:'camP',5:'cam',9:'menu'};
   p.buttons.forEach((b,i)=>{const was=GP.prev[i],is=b.pressed;GP.prev[i]=is;const a=map[i];if(!a||was===is)return;if(a==='menu'){if(is)pauseScreen();return;}if(a==='camP'||a==='cam'){if(is)camNext();return;}keyAct(a,is);});}
-function uiInit(){screenInput();hudInput();keyInput();conInput();buildPads();tlInput();ytCtlBuild();applySettings();}
+function uiInit(){screenInput();hudInput();keyInput();conInput();buildPads();tlInput();ytCtlBuild();applySettings();simpleInit();}

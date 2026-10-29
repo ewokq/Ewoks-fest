@@ -11,7 +11,7 @@ for(const f of files){let s=fs.readFileSync(T+'/examples/jsm/'+f,'utf8');
   s=s.replace(/export\s*\{[^}]*\};?/g,'');
   body+='\n// ---- '+f+'\n'+s;}
 const post='/* three.js r160 examples/jsm postprocessing (MIT) */\nwindow.POST=(function(){"use strict";const {'+[...names].join(',')+'}=THREE;\n'+body+'\nreturn {EffectComposer,RenderPass,UnrealBloomPass,OutputPass};})();';
-const MODS=['core','data','audio','yt','scene','fixtures','led','sfx','crowd','dj','show','score','camera','console','ui','main'];
+const MODS=['core','data','audio','yt','scene','fixtures','led','sfx','crowd','dj','show','score','camera','console','ui','simple','main'];
 const game='(function(){"use strict";\n'+MODS.map(m=>'// ===================== '+m+'.js =====================\n'+fs.readFileSync(path.join(__dirname,m+'.js'),'utf8')).join('\n')+'\n})();';
 fs.writeFileSync(path.join(__dirname,'..','game.bundle.js'),game);
 let html=fs.readFileSync(path.join(__dirname,'template.html'),'utf8');

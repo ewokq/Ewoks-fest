@@ -193,6 +193,25 @@ function analyse(dt){let an=null;if(TR&&TR.yt){if(AB.an){an=AB.an;AN.src='mic';}
 function crowdLevel(e,dt){if(!A.ctx)return;const t=A.ctx.currentTime;if(A.cheerUntil&&t<A.cheerUntil)return;A.crowdG.gain.setTargetAtTime(0.015+0.12*e*e,t,0.5);}
 function crowdCheer(amt){if(!A.ctx)return;const t=A.ctx.currentTime,g=A.crowdG.gain;A.cheerUntil=t+1.1;g.cancelScheduledValues(t);g.setValueAtTime(g.value,t);g.linearRampToValueAtTime(0.06+0.3*amt,t+0.15);g.setTargetAtTime(0.03,t+0.7,0.7);
   for(let k=0;k<4;k++)tone(t+rnd(0,0.25),'sawtooth',rnd(500,900),0.5,0.008*amt,A.crowdBus,0.08,rnd(700,1300));}
+// v2.1 procedural crowd voices: woos/screams, whistles, ensemble claps (build-ups) and a roar on drops, scaling with crowd energy
+const CRA={t:0,lastClap:0};
+function crPan(){const c=A.ctx;if(!c.createStereoPanner)return A.crowdBus;const p=c.createStereoPanner();p.pan.value=rnd(-0.85,0.85);p.connect(A.crowdBus);return p;}
+function crowdWoo(t,amt){const c=A.ctx,o=c.createOscillator(),f=c.createBiquadFilter(),g=c.createGain(),f0=Math.random()<0.5?rnd(420,620):rnd(260,380),d=rnd(0.35,0.9);
+  o.type='sawtooth';o.frequency.setValueAtTime(f0,t);o.frequency.linearRampToValueAtTime(f0*rnd(1.35,1.7),t+d*0.35);o.frequency.linearRampToValueAtTime(f0*rnd(0.9,1.1),t+d);
+  f.type='bandpass';f.frequency.setValueAtTime(rnd(900,1500),t);f.Q.value=2.2;env(g,t,0.06,0.022*amt,d);o.connect(f);f.connect(g);g.connect(crPan());o.start(t);o.stop(t+d+0.2);}
+function crowdWhistle(t,amt){const c=A.ctx,o=c.createOscillator(),g=c.createGain(),f0=rnd(2100,2900),wolf=Math.random()<0.5;o.type='sine';o.frequency.setValueAtTime(f0,t);
+  if(wolf){o.frequency.exponentialRampToValueAtTime(f0*1.35,t+0.16);o.frequency.setValueAtTime(f0*0.95,t+0.3);o.frequency.exponentialRampToValueAtTime(f0*1.3,t+0.45);o.frequency.exponentialRampToValueAtTime(f0*0.7,t+0.75);}
+  else{const lfo=c.createOscillator(),lg=c.createGain();lfo.frequency.value=rnd(5,8);lg.gain.value=60;lfo.connect(lg);lg.connect(o.frequency);lfo.start(t);lfo.stop(t+0.9);}
+  env(g,t,0.03,0.012*amt,wolf?0.75:0.8);o.connect(g);g.connect(crPan());o.start(t);o.stop(t+1);}
+function crowdClaps(t,amt){const n=Math.round(5+7*amt);for(let k=0;k<n;k++)noiseHit(t+rnd(0,0.035),0.04,'bandpass',rnd(1100,2000),0.9,0.05*amt/Math.sqrt(n)*2.2,A.crowdBus);}
+function crowdRoar(amt){if(!A.ctx||A.ctx.state!=='running')return;const t=A.ctx.currentTime+0.02;noiseHit(t,2.6,'bandpass',750,0.55,0.32*amt,A.crowdBus,0.12);noiseHit(t,1.8,'highpass',2500,0.5,0.06*amt,A.crowdBus,0.08);
+  for(let k=0;k<10;k++)crowdWoo(t+rnd(0,1.4),amt);for(let k=0;k<4;k++)crowdWhistle(t+rnd(0.1,1.6),amt);crowdCheer(Math.min(1,amt+0.2));}
+function crowdAudioTick(dt,o){if(!A.ctx||A.ctx.state!=='running'||!o.playing)return;const t=A.ctx.currentTime,e=clamp(o.e,0,1),sec=o.sec;
+  const rate=(sec==='drop'||sec==='peak'?3.2:sec==='build'?1.4:sec==='break'?0.35:sec==='intro'||sec==='outro'?0.4:0.9)*e*e*(0.6+(o.size||0.5));
+  if(Math.random()<rate*dt)crowdWoo(t+0.01,0.6+e*0.6);if(Math.random()<rate*dt*0.35)crowdWhistle(t+0.01,0.6+e*0.5);}
+Bus.on('mus',(k,v)=>{if(!A.ctx||!SES)return;if(k==='drop')crowdRoar(clamp(ENG.e*1.2,0.4,1));
+  else if(k==='kick'&&curSec()==='build'&&ENG.e>0.25){const t=A.ctx.currentTime+0.005;if(t-CRA.lastClap>0.2){CRA.lastClap=t;crowdClaps(t,clamp(ENG.e*1.3,0.3,1));}}});
+Bus.on('fx',k=>{if(!A.ctx||A.ctx.state!=='running')return;const t=A.ctx.currentTime+0.15,n=k==='fireworks'||k==='flames'?4:2;for(let i=0;i<n;i++)crowdWoo(t+rnd(0,0.4),0.8);if(k==='fireworks'||k==='confetti')crowdWhistle(t+0.2,0.8);});
 function setAmbience(e){if(!A.ctx)return;const t=A.ctx.currentTime;A.ambF.type=e.rain?'highpass':'lowpass';A.ambF.frequency.setTargetAtTime(e.rain?2500:(e.outdoor?380:180),t,0.2);A.ambG.gain.setTargetAtTime(e.rain?0.09:(e.outdoor?0.04:0.02),t,0.4);}
 function sfx(id,amt){if(!A.ctx||A.ctx.state!=='running')return;const t=A.ctx.currentTime+0.005,D=A.fxBus;amt=amt==null?1:amt;
   switch(id){
@@ -209,5 +228,11 @@ function sfx(id,amt){if(!A.ctx||A.ctx.state!=='running')return;const t=A.ctx.cur
     case 'deny':tone(t,'square',180,0.15,0.05,A.uiBus);break;
     case 'click':tone(t,'triangle',1400,0.025,0.03,A.uiBus,0.001);break;
     case 'go':tone(t,'sine',1046,0.12,0.05,A.uiBus,0.002);tone(t+0.05,'sine',1568,0.12,0.04,A.uiBus,0.002);break;
+    case 'ok':tone(t,'sine',880,0.1,0.05,A.uiBus,0.002);tone(t+0.07,'sine',1320,0.14,0.05,A.uiBus,0.002);break;
+    case 'cheer':tone(t,'triangle',784,0.15,0.05,A.uiBus);tone(t+0.1,'triangle',1046,0.15,0.05,A.uiBus);tone(t+0.2,'triangle',1568,0.3,0.05,A.uiBus);break;
+    case 'perfect':tone(t,'sine',1568,0.09,0.045*amt,A.uiBus,0.002);tone(t+0.05,'sine',2349,0.16,0.04*amt,A.uiBus,0.002);break;
+    case 'great':tone(t,'sine',1175,0.1,0.035*amt,A.uiBus,0.002);break;
+    case 'combo':tone(t,'triangle',1046,0.08,0.04,A.uiBus);tone(t+0.06,'triangle',1318,0.08,0.04,A.uiBus);tone(t+0.12,'triangle',1568,0.16,0.045,A.uiBus);break;
+    case 'dropok':tone(t,'sawtooth',523,0.12,0.03,A.uiBus,0.002);tone(t+0.08,'sawtooth',784,0.12,0.03,A.uiBus,0.002);tone(t+0.16,'sawtooth',1046,0.3,0.035,A.uiBus,0.002);break;
     case 'cash':tone(t,'triangle',1568,0.12,0.06,A.uiBus);tone(t+0.09,'triangle',2093,0.2,0.06,A.uiBus);break;}}
 function uiClick(){sfx('click');}
