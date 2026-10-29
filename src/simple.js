@@ -86,7 +86,8 @@ function tutPtrTick(){const p=$('tutPtr');if(!p)return;const sel=tutTarget();con
 function welcomeScreen(){scr(`<div class="welcome"><div class="wIcon">🎛️🔥🎊</div><h1>Welcome to FESTIVAL CONTROL</h1><p>You run the lights, lasers, LED wall and pyro for a huge festival crowd. Hit the big pads to the music and make the crowd go wild.</p>
   <button class="playBig" data-u="firstShow">▶ Start my first show<span>Guided · about 2 minutes</span></button><button class="linkBtn" data-u="skipWelcome">Skip – go to the menu</button></div>`,'wel');}
 UA_.firstShow=()=>{SAVE.welcomed=true;dirty();UA_.tutorial();};UA_.skipWelcome=()=>{SAVE.welcomed=true;dirty();persist(false);menuScreen();};
-UA_.play=()=>{const pool=TRACKS.filter(t=>t.id!=='tutorial'&&!t.yt),t=pick(pool),v=VENUES[4];SAVE.lastTrack=t.id;dirty();
+let QNEXT=null;const quickNext=()=>{if(!QNEXT||!TMAP[QNEXT]){const pool=REAL_TRACKS.filter(t=>!SES||t.id!==TR.id);QNEXT=pick(pool).id;}preloadTrack(QNEXT);return QNEXT;};
+UA_.play=()=>{const t=TMAP[quickNext()],v=VENUES[4];QNEXT=null;setTimeout(quickNext,6000);SAVE.lastTrack=t.id;dirty();
   warnThen(()=>startSession({mode:'show',venue:4,env:'night',track:t.id,dj:null,style:'energetic',crowdSize:'massive',auto:'assisted',short:true,scored:true,rig:v.rig,fx:v.fx}));};
 // ---- new-version check (cache busting for iPhone home-screen / Safari caches) ----
 function updCheck(){if(!/^https?:/.test(location.protocol)||!window.fetch)return;fetch(location.pathname+'?v='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{const m=/const VERSION='(v[\d.]+)'/.exec(t||'');

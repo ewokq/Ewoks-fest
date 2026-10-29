@@ -1,5 +1,8 @@
 // Core: utilities, device, event bus, versioned save system, settings, key bindings, command log (drives replay + scoring)
-const VERSION='v2.1';
+const VERSION='v2.2';
+// seedable RNG: shadows Math inside the bundle so a challenge seed replays the identical show
+const RNG={f:globalThis.Math.random};const Math=Object.create(globalThis.Math,{random:{value:()=>RNG.f()}});
+function rngSeed(s){RNG.f=s?seeded(s):globalThis.Math.random;}
 const SAVE_VERSION=1;
 const params=new URLSearchParams(location.search);
 const UA=navigator.userAgent||'';
@@ -50,7 +53,7 @@ function defBindings(){const b={};ACTIONS.forEach(a=>b[a[0]]=a[2]);return b;}
 // ---- versioned save ----
 function freshSave(){return {v:SAVE_VERSION,created:Date.now(),settings:JSON.parse(JSON.stringify(DEF_SETTINGS)),bind:defBindings(),
   career:{credits:400,xp:0,rep:0,venue:0,best:{},missions:{},challenges:{},shows:0},owned:[],skin:'default',
-  groups:[],presets:[],cues:[],programs:{},ledPresets:[],macros:[],festivals:[],swatches:['#ff2bd6','#20e3ff','#ffffff','#ffb300'],favorites:[],tutorialDone:false,seenWarn:false,welcomed:false,lastTrack:'bigroom'};}
+  groups:[],presets:[],cues:[],programs:{},ledPresets:[],macros:[],festivals:[],swatches:['#ff2bd6','#20e3ff','#ffffff','#ffb300'],favorites:[],tutorialDone:false,seenWarn:false,welcomed:false,lastTrack:'bigroom',mp:{name:'',lb:{}}};}
 let SAVE, SAVE_NOTE='';
 function sanitizeSave(s){
   const f=freshSave(); if(!s||typeof s!=='object'||Array.isArray(s)) throw new Error('not an object');

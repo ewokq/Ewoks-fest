@@ -1,0 +1,1049 @@
+[
+{
+"id": "mouse",
+"g": "progressive",
+"genre": "Electro Swing House",
+"title": "Mouse in my House ft. Karl Hayden, Adam Herne",
+"artist": "Reiswerk",
+"file": "music/mouse.mp3",
+"page": "https://ccmixter.org/files/Reiswerk/52740",
+"lic": "CC BY 3.0",
+"lic_url": "https://creativecommons.org/licenses/by/3.0/",
+"samples": [
+[
+"mouse in my house",
+"stellarartwars",
+"https://ccmixter.org/files/stellarartwars/52279"
+]
+],
+"bpm": 125.0,
+"off": 1.751,
+"dur": 236.23,
+"bars": 122,
+"secs": [
+[
+0,
+10,
+"intro",
+"INTRO"
+],
+[
+10,
+18,
+"groove",
+"GROOVE"
+],
+[
+18,
+27,
+"break",
+"BREAKDOWN"
+],
+[
+27,
+31,
+"groove",
+"GROOVE"
+],
+[
+31,
+43,
+"break",
+"BREAKDOWN"
+],
+[
+43,
+72,
+"groove",
+"GROOVE"
+],
+[
+72,
+80,
+"build",
+"BUILD-UP"
+],
+[
+80,
+88,
+"drop",
+"DROP"
+],
+[
+88,
+91,
+"break",
+"BREAKDOWN"
+],
+[
+91,
+104,
+"main",
+"MAIN GROOVE"
+],
+[
+104,
+112,
+"build",
+"BUILD-UP"
+],
+[
+112,
+120,
+"drop",
+"MAIN DROP"
+],
+[
+120,
+122,
+"outro",
+"OUTRO"
+]
+],
+"drops": [
+155.35,
+216.79
+],
+"short": [
+64,
+122
+],
+"dj": "kito",
+"note": ""
+},
+{
+"id": "mind",
+"g": "techhouse",
+"genre": "Electro / Nu-Disco House",
+"title": "Mind (Robbero Mix)",
+"artist": "Robbero",
+"file": "music/mind.mp3",
+"page": "https://ccmixter.org/files/Robbero/50420",
+"lic": "CC BY 3.0",
+"lic_url": "https://creativecommons.org/licenses/by/3.0/",
+"samples": [
+[
+"Mind",
+"Donnie Ozone",
+"https://ccmixter.org/files/donnieozone/49919"
+]
+],
+"bpm": 126.01,
+"off": 1.85,
+"dur": 175.31,
+"bars": 91,
+"secs": [
+[
+0,
+7,
+"build",
+"BUILD-UP"
+],
+[
+7,
+15,
+"drop",
+"DROP"
+],
+[
+15,
+27,
+"peak",
+"PEAK"
+],
+[
+27,
+39,
+"break",
+"BREAKDOWN"
+],
+[
+39,
+47,
+"build",
+"BUILD-UP"
+],
+[
+47,
+55,
+"drop",
+"MAIN DROP"
+],
+[
+55,
+65,
+"peak",
+"PEAK"
+],
+[
+65,
+73,
+"build",
+"BUILD-UP"
+],
+[
+73,
+81,
+"drop",
+"DROP 3"
+],
+[
+81,
+89,
+"peak",
+"PEAK"
+],
+[
+89,
+91,
+"outro",
+"OUTRO"
+]
+],
+"drops": [
+15.18,
+91.37,
+140.89
+],
+"short": [
+0,
+63
+],
+"dj": "lumen",
+"note": ""
+},
+{
+"id": "again",
+"g": "bigroom",
+"genre": "Big Room EDM",
+"title": "Again, Once Again",
+"artist": "fluffy",
+"file": "music/again.mp3",
+"page": "https://ccmixter.org/files/fluffy/53739",
+"lic": "CC BY 3.0",
+"lic_url": "https://creativecommons.org/licenses/by/3.0/",
+"samples": [
+[
+"Once Again (Original RumbleStep Mix)",
+"cdk",
+"https://ccmixter.org/files/cdk/43797"
+]
+],
+"bpm": 128.075,
+"off": 1.837,
+"dur": 188.61,
+"bars": 99,
+"secs": [
+[
+0,
+7,
+"build",
+"BUILD-UP"
+],
+[
+7,
+15,
+"drop",
+"DROP"
+],
+[
+15,
+39,
+"peak",
+"PEAK"
+],
+[
+39,
+83,
+"main",
+"MAIN GROOVE"
+],
+[
+83,
+91,
+"break",
+"BREAKDOWN"
+],
+[
+91,
+95,
+"main",
+"MAIN GROOVE"
+],
+[
+95,
+99,
+"outro",
+"OUTRO"
+]
+],
+"drops": [
+14.95
+],
+"short": [
+0,
+47
+],
+"dj": "novak",
+"note": ""
+},
+{
+"id": "breakers",
+"g": "mainstage",
+"genre": "Electro House",
+"title": "Breakers Delight",
+"artist": "awkward_tom",
+"file": "music/breakers.mp3",
+"page": "https://ccmixter.org/files/awkward_tom/36183",
+"lic": "CC BY 3.0",
+"lic_url": "https://creativecommons.org/licenses/by/3.0/",
+"samples": [
+[
+"Brake Dance",
+"Andres Franco",
+"https://ccmixter.org/files/andrewfranco/33929"
+]
+],
+"bpm": 130.08,
+"off": 1.726,
+"dur": 238.73,
+"bars": 128,
+"secs": [
+[
+0,
+5,
+"build",
+"BUILD-UP"
+],
+[
+5,
+13,
+"drop",
+"DROP"
+],
+[
+13,
+27,
+"peak",
+"PEAK"
+],
+[
+27,
+35,
+"build",
+"BUILD-UP"
+],
+[
+35,
+43,
+"drop",
+"MAIN DROP"
+],
+[
+43,
+67,
+"peak",
+"PEAK"
+],
+[
+67,
+71,
+"main",
+"MAIN GROOVE"
+],
+[
+71,
+78,
+"break",
+"BREAKDOWN"
+],
+[
+78,
+86,
+"build",
+"BUILD-UP"
+],
+[
+86,
+94,
+"drop",
+"DROP 3"
+],
+[
+94,
+118,
+"peak",
+"PEAK"
+],
+[
+118,
+125,
+"main",
+"MAIN GROOVE"
+],
+[
+125,
+128,
+"outro",
+"OUTRO"
+]
+],
+"drops": [
+10.95,
+66.3,
+160.4
+],
+"short": [
+0,
+51
+],
+"dj": "atlas",
+"note": ""
+},
+{
+"id": "puck",
+"g": "basshouse",
+"genre": "Complextro",
+"title": "Suck My Puck",
+"artist": "cdk",
+"file": "music/puck.mp3",
+"page": "https://ccmixter.org/files/cdk/48598",
+"lic": "CC BY 3.0",
+"lic_url": "https://creativecommons.org/licenses/by/3.0/",
+"samples": [],
+"bpm": 130.045,
+"off": 0.148,
+"dur": 243.75,
+"bars": 131,
+"secs": [
+[
+0,
+26,
+"intro",
+"INTRO"
+],
+[
+26,
+40,
+"break",
+"BREAKDOWN"
+],
+[
+40,
+48,
+"build",
+"BUILD-UP"
+],
+[
+48,
+56,
+"drop",
+"DROP"
+],
+[
+56,
+80,
+"peak",
+"PEAK"
+],
+[
+80,
+88,
+"break",
+"BREAKDOWN"
+],
+[
+88,
+96,
+"build",
+"BUILD-UP"
+],
+[
+96,
+104,
+"drop",
+"MAIN DROP"
+],
+[
+104,
+128,
+"peak",
+"PEAK"
+],
+[
+128,
+131,
+"outro",
+"OUTRO"
+]
+],
+"drops": [
+88.73,
+177.32
+],
+"short": [
+32,
+112
+],
+"dj": "novak",
+"note": ""
+},
+{
+"id": "normal",
+"g": "peaktechno",
+"genre": "Techno",
+"title": "Turning Into Normal (What Once Felt Strange)",
+"artist": "SackJo22",
+"file": "music/normal.mp3",
+"page": "https://ccmixter.org/files/SackJo22/43036",
+"lic": "CC BY 3.0",
+"lic_url": "https://creativecommons.org/licenses/by/3.0/",
+"samples": [
+[
+"Analog By Nature - Are You Ready",
+"AnalogByNature",
+"https://ccmixter.org/files/AnalogByNature/41473"
+]
+],
+"bpm": 129.97,
+"off": 1.533,
+"dur": 355.68,
+"bars": 191,
+"secs": [
+[
+0,
+23,
+"intro",
+"INTRO"
+],
+[
+23,
+31,
+"build",
+"BUILD-UP"
+],
+[
+31,
+39,
+"drop",
+"DROP"
+],
+[
+39,
+63,
+"peak",
+"PEAK"
+],
+[
+63,
+96,
+"main",
+"MAIN GROOVE"
+],
+[
+96,
+125,
+"break",
+"BREAKDOWN"
+],
+[
+125,
+188,
+"main",
+"MAIN GROOVE"
+],
+[
+188,
+191,
+"outro",
+"OUTRO"
+]
+],
+"drops": [
+58.78
+],
+"short": [
+15,
+71
+],
+"dj": "vanta",
+"note": ""
+},
+{
+"id": "mine",
+"g": "trance",
+"genre": "Trance",
+"title": "Mine + Yours = Ours",
+"artist": "George_Ellinas",
+"file": "music/mine.mp3",
+"page": "https://ccmixter.org/files/George_Ellinas/28107",
+"lic": "CC BY 3.0",
+"lic_url": "https://creativecommons.org/licenses/by/3.0/",
+"samples": [
+[
+"Mine + Yours = Ours",
+"Madam Snowflake",
+"https://ccmixter.org/files/snowflake/27820"
+]
+],
+"bpm": 138.025,
+"off": 1.697,
+"dur": 372.24,
+"bars": 213,
+"secs": [
+[
+0,
+1,
+"intro",
+"INTRO"
+],
+[
+1,
+41,
+"groove",
+"GROOVE"
+],
+[
+41,
+49,
+"build",
+"BUILD-UP"
+],
+[
+49,
+59,
+"drop",
+"DROP"
+],
+[
+59,
+66,
+"break",
+"BREAKDOWN"
+],
+[
+66,
+70,
+"main",
+"MAIN GROOVE"
+],
+[
+70,
+81,
+"break",
+"BREAKDOWN"
+],
+[
+81,
+105,
+"main",
+"MAIN GROOVE"
+],
+[
+105,
+113,
+"build",
+"BUILD-UP"
+],
+[
+113,
+121,
+"drop",
+"MAIN DROP"
+],
+[
+121,
+128,
+"peak",
+"PEAK"
+],
+[
+128,
+149,
+"break",
+"BREAKDOWN"
+],
+[
+149,
+153,
+"main",
+"MAIN GROOVE"
+],
+[
+153,
+157,
+"break",
+"BREAKDOWN"
+],
+[
+157,
+165,
+"build",
+"BUILD-UP"
+],
+[
+165,
+173,
+"drop",
+"DROP 3"
+],
+[
+173,
+195,
+"peak",
+"PEAK"
+],
+[
+195,
+201,
+"break",
+"BREAKDOWN"
+],
+[
+201,
+204,
+"main",
+"MAIN GROOVE"
+],
+[
+204,
+213,
+"outro",
+"OUTRO"
+]
+],
+"drops": [
+86.9,
+198.18,
+288.6
+],
+"short": [
+33,
+89
+],
+"dj": "lumen",
+"note": ""
+},
+{
+"id": "haunted",
+"g": "dubstep",
+"genre": "Dubstep",
+"title": "The Haunted Hotel",
+"artist": "SackJo22",
+"file": "music/haunted.mp3",
+"page": "https://ccmixter.org/files/SackJo22/41323",
+"lic": "CC BY 3.0",
+"lic_url": "https://creativecommons.org/licenses/by/3.0/",
+"samples": [
+[
+"Karma 88 BPM Ft. Geechbeatz.com",
+"coruscate",
+"https://ccmixter.org/files/Coruscate/35585"
+],
+[
+"The Secret Of Life (94 BPM) Ft. QBBeats.com",
+"coruscate",
+"https://ccmixter.org/files/Coruscate/35586"
+],
+[
+"Make You Stomp",
+"coruscate",
+"https://ccmixter.org/files/Coruscate/39550"
+],
+[
+"Kaleidoscopic Visions Dubby Mix",
+"coruscate",
+"https://ccmixter.org/files/Coruscate/41032"
+]
+],
+"bpm": 140.06,
+"off": 1.325,
+"dur": 247.13,
+"bars": 143,
+"secs": [
+[
+0,
+1,
+"intro",
+"INTRO"
+],
+[
+1,
+9,
+"build",
+"BUILD-UP"
+],
+[
+9,
+17,
+"drop",
+"DROP"
+],
+[
+17,
+31,
+"peak",
+"PEAK"
+],
+[
+31,
+39,
+"build",
+"BUILD-UP"
+],
+[
+39,
+47,
+"drop",
+"MAIN DROP"
+],
+[
+47,
+71,
+"peak",
+"PEAK"
+],
+[
+71,
+79,
+"build",
+"BUILD-UP"
+],
+[
+79,
+87,
+"drop",
+"DROP 3"
+],
+[
+87,
+105,
+"peak",
+"PEAK"
+],
+[
+105,
+113,
+"build",
+"BUILD-UP"
+],
+[
+113,
+121,
+"drop",
+"DROP 4"
+],
+[
+121,
+132,
+"peak",
+"PEAK"
+],
+[
+132,
+143,
+"outro",
+"OUTRO"
+]
+],
+"drops": [
+16.75,
+68.15,
+136.7,
+194.96
+],
+"short": [
+0,
+55
+],
+"dj": "vanta",
+"note": ""
+},
+{
+"id": "drive",
+"g": "dnb",
+"genre": "Drum & Bass",
+"title": "Drive",
+"artist": "AlexBeroza",
+"file": "music/drive.mp3",
+"page": "https://ccmixter.org/files/AlexBeroza/43098",
+"lic": "CC BY 3.0",
+"lic_url": "https://creativecommons.org/licenses/by/3.0/",
+"samples": [
+[
+"Drive (Original RumbleStep Mix)",
+"cdk",
+"https://ccmixter.org/files/cdk/43076"
+]
+],
+"bpm": 165.0,
+"off": 1.459,
+"dur": 190.59,
+"bars": 130,
+"secs": [
+[
+0,
+13,
+"intro",
+"INTRO"
+],
+[
+13,
+32,
+"groove",
+"GROOVE"
+],
+[
+32,
+40,
+"break",
+"BREAKDOWN"
+],
+[
+40,
+62,
+"groove",
+"GROOVE"
+],
+[
+62,
+70,
+"build",
+"BUILD-UP"
+],
+[
+70,
+78,
+"drop",
+"DROP"
+],
+[
+78,
+102,
+"peak",
+"PEAK"
+],
+[
+102,
+128,
+"main",
+"MAIN GROOVE"
+],
+[
+128,
+130,
+"outro",
+"OUTRO"
+]
+],
+"drops": [
+103.28
+],
+"short": [
+54,
+110
+],
+"dj": "mira",
+"note": ""
+},
+{
+"id": "party",
+"g": "futurerave",
+"genre": "Hardstyle",
+"title": "Keep The Party Rocking",
+"artist": "F_Fact",
+"file": "music/party.mp3",
+"page": "https://ccmixter.org/files/F_Fact/46526",
+"lic": "CC BY 3.0",
+"lic_url": "https://creativecommons.org/licenses/by/3.0/",
+"samples": [
+[
+"Power Music",
+"Donnie Ozone",
+"https://ccmixter.org/files/donnieozone/46066"
+]
+],
+"bpm": 150.03,
+"off": 1.559,
+"dur": 248.93,
+"bars": 154,
+"secs": [
+[
+0,
+16,
+"groove",
+"GROOVE"
+],
+[
+16,
+23,
+"break",
+"BREAKDOWN"
+],
+[
+23,
+31,
+"build",
+"BUILD-UP"
+],
+[
+31,
+39,
+"drop",
+"DROP"
+],
+[
+39,
+63,
+"peak",
+"PEAK"
+],
+[
+63,
+96,
+"main",
+"MAIN GROOVE"
+],
+[
+96,
+104,
+"build",
+"BUILD-UP"
+],
+[
+104,
+112,
+"drop",
+"MAIN DROP"
+],
+[
+112,
+136,
+"peak",
+"PEAK"
+],
+[
+136,
+152,
+"main",
+"MAIN GROOVE"
+],
+[
+152,
+154,
+"outro",
+"OUTRO"
+]
+],
+"drops": [
+51.15,
+167.93
+],
+"short": [
+15,
+71
+],
+"dj": "atlas",
+"note": ""
+}
+]

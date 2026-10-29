@@ -9,6 +9,7 @@ function resetShowState(){const d=JSON.parse(JSON.stringify(SHOW_DEF));for(const
 function crowdCount(cfg){if(cfg.crowdN)return cfg.crowdN;const c=CROWD_SIZES.find(x=>x[0]===cfg.crowdSize);return c?c[2]:2500;}
 function buildWorld(cfg){const V=VENUES[cfg.venue]||VENUES[4];buildStage(V,cfg.env);const A=G.anch;buildRig(cfg.rig||V.rig,A);buildFXDevices(cfg.fx||V.fx,A);buildCrowd(crowdCount(cfg)*(STYLES.find(s=>s[0]===cfg.style)?1:1),A);return V;}
 function startSession(cfg){try{initAudio();}catch(e){}hideScr();if(SES)endSession(true);
+  if(!cfg.seed)cfg.seed=((globalThis.Math.random()*4294967295)>>>0)||1;rngSeed(cfg.seed);if(!cfg.diff&&cfg.scored)cfg.diff=cfgDiff(cfg);
   const V=VENUES[cfg.venue]||VENUES[4];
   if(cfg.track==='yt')loadYT();else loadTrack(cfg.track,{short:!!cfg.short});
   buildWorld(cfg);const dj=cfg.dj?DJMAP[cfg.dj]:(TR.dj&&TR.dj.id?TR.dj:{name:'YOU',col:'#ff2bd6',energy:0.9,id:'you'});buildDJ(dj,G.anch);
@@ -18,7 +19,8 @@ function startSession(cfg){try{initAudio();}catch(e){}hideScr();if(SES)endSessio
   setAmbience(G.env);scoreReset(SES.scored);ENG.e=0.35;CMD.rec=SES.scored?{track:TR.id,start:0,log:[]}:null;RUN.replay=null;
   camSet('foh',true);conOpen(false);$('panel').classList.remove('full');CON.progCue=null;CON.tab='lights';$('hud').classList.remove('hidden');document.body.classList.add('insession');
   TUT.on=cfg.mode==='tutorial';TUT.i=0;tutShow();if(cfg.mode==='tutorial')ST.beginner=ST.beginner;
-  transportPlay();toast((SES.scored?'Show: ':'')+TR.title+' @ '+V.name,1800);Bus.emit('session',SES);}
+  transportPlay();toast((SES.scored?'Show: ':'')+TR.title+(TR.artist?' – '+TR.artist:'')+' @ '+V.name,1800);
+  setTimeout(()=>{if(!SES||!TR)return;const k=VENUES.findIndex(v=>v===V),nv=VENUES[k+1];preloadTrack(nv&&nv.track||'');},5000);Bus.emit('session',SES);}
 function endSession(quiet){transportStop();if(TR&&TR.yt){ytPause();abStop();}fxStopAll();FXS.armed=false;CMD.rec=null;RUN.replay=null;SES=null;
   $('hud').classList.add('hidden');conOpen(false);TUT.on=false;tutShow();setHelpMode(false);document.body.classList.remove('insession','clean');if(!quiet)menuScene();}
 function restartSong(){if(!SES)return;RUN.replay=null;if(SES.scored){scoreReset(true);CMD.rec={track:TR.id,start:0,log:[]};}fxStopAll();if(AUTO.mode==='assisted')autoSecI=-1;transportSeek(0);transportPlay();toast('Restarted');}
@@ -63,6 +65,7 @@ function boot(){try{initScene();}catch(e){scr(`<h2>Can't start 3D</h2><p>${esc(e
   // first touch anywhere unlocks audio on iOS
   const un=()=>{try{initAudio();if(A.ctx&&A.ctx.state==='suspended')A.ctx.resume();}catch(e){}};addEventListener('pointerdown',un,{capture:true});addEventListener('keydown',un,{capture:true});
   document.addEventListener('visibilitychange',()=>{if(document.hidden&&SES&&SEQ.playing&&!TR.yt&&!UI.scr)pauseScreen();});
-  if(!SAVE.welcomed&&!SAVE.tutorialDone&&!SAVE.career.shows)welcomeScreen();else menuScreen();RUN.booted=true;requestAnimationFrame(frame);
-  window.__fc={transportPause,SIM,setUiMode,simTick,simHint,simAct,TUT,welcomeScreen,UA_,nextMarker,curSecObj,beatPos,SHOW,CMD,FIX,FXS,SCORE:()=>SCORE,ENG,SEQ,SAVE:()=>SAVE,ST,TR:()=>TR,SES:()=>SES,CRW,DJ,CAM,AN,A,G,CON,UI,LEDRT,AUTO,SEL,YT,computeScore,startSession,finishShow,menuScreen,careerRig,careerFx,transportSeek,songPos,beatPos,ERRORS,persist,UA:UA_,CA,padAct,conOpen,renderPanel,camSet,keyAct,TUT,VERSION,Bus,curSec,liveScore,TRACKS,SHOP,VENUES,secAt,musBar,Store};}
+  try{mpInit();}catch(e){reportError(e,'mp');}
+  if(!chalFromHash()){if(!SAVE.welcomed&&!SAVE.tutorialDone&&!SAVE.career.shows)welcomeScreen();else menuScreen();}RUN.booted=true;requestAnimationFrame(frame);
+  window.__fc={rand:()=>Math.random(),MP,chalEncode,chalDecode,chalUrl,chalFromHash,showPoints,lbRecord,mpName,rngSeed,fnv32,FILE,REAL_TRACKS,songPos,transportSeek,transportPlay,loadTrack,preloadTrack,transportPause,SIM,setUiMode,simTick,simHint,simAct,TUT,welcomeScreen,UA_,nextMarker,curSecObj,beatPos,SHOW,CMD,FIX,FXS,SCORE:()=>SCORE,ENG,SEQ,SAVE:()=>SAVE,ST,TR:()=>TR,SES:()=>SES,CRW,DJ,CAM,AN,A,G,CON,UI,LEDRT,AUTO,SEL,YT,computeScore,startSession,finishShow,menuScreen,careerRig,careerFx,transportSeek,songPos,beatPos,ERRORS,persist,UA:UA_,CA,padAct,conOpen,renderPanel,camSet,keyAct,TUT,VERSION,Bus,curSec,liveScore,TRACKS,SHOP,VENUES,secAt,musBar,Store};}
 boot();

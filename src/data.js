@@ -5,18 +5,18 @@ const chord=(r,q)=>{const iv=q==='m'?[0,3,7]:q==='M'?[0,4,7]:q==='s'?[0,5,7]:[0,
 const PRG=(...a)=>a.map(([r,q])=>chord(r,q));
 // style: kick (std|big|hard|rumble|soft), drums (four|half|break|shuffle|soft), bass (offbeat|roll|reese|wobble|house|pulse|growl|sub), lead (pluck|saw|stab|organ|arp|bell|none)
 const GENRES=[
- {id:'progressive',name:'Progressive House',bpm:126,arr:[8,16,16,16,8,16,16,16,8,8],prog:PRG([33,'m'],[29,'M'],[36,'M'],[31,'M']),st:{kick:'std',drums:'four',bass:'offbeat',lead:'pluck',pad:1},pal:'main',look:'Wide beam fans, soft colour chases, big drop lift'},
- {id:'bigroom',name:'Big Room',bpm:128,arr:[8,8,8,16,8,8,8,16,8,8],prog:PRG([33,'m'],[29,'M'],[36,'M'],[31,'M']),st:{kick:'big',drums:'four',bass:'offbeat',lead:'pluck',pad:.7},pal:'main',look:'Huge strobes, flames on every drop, white flashes'},
- {id:'mainstage',name:'Mainstage EDM',bpm:128,arr:[8,16,8,16,8,16,8,16,8,8],prog:PRG([33,'m'],[29,'M'],[31,'M'],[28,'m']),st:{kick:'big',drums:'four',bass:'house',lead:'saw',pad:.9},pal:'main',look:'Full rig, lasers, confetti finale'},
- {id:'techhouse',name:'Tech House',bpm:125,arr:[16,16,8,16,16,8,8,16,8,8],prog:PRG([33,'m'],[33,'m'],[31,'M'],[33,'m']),st:{kick:'std',drums:'shuffle',bass:'pulse',lead:'stab',pad:.4},pal:'sunset',look:'Groovy chases, pixel rhythm, low strobes'},
- {id:'melodic',name:'Melodic Techno',bpm:122,arr:[16,16,8,16,8,16,8,16,16,8],prog:PRG([33,'m'],[29,'M'],[31,'M'],[28,'m']),st:{kick:'std',drums:'four',bass:'roll',lead:'bell',pad:1.2},pal:'deep',look:'Atmospheric haze, slow sweeps, cinematic LED'},
- {id:'peaktechno',name:'Peak Techno',bpm:132,arr:[16,16,8,16,16,8,8,16,16,8],prog:PRG([33,'m'],[33,'m'],[33,'m'],[31,'M']),st:{kick:'rumble',drums:'four',bass:'pulse',lead:'arp',pad:.5},pal:'mono',look:'Hypnotic white beams, heavy strobe, monochrome'},
- {id:'trance',name:'Trance',bpm:138,arr:[8,16,16,16,8,16,16,16,8,8],prog:PRG([33,'m'],[29,'M'],[31,'M'],[28,'m']),st:{kick:'std',drums:'four',bass:'roll',lead:'arp',pad:1.3},pal:'ice',look:'Laser tunnels, long breakdowns, euphoric lifts'},
- {id:'dnb',name:'Drum & Bass',bpm:174,arr:[16,16,16,24,16,16,16,24,16,8],prog:PRG([31,'m'],[31,'m'],[34,'M'],[29,'M']),st:{kick:'std',drums:'break',bass:'reese',lead:'pluck',pad:.6},pal:'acid',look:'Fast chases, double-time strobes'},
- {id:'dubstep',name:'Dubstep',bpm:140,arr:[8,16,8,16,8,8,8,16,8,8],prog:PRG([29,'m'],[29,'m'],[32,'M'],[27,'M']),st:{kick:'big',drums:'half',bass:'wobble',lead:'none',pad:.6},pal:'inferno',look:'Half-time hits, red/green, heavy pyro'},
- {id:'basshouse',name:'Bass House',bpm:126,arr:[8,16,8,16,8,8,8,16,8,8],prog:PRG([33,'m'],[33,'m'],[36,'M'],[31,'M']),st:{kick:'std',drums:'four',bass:'growl',lead:'organ',pad:.4},pal:'cyber',look:'Punchy blinders, neon colours'},
- {id:'futurerave',name:'Future Rave',bpm:130,arr:[8,16,8,16,8,16,8,16,8,8],prog:PRG([33,'m'],[31,'M'],[29,'M'],[28,'m']),st:{kick:'hard',drums:'four',bass:'offbeat',lead:'saw',pad:1},pal:'cyber',look:'Dark beams, aggressive lasers, glitch LED'},
- {id:'atmospheric',name:'Atmospheric / Cinematic',bpm:100,arr:[8,8,8,8,8,8,8,8,8,8],prog:PRG([33,'m'],[29,'M'],[24,'M'],[31,'M']),st:{kick:'soft',drums:'soft',bass:'sub',lead:'bell',pad:1.6},pal:'deep',look:'Fog, slow fades, gentle sweeps'}];
+ {id:'progressive',name:'Progressive House',bpm:126,arr:[8,16,16,16,8,16,16,16,8,8],prog:PRG([33,'m'],[29,'M'],[36,'M'],[31,'M']),st:{kick:'std',drums:'four',bass:'offbeat',lead:'pluck',pad:1,pump:.75,chords:'ss',vox:'oh'},pal:'main',look:'Wide beam fans, soft colour chases, big drop lift'},
+ {id:'bigroom',name:'Big Room',bpm:128,arr:[8,8,8,16,8,8,8,16,8,8],prog:PRG([33,'m'],[29,'M'],[36,'M'],[31,'M']),st:{kick:'big',drums:'four',bass:'offbeat',lead:'pluck',pad:.7,pump:.8,chords:'ss',vox:'hey'},pal:'main',look:'Huge strobes, flames on every drop, white flashes'},
+ {id:'mainstage',name:'Mainstage EDM',bpm:128,arr:[8,16,8,16,8,16,8,16,8,8],prog:PRG([33,'m'],[29,'M'],[31,'M'],[28,'m']),st:{kick:'big',drums:'four',bass:'house',lead:'saw',pad:.9,pump:.75,chords:'ss',vox:'hey'},pal:'main',look:'Full rig, lasers, confetti finale'},
+ {id:'techhouse',name:'Tech House',bpm:125,arr:[16,16,8,16,16,8,8,16,8,8],prog:PRG([33,'m'],[33,'m'],[31,'M'],[33,'m']),st:{kick:'std',drums:'shuffle',bass:'pulse',lead:'stab',pad:.4,pump:.5,vox:'chop'},pal:'sunset',look:'Groovy chases, pixel rhythm, low strobes'},
+ {id:'melodic',name:'Melodic Techno',bpm:122,arr:[16,16,8,16,8,16,8,16,16,8],prog:PRG([33,'m'],[29,'M'],[31,'M'],[28,'m']),st:{kick:'std',drums:'four',bass:'roll',lead:'bell',pad:1.2,pump:.55,vox:'ah'},pal:'deep',look:'Atmospheric haze, slow sweeps, cinematic LED'},
+ {id:'peaktechno',name:'Peak Techno',bpm:132,arr:[16,16,8,16,16,8,8,16,16,8],prog:PRG([33,'m'],[33,'m'],[33,'m'],[31,'M']),st:{kick:'rumble',drums:'four',bass:'pulse',lead:'arp',pad:.5,pump:.45,acid:1},pal:'mono',look:'Hypnotic white beams, heavy strobe, monochrome'},
+ {id:'trance',name:'Trance',bpm:138,arr:[8,16,16,16,8,16,16,16,8,8],prog:PRG([33,'m'],[29,'M'],[31,'M'],[28,'m']),st:{kick:'std',drums:'four',bass:'roll',lead:'arp',pad:1.3,pump:.8,chords:'gate',vox:'ah'},pal:'ice',look:'Laser tunnels, long breakdowns, euphoric lifts'},
+ {id:'dnb',name:'Drum & Bass',bpm:174,arr:[16,16,16,24,16,16,16,24,16,8],prog:PRG([31,'m'],[31,'m'],[34,'M'],[29,'M']),st:{kick:'std',drums:'break',bass:'reese',lead:'pluck',pad:.6,pump:.5,vox:'yeah'},pal:'acid',look:'Fast chases, double-time strobes'},
+ {id:'dubstep',name:'Dubstep',bpm:140,arr:[8,16,8,16,8,8,8,16,8,8],prog:PRG([29,'m'],[29,'m'],[32,'M'],[27,'M']),st:{kick:'big',drums:'half',bass:'wobble',lead:'none',pad:.6,pump:.6,growl:1,vox:'yo'},pal:'inferno',look:'Half-time hits, red/green, heavy pyro'},
+ {id:'basshouse',name:'Bass House',bpm:126,arr:[8,16,8,16,8,8,8,16,8,8],prog:PRG([33,'m'],[33,'m'],[36,'M'],[31,'M']),st:{kick:'std',drums:'four',bass:'growl',lead:'organ',pad:.4,pump:.65,vox:'chop'},pal:'cyber',look:'Punchy blinders, neon colours'},
+ {id:'futurerave',name:'Future Rave',bpm:130,arr:[8,16,8,16,8,16,8,16,8,8],prog:PRG([33,'m'],[31,'M'],[29,'M'],[28,'m']),st:{kick:'hard',drums:'four',bass:'offbeat',lead:'saw',pad:1,pump:.7,chords:'ss',vox:'hey'},pal:'cyber',look:'Dark beams, aggressive lasers, glitch LED'},
+ {id:'atmospheric',name:'Atmospheric / Cinematic',bpm:100,arr:[8,8,8,8,8,8,8,8,8,8],prog:PRG([33,'m'],[29,'M'],[24,'M'],[31,'M']),st:{kick:'soft',drums:'soft',bass:'sub',lead:'bell',pad:1.6,pump:.3,vox:'ah'},pal:'deep',look:'Fog, slow fades, gentle sweeps'}];
 const GMAP={};GENRES.forEach(g=>GMAP[g.id]=g);
 const DJS=[{id:'novak',name:'NOVA-K',col:'#ff2bd6',energy:1},{id:'lumen',name:'Lumen Drift',col:'#20e3ff',energy:0.7},{id:'kito',name:'KITO',col:'#ffb300',energy:0.85},{id:'mira',name:'MIRA SOL',col:'#9b5bff',energy:0.6},{id:'vanta',name:'VANTA',col:'#ffffff',energy:0.9},{id:'atlas',name:'Atlas Wave',col:'#3dff8e',energy:0.8}];
 const DJMAP={};DJS.forEach(d=>DJMAP[d.id]=d);
@@ -27,8 +27,13 @@ const TRACKS=[
  {id:'trance',g:'trance',title:'Aurora Run',dj:'lumen'},{id:'dnb',g:'dnb',title:'Velocity',dj:'kito'},{id:'dubstep',g:'dubstep',title:'Fault Line',dj:'vanta'},
  {id:'basshouse',g:'basshouse',title:'Wobble District',dj:'novak'},{id:'futurerave',g:'futurerave',title:'Neon Rapture',dj:'atlas'},{id:'atmospheric',g:'atmospheric',title:'Glass Horizon',dj:'mira'},
  {id:'tutorial',g:'bigroom',title:'First Light (tutorial)',dj:'novak',arr:[4,4,4,8,4,4,4,8,4,4],bpm:124}];
+// v2.2: real, Creative-Commons-licensed EDM tracks (ccMixter, CC BY 3.0) = the Career setlist; analysed offline (tools/analyze2.py + mkmeta.py)
+const REAL_TRACKS=REAL_META.map(r=>({id:'r_'+r.id,g:r.g,title:r.title,artist:r.artist,dj:r.dj,genre:r.genre,bpm:r.bpm,real:r}));
+TRACKS.forEach(t=>{t.synth=true;});TRACKS.unshift(...REAL_TRACKS);
 const TMAP={};TRACKS.forEach(t=>TMAP[t.id]=t);
-const STARTER_TRACKS=['progressive','bigroom','techhouse','melodic','tutorial'];
+const STARTER_TRACKS=REAL_TRACKS.map(t=>t.id).concat(['progressive','bigroom','techhouse','melodic','tutorial']);
+const trackGenre=t=>t.genre||(GMAP[t.g]||GENRES[1]).name, trackBpm=t=>Math.round(t.bpm||(GMAP[t.g]||GENRES[1]).bpm);
+const trackLabel=t=>t.real?`${t.title} – ${t.artist} (${trackGenre(t)}, ${trackBpm(t)} BPM)`:`${t.title} (synth ${trackGenre(t)}, ${trackBpm(t)} BPM)`;
 // colour palettes (spec 8)
 const PALETTES=[
  {id:'main',name:'Mainstage Energy',c:['#2a6bff','#ff2bd6','#8a3bff','#ffffff']},
@@ -61,19 +66,19 @@ const ENVMAP={};ENVS.forEach(e=>ENVMAP[e.id]=e);
 const RIG_TYPES=['beam','spot','wash','strobe','blinder','pixel','laser'];
 const FX_TYPES=['flames','co2','confetti','streamers','sparks','fireworks'];
 const VENUES=[
- {id:'vault',name:'The Vault',kind:'Underground club',env:'warehouse',S:0.55,crowd:250,req:50,reward:300,rig:{beam:6,spot:0,wash:6,strobe:2,blinder:2,pixel:2,laser:1},fx:{flames:2,co2:2,confetti:1,streamers:0,sparks:2,fireworks:0},
+ {id:'vault',track:'r_mind',name:'The Vault',kind:'Underground club',env:'warehouse',S:0.55,crowd:250,req:50,reward:300,rig:{beam:6,spot:0,wash:6,strobe:2,blinder:2,pixel:2,laser:1},fx:{flames:2,co2:2,confetti:1,streamers:0,sparks:2,fireworks:0},
   missions:[{id:'sync',txt:'Timing score 60+',k:'timing',v:60},{id:'drop',txt:'Hit the first drop (accent within 1 beat)',k:'dropHit',v:1}]},
- {id:'neon',name:'Neon Room',kind:'Local venue',env:'arena',S:0.65,crowd:600,req:55,reward:400,rig:{beam:8,spot:2,wash:6,strobe:4,blinder:2,pixel:2,laser:2},fx:{flames:4,co2:2,confetti:2,streamers:0,sparks:4,fireworks:0},
+ {id:'neon',track:'r_mouse',name:'Neon Room',kind:'Local venue',env:'arena',S:0.65,crowd:600,req:55,reward:400,rig:{beam:8,spot:2,wash:6,strobe:4,blinder:2,pixel:2,laser:2},fx:{flames:4,co2:2,confetti:2,streamers:0,sparks:4,fireworks:0},
   missions:[{id:'var',txt:'Use 3+ different looks (presets/cues)',k:'looks',v:3},{id:'break',txt:'Keep the breakdown calm (intensity < 45%)',k:'calmBreak',v:1}]},
- {id:'hall',name:'Grand Hall',kind:'Concert hall',env:'arena',S:0.8,crowd:1200,req:60,reward:550,rig:{beam:10,spot:4,wash:8,strobe:4,blinder:4,pixel:4,laser:2},fx:{flames:4,co2:4,confetti:2,streamers:2,sparks:4,fireworks:0},
+ {id:'hall',track:'r_normal',name:'Grand Hall',kind:'Concert hall',env:'arena',S:0.8,crowd:1200,req:60,reward:550,rig:{beam:10,spot:4,wash:8,strobe:4,blinder:4,pixel:4,laser:2},fx:{flames:4,co2:4,confetti:2,streamers:2,sparks:4,fireworks:0},
   missions:[{id:'led',txt:'Change the LED style 3+ times',k:'ledChanges',v:3},{id:'eng',txt:'Crowd engagement 60%+ on average',k:'engAvg',v:60}]},
- {id:'river',name:'Riverside Fest',kind:'Regional festival',env:'night',S:0.9,crowd:2000,req:62,reward:700,rig:{beam:12,spot:4,wash:8,strobe:6,blinder:4,pixel:4,laser:3},fx:{flames:6,co2:4,confetti:2,streamers:2,sparks:6,fireworks:1},
+ {id:'river',track:'r_breakers',name:'Riverside Fest',kind:'Regional festival',env:'night',S:0.9,crowd:2000,req:62,reward:700,rig:{beam:12,spot:4,wash:8,strobe:6,blinder:4,pixel:4,laser:3},fx:{flames:6,co2:4,confetti:2,streamers:2,sparks:6,fireworks:1},
   missions:[{id:'co2',txt:'Fire CO2 on a drop',k:'co2Drop',v:1},{id:'dyn',txt:'Dynamic range score 60+',k:'dynamics',v:60}]},
- {id:'horizon',name:'Horizon Mainstage',kind:'Large outdoor mainstage',env:'desert',S:1,crowd:3000,req:65,reward:900,rig:{beam:14,spot:6,wash:10,strobe:8,blinder:6,pixel:6,laser:4},fx:{flames:8,co2:6,confetti:4,streamers:2,sparks:8,fireworks:1},
+ {id:'horizon',track:'r_again',name:'Horizon Mainstage',kind:'Large outdoor mainstage',env:'desert',S:1,crowd:3000,req:65,reward:900,rig:{beam:14,spot:6,wash:10,strobe:8,blinder:6,pixel:6,laser:4},fx:{flames:8,co2:6,confetti:4,streamers:2,sparks:8,fireworks:1},
   missions:[{id:'moment',txt:'Create a memorable drop moment (dark before, big hit on the drop)',k:'moments',v:1},{id:'creat',txt:'Creativity score 65+',k:'creativity',v:65}]},
- {id:'pulse',name:'Global Pulse',kind:'International EDM festival',env:'coastal',S:1.15,crowd:3600,req:68,reward:1200,rig:{beam:16,spot:6,wash:12,strobe:8,blinder:6,pixel:6,laser:5},fx:{flames:8,co2:6,confetti:4,streamers:4,sparks:8,fireworks:1},
+ {id:'pulse',track:'r_mine',name:'Global Pulse',kind:'International EDM festival',env:'coastal',S:1.15,crowd:3600,req:68,reward:1200,rig:{beam:16,spot:6,wash:12,strobe:8,blinder:6,pixel:6,laser:5},fx:{flames:8,co2:6,confetti:4,streamers:4,sparks:8,fireworks:1},
   missions:[{id:'fin',txt:'Finale: confetti + fireworks in the last phrase',k:'finale',v:1},{id:'tech',txt:'Technical execution 70+',k:'technical',v:70}]},
- {id:'nexus',name:'NEXUS 2099',kind:'Futuristic mega-festival',env:'cyber',S:1.3,crowd:4200,req:72,reward:2000,rig:{beam:18,spot:8,wash:12,strobe:10,blinder:8,pixel:8,laser:6},fx:{flames:10,co2:8,confetti:4,streamers:4,sparks:10,fireworks:1},
+ {id:'nexus',track:'r_party',name:'NEXUS 2099',kind:'Futuristic mega-festival',env:'cyber',S:1.3,crowd:4200,req:72,reward:2000,rig:{beam:18,spot:8,wash:12,strobe:10,blinder:8,pixel:8,laser:6},fx:{flames:10,co2:8,confetti:4,streamers:4,sparks:10,fireworks:1},
   missions:[{id:'all',txt:'Overall score 75+',k:'overall',v:75},{id:'eng2',txt:'Crowd never below 40% after the first drop',k:'holdCrowd',v:1}]}];
 // career equipment: starter rig + purchasable upgrades (non-essential extras; sandbox always has everything)
 const STARTER_RIG={beam:4,spot:0,wash:4,strobe:2,blinder:0,pixel:0,laser:0}, STARTER_FX={flames:0,co2:2,confetti:0,streamers:0,sparks:0,fireworks:0};

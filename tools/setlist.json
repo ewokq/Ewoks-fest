@@ -1,0 +1,188 @@
+[
+ {
+  "key": "Reiswerk/52740",
+  "id": "mouse",
+  "g": "progressive",
+  "genre": "Electro Swing House",
+  "dj": "kito",
+  "samples": [
+   {
+    "url": "https://ccmixter.org/files/stellarartwars/52279",
+    "user": "stellarartwars",
+    "id": 52279,
+    "title": "mouse in my house",
+    "artist": "stellarartwars",
+    "lic": "CC BY 3.0"
+   }
+  ]
+ },
+ {
+  "key": "Robbero/50420",
+  "id": "mind",
+  "g": "techhouse",
+  "genre": "Electro / Nu-Disco House",
+  "dj": "lumen",
+  "samples": [
+   {
+    "url": "https://ccmixter.org/files/donnieozone/49919",
+    "user": "donnieozone",
+    "id": 49919,
+    "title": "Mind",
+    "artist": "Donnie Ozone",
+    "lic": "CC BY 3.0"
+   }
+  ]
+ },
+ {
+  "key": "fluffy/53739",
+  "id": "again",
+  "g": "bigroom",
+  "genre": "Big Room EDM",
+  "dj": "novak",
+  "samples": [
+   {
+    "url": "https://ccmixter.org/files/cdk/43797",
+    "user": "cdk",
+    "id": 43797,
+    "title": "Once Again (Original RumbleStep Mix)",
+    "artist": "cdk",
+    "lic": "CC BY 3.0"
+   }
+  ]
+ },
+ {
+  "key": "awkward_tom/36183",
+  "id": "breakers",
+  "g": "mainstage",
+  "genre": "Electro House",
+  "dj": "atlas",
+  "samples": [
+   {
+    "url": "https://ccmixter.org/files/andrewfranco/33929",
+    "user": "andrewfranco",
+    "id": 33929,
+    "title": "Brake Dance",
+    "artist": "Andres Franco",
+    "lic": "CC BY 3.0"
+   }
+  ]
+ },
+ {
+  "key": "cdk/48598",
+  "id": "puck",
+  "g": "basshouse",
+  "genre": "Complextro",
+  "dj": "novak",
+  "samples": []
+ },
+ {
+  "key": "SackJo22/43036",
+  "id": "normal",
+  "g": "peaktechno",
+  "genre": "Techno",
+  "dj": "vanta",
+  "samples": [
+   {
+    "url": "https://ccmixter.org/files/AnalogByNature/41473",
+    "user": "AnalogByNature",
+    "id": 41473,
+    "title": "Analog By Nature - Are You Ready",
+    "artist": "AnalogByNature",
+    "lic": "CC BY 3.0"
+   }
+  ]
+ },
+ {
+  "key": "George_Ellinas/28107",
+  "id": "mine",
+  "g": "trance",
+  "genre": "Trance",
+  "dj": "lumen",
+  "samples": [
+   {
+    "url": "https://ccmixter.org/files/snowflake/27820",
+    "user": "snowflake",
+    "id": 27820,
+    "title": "Mine + Yours = Ours",
+    "artist": "Madam Snowflake",
+    "lic": "CC BY 3.0"
+   }
+  ]
+ },
+ {
+  "key": "SackJo22/41323",
+  "id": "haunted",
+  "g": "dubstep",
+  "genre": "Dubstep",
+  "dj": "vanta",
+  "samples": [
+   {
+    "url": "https://ccmixter.org/files/Coruscate/35585",
+    "user": "Coruscate",
+    "id": 35585,
+    "title": "Karma 88 BPM Ft. Geechbeatz.com",
+    "artist": "coruscate",
+    "lic": "CC BY 3.0"
+   },
+   {
+    "url": "https://ccmixter.org/files/Coruscate/35586",
+    "user": "Coruscate",
+    "id": 35586,
+    "title": "The Secret Of Life (94 BPM) Ft. QBBeats.com",
+    "artist": "coruscate",
+    "lic": "CC BY 3.0"
+   },
+   {
+    "url": "https://ccmixter.org/files/Coruscate/39550",
+    "user": "Coruscate",
+    "id": 39550,
+    "title": "Make You Stomp",
+    "artist": "coruscate",
+    "lic": "CC BY 3.0"
+   },
+   {
+    "url": "https://ccmixter.org/files/Coruscate/41032",
+    "user": "Coruscate",
+    "id": 41032,
+    "title": "Kaleidoscopic Visions Dubby Mix",
+    "artist": "coruscate",
+    "lic": "CC BY 3.0"
+   }
+  ]
+ },
+ {
+  "key": "AlexBeroza/43098",
+  "id": "drive",
+  "g": "dnb",
+  "genre": "Drum & Bass",
+  "dj": "mira",
+  "shift": 1,
+  "samples": [
+   {
+    "url": "https://ccmixter.org/files/cdk/43076",
+    "user": "cdk",
+    "id": 43076,
+    "title": "Drive (Original RumbleStep Mix)",
+    "artist": "cdk",
+    "lic": "CC BY 3.0"
+   }
+  ]
+ },
+ {
+  "key": "F_Fact/46526",
+  "id": "party",
+  "g": "futurerave",
+  "genre": "Hardstyle",
+  "dj": "atlas",
+  "samples": [
+   {
+    "url": "https://ccmixter.org/files/donnieozone/46066",
+    "user": "donnieozone",
+    "id": 46066,
+    "title": "Power Music",
+    "artist": "Donnie Ozone",
+    "lic": "CC BY 3.0"
+   }
+  ]
+ }
+]

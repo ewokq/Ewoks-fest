@@ -16,17 +16,18 @@ function menuScreen(){if(SES)endSession();const c=SAVE.career;
    <button data-u="free"><i>🎛️</i><b>Free Play</b><span>Everything unlocked, no score</span></button>
    <button data-u="mysong"><i>🎵</i><b>My Song</b><span>Play to a YouTube song</span></button>
    <button data-u="tutorial"><i>🎓</i><b>Tutorial</b><span>${SAVE.tutorialDone?'Completed ✓':'2 minutes, +100 credits'}</span></button>
+   <button data-u="mp"><i>👥</i><b>Multiplayer</b><span>Party mode · challenge links · leaderboards</span></button>
    <button data-u="settings"><i>⚙️</i><b>Settings</b><span>Console, graphics, sound</span></button>
   </div>
-  <div class="menuSmall"><button data-u="quick">Show setup</button><button data-u="challenges">Challenges ${Object.keys(c.challenges).length}/${CHALLENGES.length}</button><button data-u="help">Help</button><a href="classic/" style="color:var(--acc)">Classic v1.4</a></div>
+  <div class="menuSmall"><button data-u="quick">Show setup</button><button data-u="challenges">Challenges ${Object.keys(c.challenges).length}/${CHALLENGES.length}</button><button data-u="help">Help</button><button data-u="credits">Music credits</button><a href="classic/" style="color:var(--acc)">Classic v1.4</a></div>
   ${SAVE_NOTE?'<p style="text-align:center"><b style="color:var(--ok)">'+esc(SAVE_NOTE)+'</b></p>':''}`);SAVE_NOTE='';}
 UA_.menu=()=>menuScreen();
 // ---------- quick show / free play setup ----------
 function setupScreen(mode){const st=UI.setup=UI.setup&&UI.setup.mode===mode?UI.setup:{mode,track:SAVE.lastTrack||'bigroom',env:'night',dj:'',style:'energetic',crowd:'arena',auto:mode==='free'?'assisted':'manual',short:false,venue:4};
-  const trks=TRACKS.filter(t=>t.id!=='tutorial').map(t=>[t.id,`${t.title} (${GMAP[t.g].name}, ${GMAP[t.g].bpm} BPM)`]);const g=GMAP[TMAP[st.track].g];
+  const trks=TRACKS.filter(t=>t.id!=='tutorial').map(t=>[t.id,trackLabel(t)]);if(!TMAP[st.track])st.track=TRACKS[0].id;const T0=TMAP[st.track],g=GMAP[T0.g];preloadTrack(st.track);
   scr(`<h2>${mode==='free'?'Free Play (sandbox)':'Show setup'}</h2><p class="muted">${mode==='free'?'Full rig of the chosen venue, everything unlocked, no score. Seek, loop sections, record replays.':'A scored show: timing, music sync, creativity, crowd, dynamics, composition and technical.'}</p>
   <div class="opts">
-   <label>Track <select data-k="track">${opt(trks,st.track)}</select></label><div class="muted" style="font-size:.8rem">${esc(g.look)}</div>
+   <label>Track <select data-k="track">${opt(trks,st.track)}</select></label><div class="muted" style="font-size:.8rem">${T0.real?'🎧 Real track · '+esc(T0.real.lic)+' · ':'🎹 Synth track · '}${esc(g.look)}</div>
    <label>Stage / venue <select data-k="venue">${opt(VENUES.map((v,i)=>[i,v.name+' ('+v.kind+')']),st.venue)}</select></label>
    <label>Environment <select data-k="env">${opt(ENVS.map(e=>[e.id,e.name]),st.env)}</select></label>
    <label>DJ <select data-k="dj">${opt([['','Track default']].concat(DJS.map(d=>[d.id,d.name])),st.dj)}</select></label>
@@ -45,11 +46,11 @@ function careerScreen(){const c=SAVE.career;
   ${VENUES.map((v,i)=>{const lock=i>c.venue,b=c.best[v.id];return `<div class="tile${lock?' lock':''}"><div><b>${i+1}. ${esc(v.name)}</b> <span class="muted">${esc(v.kind)} · ${ENVMAP[v.env].name} · ${v.crowd} people</span><br><small>${lock?'&#128274; Score '+VENUES[i-1].req+'+ at '+esc(VENUES[i-1].name)+' to unlock':`Need ${v.req}+ · reward ${v.reward} · best ${b!=null?b:'–'} · missions ${v.missions.filter(m=>c.missions[v.id+':'+m.id]).length}/${v.missions.length}`}</small></div>${lock?'':`<button data-u="venue" data-v="${i}">Play</button>`}</div>`;}).join('')}
   <div class="row" style="margin-top:.6rem">${backBtn()}</div>`);}
 UA_.career=()=>careerScreen();
-function venueScreen(i){const v=VENUES[i],c=SAVE.career,R=careerRig(v),F=careerFx(v);const tr=TRACKS.filter(t=>t.id!=='tutorial'&&trackOwned(t.id));UI.setup={mode:'career',venue:i,track:tr.find(t=>t.id===SAVE.lastTrack)?SAVE.lastTrack:tr[0].id,auto:'manual',short:false};
+function venueScreen(i){const v=VENUES[i],c=SAVE.career,R=careerRig(v),F=careerFx(v);const tr=TRACKS.filter(t=>t.id!=='tutorial'&&trackOwned(t.id));UI.setup={mode:'career',venue:i,track:v.track&&tr.find(t=>t.id===v.track)?v.track:tr.find(t=>t.id===SAVE.lastTrack)?SAVE.lastTrack:tr[0].id,auto:'manual',short:false};
   scr(`<h2>${esc(v.name)}</h2><p class="muted">${esc(v.kind)} · ${ENVMAP[v.env].name} · crowd ${v.crowd} · need ${v.req}+ to advance</p>
   <div class="lbl">Missions</div>${v.missions.map(m=>`<div>${c.missions[v.id+':'+m.id]?'✅':'⬜'} ${esc(m.txt)}</div>`).join('')}
   <div class="lbl">Your rig here (venue max in brackets)</div><div class="muted" style="font-size:.85rem">${RIG_TYPES.filter(k=>v.rig[k]).map(k=>`${TYPE_NAME[k]} ${R[k]||0} (${v.rig[k]})`).join(' · ')}<br>${FX_TYPES.filter(k=>v.fx[k]).map(k=>`${FX_NAMES[k]} ${F[k]||0} (${v.fx[k]})`).join(' · ')}</div>
-  <div class="opts"><label>Track <select data-k="track">${opt(tr.map(t=>[t.id,t.title+' ('+GMAP[t.g].name+')']),UI.setup.track)}</select></label>
+  <div class="opts"><label>Track <select data-k="track">${opt(tr.map(t=>[t.id,(t.id===v.track?'★ ':'')+trackLabel(t)]),UI.setup.track)}</select></label>
   <label>Automation <select data-k="auto">${opt([['manual','Manual'],['assisted','Assisted'],['programmed','Programmed']],'manual')}</select></label><label><input type="checkbox" data-k="short"> Short version</label></div>
   <div class="row" style="margin-top:.8rem">${backBtn('career')}<button data-u="shop">Shop</button><button class="sel big" data-u="goCareer">PLAY ▶</button></div>`);}
 UA_.venue=v=>venueScreen(+v);
@@ -69,6 +70,10 @@ UA_.skin=v=>{SAVE.skin=v;dirty();applySettings();shopScreen();};
 // ---------- challenges ----------
 function chScreen(){const c=SAVE.career.challenges;scr(`<h2>Challenges</h2>${CHALLENGES.map(ch=>`<div class="tile"><div><b>${c[ch.id]?'✅ ':''}${esc(ch.name)}</b><br><small class="muted">${esc(ch.desc)} · ${esc(TMAP[ch.track].title)} @ ${esc(VENUES[ch.venue].name)}</small></div><button data-u="ch" data-v="${ch.id}">Play</button></div>`).join('')}<div class="row">${backBtn()}</div>`);}
 UA_.challenges=()=>chScreen();
+// ---------- v2.2 music credits ----------
+function creditsScreen(){const L=REAL_TRACKS.map(t=>{const r=t.real;return `<div class="crd"><b>${esc(r.title)}</b> – ${esc(r.artist)}<br><span class="muted">${esc(r.genre)} · ${Math.round(r.bpm)} BPM · <a href="${esc(r.lic_url)}" target="_blank" rel="noopener">${esc(r.lic)}</a> · <a href="${esc(r.page)}" target="_blank" rel="noopener">source (ccMixter)</a></span>${r.samples&&r.samples.length?'<br><span class="muted" style="font-size:.78rem">Samples: '+r.samples.map(x=>`<a href="${esc(x[2])}" target="_blank" rel="noopener">${esc(x[0])}</a> by ${esc(x[1])}`).join('; ')+'</span>':''}</div>`;}).join('');
+  scr(`<h2>Music credits</h2><p class="muted" style="font-size:.85rem">The Career setlist uses real tracks published on ccMixter under Creative Commons Attribution licenses. Re-encoded to 128 kbps MP3 for streaming, otherwise unmodified. Synth tracks are generated live in your browser.</p><div class="credits">${L}</div><div class="row"><button class="pri" data-u="menu">Back</button></div>`);}
+UA_.credits=()=>creditsScreen();
 UA_.ch=id=>{const ch=CHALLENGES.find(c=>c.id===id),v=VENUES[ch.venue];warnThen(()=>startSession({mode:'challenge',challenge:ch,venue:ch.venue,env:ch.env,track:ch.track,dj:null,style:'energetic',crowdN:v.crowd,auto:'manual',scored:true,rig:ch.rig||v.rig,fx:ch.fx||v.fx}));};
 // ---------- My Song ----------
 function mySongScreen(){loadYTApi();const rec=ytRecent();
@@ -113,7 +118,7 @@ const getS=k=>k.startsWith('vol.')?ST.vol[k.slice(4)]:ST[k];
 function setS(k,v){if(k.startsWith('vol.'))ST.vol[k.slice(4)]=v;else ST[k]=v;dirty();applySettings();}
 function settingsScreen(){const T=UI.setTab;const tabs=[['graphics','Graphics'],['audio','Audio'],['access','Accessibility'],['gameplay','Gameplay'],['keys','Controls'],['data','Data']];let h='';
   if(SET_DEF[T])h=SET_DEF[T].map(([k,l,t,o])=>{const v=getS(k);if(t==='chk')return `<label><input type="checkbox" data-sk="${k}"${v?' checked':''}> ${l}</label>`;if(t==='sel')return `<label>${l} <select data-sk="${k}">${opt(o,v)}</select></label>`;
-    return `<label class="sl"><span>${l}</span><input type="range" data-sk="${k}" min="${o[0]}" max="${o[1]}" step="${o[2]}" value="${v}"><output>${o[1]<=1.5?Math.round(v*100)+'%':v}</output></label>`;}).join('');
+    return `<label class="sl"><span>${l}</span><input type="range" data-sk="${k}" min="${o[0]}" max="${o[1]}" step="${o[2]}" value="${v}"><output>${o[1]<=1.5?Math.round(v*100)+'%':v}</output></label>`;}).join('')+(T==='gameplay'?`<div class="item"><span class="nm">DJ name (multiplayer)</span><button data-u="mpEditName">${esc(mpName()||'Set name')}</button></div>`:'');
   else if(T==='keys')h=`<p class="muted">Tap a key to rebind it, then press the new key. Touch players: everything is also on screen. Gamepad: A flash · B blackout · X GO · Y flames · LB/RB camera · Start pause.</p>`+ACTIONS.map(a=>`<div class="item"><span class="nm">${esc(a[1])}</span><button data-u="rebind" data-v="${a[0]}" class="kbd${UI.rebind===a[0]?' sel':''}">${UI.rebind===a[0]?'press a key…':esc(SAVE.bind[a[0]]||'—')}</button></div>`).join('')+`<button data-u="keyReset">Reset to defaults</button>`;
   else h=`<div class="row"><button data-u="expSave">Export save file</button><button data-u="impSave">Import save file</button></div><div class="row"><button data-u="setReset">Reset settings</button><button class="danger" data-u="saveReset">Reset ALL progress</button></div><p class="muted">Saves are stored in this browser (localStorage) and autosave every few seconds. Export to move them to another device.</p>`;
   scr(`<h2>Settings</h2><div class="row">${tabs.map(([k,n])=>`<button class="chip${T===k?' sel':''}" data-u="setTab" data-v="${k}">${n}</button>`).join('')}</div><div class="opts">${h}</div><div class="row" style="margin-top:.6rem"><button data-u="${SES?'pause':'menu'}">&#8592; Back</button></div>`);}
@@ -142,13 +147,14 @@ UA_.pause=()=>pauseScreen();UA_.resume=()=>{hideScr();if(SEQ.pausedForMenu){SEQ.
 UA_.restartS=()=>{hideScr();SEQ.pausedForMenu=false;restartSong();};UA_.saveNow=()=>persist(true);UA_.expShowP=()=>downloadJSON(exportShow(),'festival-control-show.json');UA_.impShowP=()=>{FILE_MODE='show';$('fileIn').click();};
 UA_.quit=()=>{SEQ.pausedForMenu=false;menuScreen();};
 // ---------- analysis ----------
-function analysisScreen(R,rw){UI.lastAn={R,rw};const grade=R.overall>=90?'S':R.overall>=80?'A':R.overall>=70?'B':R.overall>=55?'C':'D';
+function analysisScreen(R,rw){UI.lastAn={R,rw};let M={html:'',btns:null};try{M=mpResults(R);}catch(e){reportError(e,'mpResults');}const grade=R.overall>=90?'S':R.overall>=80?'A':R.overall>=70?'B':R.overall>=55?'C':'D';
   scr(`<h2>Show analysis <small class="muted">${esc(TR?TR.title:'')}</small></h2><div class="row"><div style="font-size:3rem;font-weight:800;color:var(--acc)">${R.overall}</div><div><b>Grade ${grade}</b><br><span class="muted">${R.accents} accents · ${R.drops.length} drops (${R.drops.filter(d=>d.hit).length} hit) · ${R.drops.filter(d=>d.moment).length} big moments</span></div></div>
+  ${M.html}
   ${CATS.map(([k,n])=>`<div class="catrow"><span>${n}</span><div class="bar"><i style="width:${R.cats[k]}%"></i></div><b>${R.cats[k]}</b></div>`).join('')}
   <div class="lbl">Show graph: intensity (cyan) vs music energy (white) and crowd (pink); dots = drops (green hit / red missed)</div><canvas class="graph" id="graph" style="width:100%;height:120px"></canvas>
   ${rw&&rw.lines.length?'<div class="lbl">Results</div>'+rw.lines.map(l=>`<div>${l}</div>`).join(''):''}
   <div class="lbl">Tips</div>${R.tips.map(t=>`<div>• ${esc(t)}</div>`).join('')}
-  <div class="row" style="margin-top:.8rem"><button data-u="retry">Play again</button>${SES&&SES.mode==='career'?'<button data-u="career">Career</button><button data-u="shop">Shop</button>':''}<button class="sel" data-u="menu">Menu</button></div>`);
+  <div class="row" style="margin-top:.8rem">${M.btns||`<button data-u="retry">Play again</button>${SES&&SES.mode==='career'?'<button data-u="career">Career</button><button data-u="shop">Shop</button>':''}<button class="sel" data-u="menu">Menu</button>`}</div>`);
   requestAnimationFrame(()=>drawGraph(R));}
 function drawGraph(R){const c=$('graph');if(!c)return;const r=c.getBoundingClientRect(),d=Math.min(2,devicePixelRatio||1);c.width=r.width*d;c.height=r.height*d;const x=c.getContext('2d'),W=c.width,H=c.height,sm=R.samples;if(!sm.length)return;const T=sm[sm.length-1].t||1;
   x.fillStyle='rgba(255,255,255,.04)';x.fillRect(0,0,W,H);const line=(f,col,w)=>{x.strokeStyle=col;x.lineWidth=w*d;x.beginPath();sm.forEach((s,i)=>{const X=s.t/T*W,Y=H-f(s)*H*0.92-2;i?x.lineTo(X,Y):x.moveTo(X,Y);});x.stroke();};
@@ -167,7 +173,7 @@ function applySettings(){const b=document.body,r=document.documentElement.style;
 // ---------- screen event delegation ----------
 function screenInput(){const sc=$('scard');
   sc.addEventListener('click',e=>{const el=e.target.closest('[data-u]');if(!el)return;const f=UA_[el.dataset.u];if(f){uiClick();f(el.dataset.v,el);}});
-  sc.addEventListener('change',e=>{const el=e.target;if(el.dataset.k&&UI.setup){UI.setup[el.dataset.k]=el.type==='checkbox'?el.checked:el.value;if(el.dataset.k==='track'&&UI.setup.mode!=='career'&&UI.setup.mode!=='mysong')setupScreen(UI.setup.mode);}
+  sc.addEventListener('change',e=>{const el=e.target;if(el.dataset.k&&UI.setup){UI.setup[el.dataset.k]=el.type==='checkbox'?el.checked:el.value;if(el.dataset.k==='track')preloadTrack(el.value);if(el.dataset.k==='track'&&UI.setup.mode!=='career'&&UI.setup.mode!=='mysong')setupScreen(UI.setup.mode);}
     if(el.dataset.sk){const t=el.type;setS(el.dataset.sk,t==='checkbox'?el.checked:t==='range'?+el.value:(isNaN(+el.value)||el.value===''?el.value:(el.dataset.sk==='quality'&&el.value==='auto'?'auto':+el.value)));}});
   sc.addEventListener('input',e=>{const el=e.target;if(el.dataset.sk&&el.type==='range'){setS(el.dataset.sk,+el.value);const o=el.nextElementSibling;if(o)o.textContent=+el.max<=1.5?Math.round(el.value*100)+'%':el.value;}});
   $('fileIn').addEventListener('change',e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const rd=new FileReader();rd.onload=()=>{try{const o=JSON.parse(rd.result);

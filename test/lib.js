@@ -7,7 +7,7 @@ const VP={portrait:{viewport:{width:390,height:844},isMobile:true,hasTouch:true,
 async function page(b,vp,url,storage){const ctx=await b.newContext(Object.assign({acceptDownloads:true},VP[vp]));const p=await ctx.newPage();const errs=[];
  p.on('console',m=>{if(m.type()==='error')errs.push('console.error: '+m.text());});p.on('pageerror',e=>errs.push('pageerror: '+e.message));
  if(storage)await ctx.addInitScript(s=>{if(!sessionStorage.__init){sessionStorage.__init=1;localStorage.clear();for(const k in s)localStorage.setItem(k,s[k]);}},storage);
- await p.goto(url||'file:///workspace/festival/index.html');await p.waitForTimeout(1500);
+ await p.goto(url||process.env.FC_URL||'file:///workspace/festival/index.html');await p.waitForTimeout(1500);
  await p.evaluate(()=>{window.__fp=()=>{const f=__fc,S=Object.assign({},f.SHOW),sv=f.SAVE(),sc=f.SCORE()||{};delete S.fb;S.flash=S.flash>0.05;S.bo=Math.round(S.bo);
   return JSON.stringify({S,ovr:f.FIX.list.map(x=>[x.ovr,x.base]),st:f.ST,led:f.LEDRT.cur,cam:f.CAM.mode,arm:f.FXS.armed,fired:f.FXS.stats.fired,em:f.FXS.em.length,
    sav:[sv.presets.length,sv.cues.length,sv.groups.length,sv.swatches.length,JSON.stringify(sv.programs).length,JSON.stringify(sv.cues).length,JSON.stringify(sv.presets).length,JSON.stringify(sv.ledPresets||[]).length],
