@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-title" content="Ewok Fest">
 <meta name="application-name" content="Drop Control 3D">
 <meta name="description" content="Drop Control 3D · Ewok Fest — run the lights and pyro for an EDM festival headliner. Seven genres, crowd POV, playable on iPhone.">
-<meta name="game-version" content="v1.1">
+<meta name="game-version" content="v1.2">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -60,7 +60,8 @@ button{font:inherit;color:inherit;touch-action:manipulation;cursor:pointer}
 #count{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);font-weight:900;font-size:clamp(50px,16vmin,150px);opacity:0;color:#fff;text-shadow:0 0 30px #ff2bd6,0 0 60px #20e3ff}
 #count.show{animation:cnt .45s ease-out forwards}
 @keyframes cnt{0%{transform:translate(-50%,-50%) scale(1.6);opacity:1}100%{transform:translate(-50%,-50%) scale(.9);opacity:0}}
-#toast{position:absolute;left:50%;bottom:calc(30% + env(safe-area-inset-bottom));transform:translateX(-50%);font-size:13px;font-weight:700;padding:6px 12px;border-radius:10px;background:rgba(0,0,0,.6);opacity:0;transition:opacity .3s;white-space:nowrap}
+#toast{position:absolute;left:50%;bottom:calc(30% + env(safe-area-inset-bottom));transform:translateX(-50%);font-size:13px;font-weight:700;padding:6px 12px;border-radius:10px;background:rgba(0,0,0,.6);opacity:0;transition:opacity .3s;white-space:nowrap;max-width:92vw}
+#toast.long{white-space:normal;text-align:center;width:max-content}
 #toast.show{opacity:1}
 :root{--pad:clamp(64px,20vmin,96px)}
 .pads{position:absolute;bottom:calc(12px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(2,var(--pad));gap:10px;pointer-events:auto;touch-action:none}
@@ -126,6 +127,60 @@ button{font:inherit;color:inherit;touch-action:manipulation;cursor:pointer}
 #tut ol b{color:#ffe14a}
 @media (max-height:500px){#genres{grid-template-columns:repeat(8,1fr);gap:5px}.gcard{min-height:46px}.gcard b{font-size:11px}.gcard span{font-size:9px}#tut ol{font-size:12.5px;line-height:1.35}}
 @media (orientation:portrait) and (max-width:420px){#genres{grid-template-columns:repeat(4,1fr)}}
+
+/* ===== MY SONG (YOUTUBE) ===== */
+.big.ytb{background:linear-gradient(90deg,#ff1f3d,#ff7a1a);box-shadow:0 0 18px rgba(255,40,60,.45)}
+.ytRow{display:flex;gap:6px;align-items:stretch;margin:6px 0 2px}
+#ytUrl{flex:1;min-width:0;font-size:16px;padding:12px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.3);background:rgba(0,0,0,.45);color:#fff;outline:none;-webkit-user-select:text;user-select:text;touch-action:manipulation}
+#ytUrl:focus{border-color:#20e3ff;box-shadow:0 0 0 2px rgba(32,227,255,.3)}
+.chip.ytp{min-width:48px;min-height:46px;font-size:14px;border-radius:12px}
+#ytMsg{min-height:18px;font-size:12.5px;font-weight:700;color:#ff8a8a;margin:4px 2px;text-align:left;line-height:1.3}
+#ytMsg.ok{color:#7fffb0}
+#ytBpms{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
+.chip.bpm{min-height:44px;padding:0;font-size:14px;font-weight:900}
+.chip.bpm.sel{background:#fff;color:#111;border-color:#fff}
+#ytRecent{display:flex;flex-direction:column;gap:6px;max-height:150px;overflow-y:auto;touch-action:pan-y}
+.ytItem{display:flex;flex-direction:column;align-items:flex-start;text-align:left;padding:9px 12px;min-height:48px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06)}
+.ytItem b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.ytItem span{font-size:10.5px;opacity:.6}
+.ytHow{font-size:12px}
+#ytBox{position:fixed;z-index:40;width:200px;height:200px;display:none;background:#000;border-radius:10px;box-shadow:0 0 0 1px rgba(255,255,255,.25),0 6px 24px rgba(0,0,0,.6);
+  left:calc(8px + env(safe-area-inset-left));top:calc(50% - 100px)}
+#ytBox iframe,#ytPlayer{width:100%;height:100%;display:block;border:0;border-radius:10px}
+#ytSize{position:absolute;right:-40px;top:0;width:34px;height:34px;border-radius:10px;border:1px solid rgba(255,255,255,.3);background:rgba(8,10,26,.75);font-size:16px;font-weight:900}
+.ytsetup #ytBox,.ytplay #ytBox{display:block}
+.ytbig #ytBox{width:356px;height:200px}
+.ytsetup #ytSetup{padding-left:calc(222px + env(safe-area-inset-left))}
+.ytsetup.ytbig #ytSetup{padding-left:calc(410px + env(safe-area-inset-left))}
+.ytplay #ytBox{top:calc(6px + env(safe-area-inset-top))}
+.ytplay #top{left:calc(260px + env(safe-area-inset-left))}
+.ytplay.ytbig #top{left:calc(416px + env(safe-area-inset-left))}
+#ytCtl{display:none;position:absolute;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom));pointer-events:auto;touch-action:none;
+  gap:7px;grid-template-columns:repeat(3,1fr);width:min(330px,calc(100vw - 4*var(--pad) - 80px - env(safe-area-inset-left) - env(safe-area-inset-right)))}
+.ytplay #ytCtl{display:grid}
+.yc{min-height:48px;border-radius:13px;border:1px solid rgba(255,255,255,.3);background:rgba(8,10,26,.7);font-weight:900;font-size:13px;letter-spacing:.04em;padding:0 4px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.yc.sm{font-size:22px}
+.yc.drop{background:linear-gradient(135deg,#ff2bd6,#ff7a1a);border-color:#fff;font-size:16px;box-shadow:0 0 14px rgba(255,43,214,.5)}
+.yc.hit{animation:ychit .25s}
+@keyframes ychit{0%{transform:scale(.88);background:#fff;color:#111}100%{transform:scale(1)}}
+@media (orientation:portrait){
+ #ytBox{left:calc(50% - 100px);top:calc(8px + env(safe-area-inset-top))}
+ .ytsetup #ytSetup{padding-left:10px;padding-top:calc(216px + env(safe-area-inset-top));align-items:flex-start}
+ .ytsetup.ytbig #ytSetup{padding-left:10px}
+ .ytbig #ytBox{width:min(356px,94vw);left:calc(50% - min(178px,47vw))}
+ #ytBpms{grid-template-columns:repeat(4,1fr)}
+ .ytplay #top{left:calc(10px + env(safe-area-inset-left));top:calc(214px + env(safe-area-inset-top))}
+ .ytplay #beat{top:calc(392px + env(safe-area-inset-top))}
+ .ytplay #cue{top:calc(466px + env(safe-area-inset-top))}
+ .ytplay #judge{top:62%}
+ .ytplay #ytBox{top:calc(6px + env(safe-area-inset-top))}
+ #ytSize{right:auto;left:-40px}
+ #ytCtl{width:calc(100vw - 24px - env(safe-area-inset-left) - env(safe-area-inset-right));max-width:460px;grid-template-columns:repeat(6,1fr);bottom:calc(var(--pad)*2 + 34px + env(safe-area-inset-bottom))}
+ .yc{font-size:11.5px}
+}
+body.ytsetup #rotate{display:none!important}
+.ytplay #rotate{display:none!important}
+@media (max-height:500px){#ytRecent{max-height:96px}.ytHow{display:none}.chip.bpm{min-height:40px}#ytBpms{gap:4px}}
 </style>
 </head>
 <body>
@@ -152,6 +207,14 @@ button{font:inherit;color:inherit;touch-action:manipulation;cursor:pointer}
   <div id="toast"></div>
   <div class="pads" id="padsL"></div>
   <div class="pads" id="padsR"></div>
+  <div id="ytCtl">
+    <button class="yc" id="ytBpmBtn">128 BPM</button>
+    <button class="yc" id="ytTap">TAP</button>
+    <button class="yc" id="ytSync">SYNC 1</button>
+    <button class="yc sm" id="ytMinus" aria-label="Beat earlier">−</button>
+    <button class="yc sm" id="ytPlus" aria-label="Beat later">+</button>
+    <button class="yc drop" id="ytDropB">DROP!</button>
+  </div>
 </div>
 
 <div id="menu" class="screen">
@@ -163,6 +226,7 @@ button{font:inherit;color:inherit;touch-action:manipulation;cursor:pointer}
     <div id="genreDesc"></div>
     <button class="big" id="bShow">▶ PLAY THE SHOW</button>
     <div class="btnRow"><button class="big alt" id="bFree">FREESTYLE</button><button class="big ghost" id="bAuto">WATCH AUTO-SHOW</button></div>
+    <button class="big ytb" id="bYT">🎵 MY SONG (YOUTUBE)</button>
     <div class="how">You run the lights &amp; pyro for the headliner. Hit effects <b>on the beat</b> — watch the ring close in and the dots tick. <b>Lights</b> (left): Beams, Lasers, Strobe, Wash. <b>Pyro</b> (right): Flames, Confetti, CO₂, Fireworks — save the big stuff for the <b>DROP</b>! Nail the first beat of a drop with pyro for a <b>DROP SLAM</b>. Answer “CROWD WANTS…” cues, keep combos alive, and mix it up to max the crowd's hype.<br><span id="keysHelp">Keys: <b>A S D F</b> lights · <b>J K L Space</b> pyro · <b>C</b> camera · drag to look around, wheel to zoom · <b>P</b> pause · <b>M</b> mute · <b>Enter</b> fullscreen</span></div>
     <div class="hs" id="hsLine"></div>
     <div class="settings">
@@ -174,7 +238,7 @@ button{font:inherit;color:inherit;touch-action:manipulation;cursor:pointer}
     <div class="warn">⚠ Contains flashing lights &amp; strobes. Set “Flashing: Reduced” if you're sensitive. Best with sound on.</div>
     <div class="ios hidden" id="iosNote">🔇 No sound? Turn off Silent mode (switch on the side) &amp; raise the volume.</div>
     <div class="settings"><button class="chip" id="bHelp">? How to play</button></div>
-    <div class="ver">DROP CONTROL 3D · v1.1</div>
+    <div class="ver">DROP CONTROL 3D · v1.2</div>
   </div>
 </div>
 
@@ -193,6 +257,19 @@ button{font:inherit;color:inherit;touch-action:manipulation;cursor:pointer}
   <div class="btnRow"><button class="big" id="bAgain">↻ PLAY AGAIN</button><button class="big ghost" id="bMenu">MENU</button></div>
 </div></div>
 
+<div id="ytSetup" class="screen hidden"><div class="card scroll" style="max-width:460px">
+  <div class="title" style="font-size:clamp(26px,7vmin,40px)">MY SONG</div><div class="sub">PLAY THE SHOW TO ANY YOUTUBE TRACK</div>
+  <div class="ytRow"><input id="ytUrl" type="url" inputmode="url" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" placeholder="Paste a YouTube link…" aria-label="YouTube link"><button class="chip ytp" id="ytClear" aria-label="Clear">✕</button><button class="chip ytp" id="ytPaste">Paste</button></div>
+  <div id="ytMsg"></div>
+  <div class="glbl">SONG BPM <span style="opacity:.6;letter-spacing:.05em">· not sure? use TAP in-game</span></div>
+  <div id="ytBpms"></div>
+  <button class="big ytb" id="ytGo">▶ PLAY MY SONG</button>
+  <div class="glbl hidden" id="ytRecentLbl">RECENT</div>
+  <div id="ytRecent"></div>
+  <div class="how ytHow">In the show: hit <b>TAP</b> on the beat 4+ times to set the tempo, <b>SYNC 1</b> on the first beat of a bar, <b>− / +</b> to nudge, and <b>DROP!</b> the moment the drop hits — then fire pyro for a <b>DROP SLAM</b>. The game's own music is muted; your video is the soundtrack. Needs internet (everything else works offline). If an upload won't play, try another upload of the song.</div>
+  <button class="big ghost" id="ytBack">◀ BACK</button>
+</div></div>
+
 <div id="tut" class="screen hidden"><div class="card" style="max-width:480px">
   <div class="title" style="font-size:34px">HOW TO PLAY</div><div class="sub">YOU RUN THE SHOW</div>
   <ol>
@@ -208,6 +285,7 @@ button{font:inherit;color:inherit;touch-action:manipulation;cursor:pointer}
 <div id="rotate" class="hidden">↻ Rotate to landscape for the best view <button id="bRotX" aria-label="Dismiss">×</button></div>
 <div id="fps" class="hidden"></div>
 
+<div id="ytBox"><div id="ytPlayer"></div><button id="ytSize" aria-label="Resize video">⤢</button></div>
 <script>void 0,
 /**
  * @license
@@ -1524,7 +1602,7 @@ const LS={get(k,d){try{const v=localStorage.getItem('dropctl_'+k);return v==null
 const clamp=(v,a,b)=>v<a?a:v>b?b:v, lerp=(a,b,t)=>a+(b-a)*t, rnd=(a,b)=>a+Math.random()*(b-a);
 
 // ================= MUSIC / GENRES =================
-const VERSION='v1.1';
+const VERSION='v1.2';
 const chord=(r,q)=>{const iv=q==='m'?[0,3,7]:q==='M'?[0,4,7]:q==='s'?[0,5,7]:[0,3,7,10];let n=r+24;while(n<53)n+=12;while(n>64)n-=12;return {r,n:iv.map(x=>n+x)};};
 const PRG=(...a)=>a.map(([r,q])=>chord(r,q));
 function ARR(a){const nm=[['INTRO','intro'],['BUILD-UP','build'],['DROP','drop'],['BREAKDOWN','break'],['BUILD-UP','build'],['DROP','drop'],['OUTRO','outro']];let b=0;return a.map((l,i)=>{const s={n:nm[i][0],t:nm[i][1],a:b,b:b+l};b+=l;return s;});}
@@ -1550,12 +1628,51 @@ function applyGenreTiming(g){G=g;BPM=g.bpm;BEAT=60/BPM;BAR=BEAT*4;STEP=BEAT/4;SE
 let genreChoice=params.get('genre')||LS.get('genre','bigroom'); if(genreChoice!=='random'&&!GMAP[genreChoice]) genreChoice='bigroom';
 const resolveGenre=()=>genreChoice==='random'?GENRES[(Math.random()*GENRES.length)|0]:GMAP[genreChoice];
 applyGenreTiming(resolveGenre());
+/*YTPARSE*/
+// Parse any YouTube link (watch?v=, youtu.be/, shorts/, embed/, live/, music./m./www., extra params, timestamps) -> {id,start} or null
+function parseYouTube(input){
+  if(typeof input!=='string') return null;
+  let s=input.trim().replace(/^[<"'\s]+|[>"'\s]+$/g,'');
+  if(!s) return null;
+  const ID=/^[A-Za-z0-9_-]{11}$/;
+  if(ID.test(s)) return {id:s,start:0};
+  if(!/^[a-z][a-z0-9+.-]*:\/\//i.test(s)) s='https://'+s.replace(/^\/+/,'');
+  let u; try{u=new URL(s);}catch(e){return null;}
+  const host=u.hostname.toLowerCase().replace(/^(www|m|music|gaming)\./,'');
+  const tparse=v=>{if(!v)return 0;v=String(v);if(/^\d+(\.\d+)?$/.test(v))return Math.floor(+v);const m=v.match(/^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s?)?$/i);return m?((+m[1]||0)*3600+(+m[2]||0)*60+(+m[3]||0)):0;};
+  const start=tparse(u.searchParams.get('t')||u.searchParams.get('start')||((u.hash.match(/t=([^&]+)/)||[])[1]));
+  let id=null;
+  if(host==='youtu.be'){id=u.pathname.split('/')[1];}
+  else if(host==='youtube.com'||host==='youtube-nocookie.com'){
+    const p=u.pathname.split('/').filter(Boolean);
+    if(u.searchParams.get('v')) id=u.searchParams.get('v');
+    else if(p[0]&&['shorts','embed','live','v','e','watch'].includes(p[0])&&p[1]) id=p[1];
+    else if(p[0]==='attribution_link'&&u.searchParams.get('u')) return parseYouTube('https://www.youtube.com'+u.searchParams.get('u'));
+  }
+  if(!id) return null;
+  id=id.slice(0,11);
+  return ID.test(id)?{id,start}:null;
+}
+/*/YTPARSE*/
+const YT={on:false,api:'none',player:null,ready:false,id:null,start:0,bpm:LS.get('ytBpm',128),off:0,state:-1,vt:0,rt:0,raw:-1,taps:[],drop:null,dropReact:-99,slamUntil:-9,title:'',pending:false,big:!(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent))&&innerWidth>900,err:''};
+const YT_BPMS=[124,126,128,130,138,140,150,174];
+function ytGenre(){return {id:'yt',name:'MY SONG',bpm:YT.bpm,desc:'Your YouTube track',arr:ARR([16,16,16,16,16,16,16]),prog:GENRES[1].prog,
+  pals:YT.pals||(YT.pals=[GENRES[(Math.random()*GENRES.length)|0].pals[0],['#ffffff','#9fb4ff','#ffd27a'],GENRES[(Math.random()*GENRES.length)|0].pals[1]]),style:{strobe:1,laser:1}};}
+const _ysec=[{n:'INTRO',t:'intro',a:0,b:16},{n:'BUILD-UP',t:'build',a:0,b:16},{n:'DROP',t:'drop',a:0,b:16},{n:'BREAKDOWN',t:'break',a:0,b:16}];
+function ytSection(mb){
+  let k,base;
+  if(YT.drop!=null&&mb>=YT.drop){base=YT.drop;k=Math.floor((mb-base)/16);const o=_ysec[[2,3,1][k%3]];o.a=base+k*16;o.b=o.a+16;return o;}
+  const p=Math.floor(Math.max(0,mb)/16);
+  let o=p===0?_ysec[0]:_ysec[[1,2,3][(p-1)%3]];
+  if(YT.drop!=null&&mb<YT.drop){o.a=p*16;o.b=Math.min(o.a+16,YT.drop);return o;}
+  o.a=p*16;o.b=o.a+16;return o;
+}
 const musicalBar=(bar,loop)=>(!loop||bar<LOOP_B)?bar:LOOP_A+((bar-LOOP_A)%(LOOP_B-LOOP_A));
-function sectionOf(mb){for(const s of SECTIONS) if(mb>=s.a&&mb<s.b) return s; return SECTIONS[SECTIONS.length-1];}
+function sectionOf(mb){if(YT.on)return ytSection(mb);for(const s of SECTIONS) if(mb>=s.a&&mb<s.b) return s; return SECTIONS[SECTIONS.length-1];}
 const ARP=[0,1,2,1,2,0,1,2,0,2,1,2,0,1,2,1];
 const HOOK=[0,-1,2,-1,1,-1,2,0,-1,2,-1,1,2,-1,1,-1];
 const mtof=m=>440*Math.pow(2,(m-69)/12);
-const hasKick=(sec,rel)=>sec.t==='drop'||sec.t==='intro'||(sec.t==='build'&&rel<4)||(sec.t==='outro'&&rel<3);
+const hasKick=(sec,rel)=>(YT.on&&sec.t!=='break')||sec.t==='drop'||sec.t==='intro'||(sec.t==='build'&&rel<4)||(sec.t==='outro'&&rel<3);
 
 const FX=[
  {id:'beams',name:'BEAMS',codes:['KeyA','Digit1'],hint:'A',col:'#20e3ff',side:'L'},
@@ -1604,7 +1721,7 @@ function initAudio(){
   try{const s=ctx.createBufferSource(); s.buffer=ctx.createBuffer(1,1,22050); s.connect(ctx.destination); s.start(0);}catch(e){}
   if(ctx.state!=='running') ctx.resume().then(audioBack).catch(()=>{});
 }
-function setMuted(m){settings.muted=m;LS.set('muted',m);if(A.master)A.master.gain.value=m?0:0.85;$('muteWave').style.display=m?'none':'';}
+function setMuted(m){settings.muted=m;try{if(YT.player&&YT.ready){m?YT.player.mute():YT.player.unMute();}}catch(e){}LS.set('muted',m);if(A.master)A.master.gain.value=m?0:0.85;$('muteWave').style.display=m?'none':'';}
 function env(g,t,a,peak,dec){g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(Math.max(peak,0.0002),t+a);g.gain.exponentialRampToValueAtTime(0.0001,t+a+dec);}
 function noiseHit(t,dur,type,freq,q,vol,dest,att){const c=A.ctx,s=c.createBufferSource();s.buffer=A.noise;const f=c.createBiquadFilter();f.type=type;f.frequency.setValueAtTime(freq,t);f.Q.value=q;const g=c.createGain();env(g,t,att||0.001,vol,dur);s.connect(f);f.connect(g);g.connect(dest||A.drums);s.start(t,Math.random()*1.5);s.stop(t+(att||0.001)+dur+0.05);return f;}
 function tone(t,type,freq,dur,vol,dest,att,f2){const c=A.ctx,o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(freq,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+dur);env(g,t,att||0.003,vol,dur);o.connect(g);g.connect(dest||A.music);o.start(t);o.stop(t+(att||0.003)+dur+0.05);return o;}
@@ -2295,18 +2412,28 @@ function audioBack(){
     clock.audio=true; clock.want=false; clock.stuck=0; toast('Sound on \u266A');
   }
 }
+function ytTime(){
+  const p=YT.player; if(!p||!YT.ready||!p.getCurrentTime) return YT.vt;
+  const raw=+p.getCurrentTime()||0, now=realNow();
+  if(YT.state!==1){YT.vt=raw;YT.rt=now;YT.raw=raw;return raw;}
+  const pred=YT.vt+(now-YT.rt);
+  if(raw!==YT.raw){YT.raw=raw;const e=raw-pred;YT.vt=Math.abs(e)>0.2?raw:pred+e*0.25;YT.rt=now;return YT.vt;}
+  return pred;
+}
 function getT(){
+  if(YT.on&&game.mode==='yt') return ytTime()-YT.off;
   if(game.state==='paused') return clock.pausedAt;
   if(clock.audio&&A.ctx){const lat=Math.min(0.25,A.ctx.outputLatency||A.ctx.baseLatency||0);return A.ctx.currentTime-seq.songStart-lat;}
   return realNow()-clock.t0;
 }
 let lastBeat=Math.floor(getT()/BEAT);
-const isLooping=()=>!(game.state==='playing'&&game.mode==='show');
+const isLooping=()=>!(game.state==='playing'&&(game.mode==='show'||game.mode==='yt'));
+const scored=()=>game.mode==='show'||game.mode==='yt';
 
 function retrig(el,cls){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls);}
 function showJudge(txt,col,small){$judge.style.color=col;$judge.innerHTML='';$judge.appendChild(document.createTextNode(txt));if(small){const s=document.createElement('small');s.textContent=small;$judge.appendChild(s);}retrig($judge,'show');}
 function showCount(txt){$count.textContent=txt;retrig($count,'show');}
-let toastTimer=0;function toast(m,ms){$toast.textContent=m;$toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$toast.classList.remove('show'),ms||1500);}
+let toastTimer=0;function toast(m,ms){$toast.textContent=m;$toast.classList.toggle('long',m.length>44);$toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$toast.classList.remove('show'),ms||1500);}
 const dots=[...document.querySelectorAll('#dots i')];
 function beatDots(bi){dots.forEach((d,i)=>d.classList.toggle('on',i===bi));}
 
@@ -2316,7 +2443,7 @@ function onBeat(b){
   const mb=musicalBar(bar,isLooping()), sec=sectionOf(mb), rel=mb-sec.a, len=sec.b-sec.a;
   beatDots(bi);
   if(sec.t==='build'&&rel===len-1){showCount(String(4-bi));ledSay(String(4-bi),0.4);}
-  if(sec.t==='drop'&&rel===0&&bi===0){showCount('DROP!');ledSay('DROP',1.3);game.pumpT=BAR*2;fx.burst=1;fx.confT=Math.max(fx.confT,0.9);fx.co2T=Math.max(fx.co2T,0.5);if(game.state==='playing'&&game.mode!=='auto')buzz([40,30,60]);}
+  if(sec.t==='drop'&&rel===0&&bi===0&&!(YT.on&&YT.dropReact===sec.a)){showCount('DROP!');ledSay('DROP',1.3);game.pumpT=BAR*2;fx.burst=1;fx.confT=Math.max(fx.confT,0.9);fx.co2T=Math.max(fx.co2T,0.5);if(game.state==='playing'&&game.mode!=='auto')buzz([40,30,60]);}
   if(sec.t==='drop'&&bi===0&&rel%4===2&&game.hype>60) game.pumpT=BAR;
   if(sec.t==='drop'&&bi===0&&rel%8===0&&rel>0) fx.burst=Math.max(fx.burst,0.6);
   coachTick(sec,rel,bi);
@@ -2374,11 +2501,12 @@ function judge(id,t){
   let hg=W*3;
   if(game.cue&&game.cue.id===id){mult*=2;hg+=8;note='CROWD LOVES IT!';game.cues++;setCue(null);}
   let pts=Math.round(BASE*mult);
-  if(f.pyro&&sec.t==='drop'&&rel===0&&((nb%4)+4)%4===0&&!game.slammed[nb]){
-    game.slammed[nb]=true;pts+=2000*cm;hg+=20;game.slams++;fx.shake=Math.max(fx.shake,0.6);game.pumpT=BAR*2;buzz([50,30,80]);showJudge('DROP SLAM!','#ff2bd6','+'+pts.toLocaleString());
+  const ytSlam=YT.on&&game.mode==='yt'&&t<YT.slamUntil&&!game.slammed['yt'+YT.drop];
+  if(f.pyro&&((sec.t==='drop'&&rel===0&&((nb%4)+4)%4===0&&!game.slammed[nb])||ytSlam)){
+    game.slammed[nb]=true; if(ytSlam) game.slammed['yt'+YT.drop]=true;pts+=2000*cm;hg+=20;game.slams++;fx.shake=Math.max(fx.shake,0.6);game.pumpT=BAR*2;buzz([50,30,80]);showJudge('DROP SLAM!','#ff2bd6','+'+pts.toLocaleString());
     if(A.ctx&&A.ctx.state==='running')crowdCheer(A.ctx.currentTime,1);
-  } else showJudge(j,COL,(note?note+'  ':'')+(game.mode==='show'?'+'+pts.toLocaleString():''));
-  if(game.mode==='show') game.score+=pts;
+  } else showJudge(j,COL,(note?note+'  ':'')+(scored()?'+'+pts.toLocaleString():''));
+  if(scored()) game.score+=pts;
   game.hype=Math.min(100,game.hype+hg); retrig($('combo'),'bump');
 }
 
@@ -2390,30 +2518,35 @@ function showScreen(name){
 }
 function startMode(mode){
   initAudio();
-  setGenre(resolveGenre()); setT('genre',G.name+' \u00B7 '+G.bpm+' BPM');
+  YT.on=mode==='yt'; document.body.classList.toggle('ytplay',YT.on); document.body.classList.remove('ytsetup');
+  if(YT.on){ setGenre(ytGenre()); SHOW_BARS=1e6; YT.drop=null; YT.dropReact=-99; YT.slamUntil=-9; ytLabel(); }
+  else { setGenre(resolveGenre()); setT('genre',G.name+' \u00B7 '+G.bpm+' BPM'); }
   Object.assign(game,{mode,state:'playing',score:0,combo:0,maxCombo:0,hype:mode==='auto'?50:30,hits:0,accSum:0,perfect:0,great:0,good:0,off:0,slams:0,cues:0,lastFx:[],cool:{},coolDur:{},beatHits:{},slammed:{},lastHitT:-9,pumpT:0});
   setCue(null); rockets.length=0;
   const fromBar=parseInt(params.get('bar')||'0',10)||0;
-  if(A.ctx){ if(A.ctx.state!=='running') A.ctx.resume().then(audioBack).catch(()=>{}); startSong(fromBar); clock.audio=true; clock.want=false; clock.stuck=0; }
+  if(YT.on){ seq.running=false; clock.audio=false; clock.want=false; if(A.ctx&&A.ctx.state!=='running') A.ctx.resume().catch(()=>{}); }
+  else if(A.ctx){ if(A.ctx.state!=='running') A.ctx.resume().then(audioBack).catch(()=>{}); startSong(fromBar); clock.audio=true; clock.want=false; clock.stuck=0; }
   else { clock.audio=false; clock.want=false; clock.t0=realNow()-fromBar*BAR+0.15; }
-  coach.on=!LS.get('tutDone',false)&&mode!=='auto'&&!params.has('bar'); coach.last='';
+  coach.on=!YT.on&&!LS.get('tutDone',false)&&mode!=='auto'&&!params.has('bar'); coach.last='';
   lastBeat=Math.floor(getT()/BEAT);
-  $('scoreLbl').textContent=mode==='show'?'SCORE':'MODE';
-  $('score').classList.toggle('word',mode!=='show');
+  $('scoreLbl').textContent=mode==='show'||mode==='yt'?'SCORE':'MODE';
+  $('score').classList.toggle('word',!(mode==='show'||mode==='yt'));
   showScreen(null);
-  if(!LS.get('tutSeen',false)&&mode!=='auto'&&!params.has('bar')&&!params.has('notut')){LS.set('tutSeen',true);showTutorial();}
+  if(YT.on){ if(!LS.get('ytTip',false)){LS.set('ytTip',true);} setTimeout(()=>{if(game.mode==='yt'&&game.state==='playing')toast('Tap TAP on the beat, SYNC on a "1", DROP! when it drops',3600);},900); }
+  else if(!LS.get('tutSeen',false)&&mode!=='auto'&&!params.has('bar')&&!params.has('notut')){LS.set('tutSeen',true);showTutorial();}
 }
 function toAttract(){ seq.running=false; clock.audio=false; clock.want=false; clock.t0=realNow()-(DROP1-2)*BAR; lastBeat=Math.floor(getT()/BEAT); setCue(null); }
-function pauseGame(){ if(game.state!=='playing') return; clock.pausedAt=getT(); game.state='paused'; if(A.ctx&&clock.audio) A.ctx.suspend().catch(()=>{}); showScreen('pause'); }
-function resumeGame(){ if(game.state!=='paused') return; game.state='playing'; initAudio(); if(clock.audio&&A.ctx) A.ctx.resume().catch(()=>{}); else {clock.t0=realNow()-clock.pausedAt; if(A.ctx&&A.ctx.state==='running')audioBack();} clock.stuck=0; showScreen(null); }
-function quitToMenu(){ game.state='menu'; hideTutorial(); setGenre(resolveGenre()); toAttract(); if(A.ctx&&A.ctx.state==='suspended') A.ctx.resume().catch(()=>{}); showScreen('menu'); }
+function pauseGame(){ if(game.state!=='playing') return; clock.pausedAt=getT(); game.state='paused'; if(YT.on) ytCall('pauseVideo'); if(A.ctx&&clock.audio) A.ctx.suspend().catch(()=>{}); showScreen('pause'); }
+function resumeGame(){ if(game.state!=='paused') return; game.state='playing'; if(YT.on){ ytCall('playVideo'); showScreen(null); return; } initAudio(); if(clock.audio&&A.ctx) A.ctx.resume().catch(()=>{}); else {clock.t0=realNow()-clock.pausedAt; if(A.ctx&&A.ctx.state==='running')audioBack();} clock.stuck=0; showScreen(null); }
+function quitToMenu(){ if(YT.on){ytCall('pauseVideo');YT.on=false;document.body.classList.remove('ytplay','ytsetup');} game.state='menu'; hideTutorial(); setGenre(resolveGenre()); toAttract(); if(A.ctx&&A.ctx.state==='suspended') A.ctx.resume().catch(()=>{}); showScreen('menu'); }
 function endShow(){
-  game.state='results'; if(game.mode==='show') LS.set('tutDone',true); toAttract();
-  const acc=game.hits?game.accSum/game.hits:0, activity=Math.min(1,game.hits/(SHOW_BARS*4*0.6)), gs=acc*0.65+activity*0.35;
+  const ytBars=YT.on?Math.max(8,Math.floor(getT()/BAR)):0; if(YT.on){YT.on=false;document.body.classList.remove('ytplay');}
+  game.state='results'; if(game.mode==='show') LS.set('tutDone',true); setGenre(resolveGenre()); toAttract();
+  const acc=game.hits?game.accSum/game.hits:0, activity=Math.min(1,game.hits/((ytBars||SHOW_BARS)*4*0.6)), gs=acc*0.65+activity*0.35;
   const grade=game.hits<10?'D':gs>=0.9?'S':gs>=0.8?'A':gs>=0.66?'B':gs>=0.5?'C':'D';
-  const best=LS.get('best',0), nb=game.score>best; if(nb) LS.set('best',game.score);
+  const bk=ytBars?'bestYT':'best', best=LS.get(bk,0), nb=game.score>best; if(nb) LS.set(bk,game.score);
   $('grade').textContent=grade; $('newbest').classList.toggle('hidden',!nb);
-  const rows=[['Score',game.score.toLocaleString()],['High score',Math.max(best,game.score).toLocaleString()],['Accuracy',Math.round(acc*100)+'%'],['Best combo',game.maxCombo],['Perfect / Great / Good',game.perfect+' / '+game.great+' / '+game.good],['Off-beat',game.off],['Drop slams',game.slams+' / 2'],['Cues answered',game.cues]];
+  const rows=[['Score',game.score.toLocaleString()],['High score',Math.max(best,game.score).toLocaleString()],['Accuracy',Math.round(acc*100)+'%'],['Best combo',game.maxCombo],['Perfect / Great / Good',game.perfect+' / '+game.great+' / '+game.good],['Off-beat',game.off],['Drop slams',game.slams+(ytBars?'':' / 2')],['Cues answered',game.cues]];
   const st=$('stats'); st.innerHTML=''; rows.forEach(([a,b])=>{const d1=document.createElement('div');d1.textContent=a;const d2=document.createElement('div');d2.textContent=b;st.append(d1,d2);});
   showScreen('results'); buzz([30,40,30,40,80]);
 }
@@ -2425,11 +2558,12 @@ function setS(k,v,p){const kk=k+(p||'w');if(hc[kk]!==v){hc[kk]=v;H[k].style[p||'
 function updateHUD(info){
   if(game.state!=='playing') return;
   const m=game.mode;
-  setT('score',m==='show'?game.score.toLocaleString():m==='free'?'FREESTYLE':'AUTO-SHOW');
+  setT('score',m==='show'||m==='yt'?game.score.toLocaleString():m==='free'?'FREESTYLE':'AUTO-SHOW');
   const cm=Math.min(8,1+Math.floor(game.combo/10));
   setT('combo',m==='auto'?'tap pads to jam':game.combo>1?'COMBO '+game.combo+' \u00B7 x'+cm:'');
   setS('hype',game.hype.toFixed(1)+'%');
-  setT('sec',(m==='free'?'FREE \u00B7 ':m==='auto'?'AUTO \u00B7 ':'')+(info.t<SHOW_BARS*BAR||m!=='show'?info.sec.n:'FINALE'));
+  if(m==='yt'){ytHud(info);}
+  setT('sec',(m==='free'?'FREE \u00B7 ':m==='auto'?'AUTO \u00B7 ':m==='yt'&&YT.state!==1?'\u23F8 ':'')+(info.t<SHOW_BARS*BAR||m!=='show'?info.sec.n:'FINALE'));
   setS('prog',((m==='show'?clamp(info.t/(SHOW_BARS*BAR),0,1):clamp((info.mb-info.sec.a+info.beatFrac/4+((info.beatIdx%4+4)%4)/4)/(info.sec.b-info.sec.a),0,1))*100).toFixed(1)+'%');
   const f=info.beatFrac; setS('appr','scale('+(1+1.25*(1-f)).toFixed(2)+')','transform'); setS('appr',(0.25+0.75*f).toFixed(2),'opacity');
   setS('core','scale('+(f<0.12?1.15:1)+')','transform');
@@ -2485,8 +2619,8 @@ if(!fsOK){$('bFull').classList.add('hidden');$('sFull').textContent='Tip: Add to
 // buttons
 const click=(id,fn)=>$(id).addEventListener('click',e=>{e.preventDefault();fn();});
 click('bShow',()=>startMode('show'));click('bFree',()=>startMode('free'));click('bAuto',()=>startMode('auto'));
-click('bResume',resumeGame);click('bRestart',()=>{game.state='menu';startMode(game.mode);});click('bQuit',quitToMenu);
-click('bAgain',()=>startMode('show'));click('bMenu',quitToMenu);
+click('bResume',resumeGame);click('bRestart',()=>{game.state='menu'; if(game.mode==='yt'){ytCall('seekTo',YT.start,true);ytCall('playVideo');} startMode(game.mode);});click('bQuit',quitToMenu);
+click('bAgain',()=>{ if(game.mode==='yt'){ytOpenSetup();} else startMode(game.mode==='yt'?'show':game.mode); });click('bMenu',quitToMenu);
 click('bPause',()=>{if(game.state==='playing')pauseGame();});click('bCam',cycleCam);click('bMute',()=>setMuted(!settings.muted));
 click('bFull',toggleFull);click('sFull',()=>{if(fsOK)toggleFull();});
 const QL={auto:'Auto',high:'High',med:'Medium',low:'Low'};
@@ -2527,6 +2661,115 @@ function coachTick(sec,rel,bi){ if(!coach.on||game.state!=='playing') return; le
   else if(sec.t==='drop'&&sec.a===DROP1&&rel>=4) {coach.on=false;LS.set('tutDone',true);m='';}
   if(m!==coach.last){coach.last=m; if(m) toast(m,2800);} }
 
+// ================= MY SONG (YOUTUBE) =================
+// Uses the official YouTube IFrame Player API, loaded only when this mode is opened. Beat sync is manual (browsers can't analyse YouTube audio).
+function ytCall(fn,...a){try{if(YT.player&&YT.ready&&YT.player[fn])return YT.player[fn](...a);}catch(e){}}
+function ytMsg(m,ok){const el=$('ytMsg');el.textContent=m||'';el.classList.toggle('ok',!!ok);}
+function loadYTApi(){
+  if(YT.api==='ready'||YT.api==='loading') return;
+  if(window.YT_API_READY){YT.api='ready';return;}
+  YT.api='loading';
+  const prev=window.onYouTubeIframeAPIReady;
+  window.onYouTubeIframeAPIReady=()=>{YT.api='ready';window.YT_API_READY=true;if(prev)try{prev();}catch(e){} ytInputChanged();};
+  const sc=document.createElement('script');sc.src='https://www.youtube.com/iframe_api';sc.async=true;
+  sc.onerror=()=>{YT.api='fail';sc.remove();ytMsg("Couldn't reach YouTube. Check your connection and try again (everything else works offline).");};
+  document.head.appendChild(sc);
+  setTimeout(()=>{if(YT.api==='loading'){YT.api='fail';ytMsg("YouTube is taking too long to load. Check your connection and try again.");}},15000);
+}
+const YT_ERR={2:"That link doesn't point to a valid video. Check it and try again.",5:"This video can't play in the browser player. Try another upload of the song.",100:"That video was removed or is private. Try another upload of the song.",101:"This upload can't play outside YouTube, try another upload of the song",150:"This upload can't play outside YouTube, try another upload of the song",153:"YouTube refused to play here. Open the game from its web link (not a saved file) and try again."};
+function ytEnsurePlayer(id,start){
+  if(YT.api!=='ready'||!window.YT||!window.YT.Player) return false;
+  if(YT.player){ if(YT.id!==id&&YT.ready){YT.player.cueVideoById({videoId:id,startSeconds:start||0});} YT.id=id;YT.start=start||0; return true; }
+  YT.id=id;YT.start=start||0;
+  const pv={playsinline:1,rel:0,modestbranding:1,controls:1,fs:0,start:start||0};
+  if(/^https?:/.test(location.protocol)) pv.origin=location.origin;
+  try{
+    YT.player=new window.YT.Player('ytPlayer',{width:'100%',height:'100%',videoId:id,playerVars:pv,events:{
+      onReady:()=>{YT.ready=true; if(settings.muted)ytCall('mute'); if(YT.id!==id)YT.player.cueVideoById({videoId:YT.id,startSeconds:YT.start}); if(YT.pending){YT.pending=false;ytCall('playVideo');ytAutoplayCheck();} },
+      onStateChange:e=>{YT.state=e.data; if(e.data===1){YT.err='';ytTitle();} if(e.data===5||e.data===1)ytTitle(); if(e.data===0&&YT.on)YT.ended=true; if(YT.on&&game.state==='playing'){ if(e.data===2)toast('Video paused \u2014 the beat waits for it'); } },
+      onError:e=>ytOnError(e.data)
+    }});
+  }catch(e){ytMsg("Couldn't start the YouTube player. Try again.");return false;}
+  return true;
+}
+function ytOnError(code){const m=YT_ERR[code]||"This video can't be played here. Try another upload of the song."; YT.err=m; ytMsg(m); if(YT.on&&game.state==='playing'){toast(m,4500);} return m;}
+function ytAutoplayCheck(){setTimeout(()=>{if(YT.on&&game.state==='playing'&&YT.state!==1&&YT.state!==3&&!YT.err)toast('Tap \u25B6 on the video to start your song',3500);},1800);}
+function ytTitle(){const d=ytCall('getVideoData');if(d&&d.title){YT.title=d.title;ytMsg('\u2713 '+d.title,true);ytRemember();}}
+function ytRecent(){const r=LS.get('ytRecent',[]);return Array.isArray(r)?r:[];}
+function ytRemember(){if(!YT.id)return;let r=ytRecent().filter(x=>x&&x.id!==YT.id);const prev=ytRecent().find(x=>x&&x.id===YT.id)||{};
+  r.unshift({id:YT.id,url:YT.url||('https://youtu.be/'+YT.id),title:YT.title||prev.title||'',bpm:YT.bpm,off:YT.off,start:YT.start});r=r.slice(0,10);LS.set('ytRecent',r);}
+function ytRenderRecent(){const box=$('ytRecent');box.innerHTML='';const r=ytRecent();$('ytRecentLbl').classList.toggle('hidden',!r.length);
+  r.forEach(x=>{const b=document.createElement('button');b.className='ytItem';const t=document.createElement('b');t.textContent=x.title||x.url;const m=document.createElement('span');m.textContent=(x.bpm?x.bpm+' BPM · ':'')+'youtu.be/'+x.id;b.append(t,m);
+    b.addEventListener('click',e=>{e.preventDefault();$('ytUrl').value=x.url;if(x.bpm)ytSetBpm(x.bpm,true);YT.off=x.off||0;YT.title=x.title||'';ytInputChanged();});box.appendChild(b);});}
+function ytBpmChips(){const box=$('ytBpms');box.innerHTML='';YT_BPMS.forEach(v=>{const b=document.createElement('button');b.className='chip bpm';b.dataset.v=v;b.textContent=v;b.addEventListener('click',e=>{e.preventDefault();ytSetBpm(v,true);});box.appendChild(b);});ytMarkBpm();}
+function ytMarkBpm(){document.querySelectorAll('#ytBpms .bpm').forEach(c=>c.classList.toggle('sel',+c.dataset.v===Math.round(YT.bpm)));$('ytBpmBtn').textContent=(Math.round(YT.bpm*10)/10)+' BPM';}
+function ytSetBpm(v,quiet){
+  v=clamp(Math.round(v*10)/10,60,200);
+  if(YT.on&&game.mode==='yt'){const vt=ytTime(), beats=(vt-YT.off)/BEAT; YT.bpm=v; setGenre(ytGenre()); SHOW_BARS=1e6; YT.off=vt-beats*BEAT; lastBeat=Math.floor(getT()/BEAT);} else YT.bpm=v;
+  LS.set('ytBpm',YT.bpm); ytMarkBpm(); ytLabel(); if(!quiet)toast(YT.bpm+' BPM'); ytRemember();
+}
+function ytLabel(){setT('genre','MY SONG \u00B7 '+(Math.round(YT.bpm*10)/10)+' BPM');}
+let ytDeb=0;
+function ytInputChanged(){
+  clearTimeout(ytDeb);
+  ytDeb=setTimeout(()=>{const v=$('ytUrl').value; if(!v.trim()){ytMsg('');return;} const p=parseYouTube(v);
+    if(!p){ytMsg("That doesn't look like a YouTube link. Paste the whole link from the Share button.");return;}
+    YT.url=v.trim(); YT.err='';
+    if(YT.api==='fail'){YT.api='none';loadYTApi();}
+    if(ytEnsurePlayer(p.id,p.start)){ if(!YT.title||YT.id!==p.id) ytMsg('\u2713 Video found \u2014 tap PLAY',true); } else ytMsg(YT.api==='loading'?'Loading YouTube\u2026':'',true);
+  },120);
+}
+function ytOpenSetup(){ initAudio(); game.state='menu'; YT.on=false; document.body.classList.remove('ytplay'); document.body.classList.add('ytsetup');
+  ['menu','pause','results'].forEach(s=>$(s).classList.add('hidden')); $('hud').classList.add('hidden'); $('ytSetup').classList.remove('hidden');
+  ytBpmChips(); ytRenderRecent(); loadYTApi(); if($('ytUrl').value) ytInputChanged(); }
+function ytCloseSetup(){ $('ytSetup').classList.add('hidden'); document.body.classList.remove('ytsetup'); ytCall('pauseVideo'); showScreen('menu'); }
+function ytPlay(){ // runs inside the tap handler so iOS lets the video start
+  const p=parseYouTube($('ytUrl').value);
+  if(!p){ytMsg($('ytUrl').value.trim()?"That doesn't look like a YouTube link. Paste the whole link from the Share button.":'Paste a YouTube link first.');return;}
+  if(YT.err&&YT.id===p.id){ytMsg(YT.err);return;}
+  YT.url=$('ytUrl').value.trim();
+  if(YT.api==='fail'){YT.api='none';loadYTApi();ytMsg('Retrying YouTube\u2026');return;}
+  if(!ytEnsurePlayer(p.id,p.start)){YT.pending=true;ytMsg('Loading YouTube\u2026 it will start in a moment',true);}
+  else if(YT.ready){ if(YT.player.getVideoData&&YT.player.getVideoData().video_id!==p.id) YT.player.loadVideoById({videoId:p.id,startSeconds:p.start||0}); else YT.player.playVideo(); ytAutoplayCheck(); }
+  else YT.pending=true;
+  const rec=ytRecent().find(x=>x&&x.id===p.id); if(rec&&rec.off!=null&&!YT.offSet) YT.off=rec.off;
+  $('ytSetup').classList.add('hidden'); startMode('yt'); ytRemember();
+}
+function ytTap(e){
+  const now=(e&&e.timeStamp>0&&Math.abs(e.timeStamp/1000-realNow())<0.5)?e.timeStamp/1000:realNow(), T=YT.taps; if(T.length&&now-T[T.length-1]>2) T.length=0; T.push(now); if(T.length>9)T.shift();
+  const b=$('ytTap'); retrig(b,'hit');
+  if(T.length>=4){const iv=(T[T.length-1]-T[0])/(T.length-1); let bpm=60/iv; while(bpm<90)bpm*=2; while(bpm>190)bpm/=2; bpm=Math.round(bpm*2)/2;
+    const near=YT_BPMS.find(x=>Math.abs(x-bpm)<=1); ytSetBpm(near||bpm,true);
+    const vt=ytTime(), k=Math.round((vt-YT.off)/BEAT); YT.off=vt-k*BEAT; lastBeat=Math.floor(getT()/BEAT);
+    b.textContent='TAP '+(Math.round(YT.bpm*10)/10);} else b.textContent='TAP '+T.length+'/4';
+  buzz(8);
+}
+function ytSync(){ // tap on a "1" (downbeat): sets the phase so bars/phrases line up
+  const vt=ytTime(), k=Math.round((vt-YT.off)/BAR); YT.off=vt-k*BAR; YT.offSet=true; lastBeat=Math.floor(getT()/BEAT); retrig($('ytSync'),'hit'); toast('Synced to beat 1'); buzz(12); ytRemember();
+}
+function ytNudge(d){YT.off+=d; lastBeat=Math.floor(getT()/BEAT); toast((d>0?'Later':'Earlier')+' '+Math.abs(d*1000|0)+' ms'); ytRemember();}
+function ytDrop(){
+  if(!(YT.on&&game.state==='playing'))return;
+  const t=getT(), rb=Math.max(0,Math.floor(t/BAR+0.25));
+  YT.drop=rb; YT.dropReact=rb; YT.slamUntil=t+BEAT*1.6;
+  showCount('DROP!'); ledSay('DROP',1.3); game.pumpT=BAR*2; fx.burst=1; fx.confT=Math.max(fx.confT,0.9); fx.co2T=Math.max(fx.co2T,0.5); fx.shake=Math.max(fx.shake,0.35);
+  const cm=Math.min(8,1+Math.floor(game.combo/10)); game.score+=500*cm; game.hype=Math.min(100,game.hype+12);
+  showJudge('DROP!','#ff2bd6','+'+(500*cm).toLocaleString()+' \u00B7 FIRE PYRO NOW FOR A SLAM');
+  if(A.ctx&&A.ctx.state==='running')crowdCheer(A.ctx.currentTime,1); buzz([40,30,60]); retrig($('ytDropB'),'hit');
+}
+function ytHud(info){}
+$('ytUrl').addEventListener('input',ytInputChanged);
+$('ytUrl').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();$('ytUrl').blur();ytPlay();}});
+click('bYT',ytOpenSetup); click('ytBack',ytCloseSetup); click('ytGo',ytPlay);
+click('ytPaste',()=>{ if(navigator.clipboard&&navigator.clipboard.readText){navigator.clipboard.readText().then(t=>{$('ytUrl').value=t||'';ytInputChanged();}).catch(()=>{$('ytUrl').focus();ytMsg('Long-press the box and choose Paste.');});} else {$('ytUrl').focus();ytMsg('Long-press the box and choose Paste.');} });
+click('ytClear',()=>{$('ytUrl').value='';ytMsg('');$('ytUrl').focus();});
+click('ytSize',()=>{YT.big=!YT.big;document.body.classList.toggle('ytbig',YT.big);});
+document.body.classList.toggle('ytbig',YT.big);
+click('ytBpmBtn',()=>{const i=YT_BPMS.indexOf(Math.round(YT.bpm));ytSetBpm(YT_BPMS[(i+1)%YT_BPMS.length]);});
+['ytTap','ytSync','ytDropB'].forEach(id=>{const fn={ytTap,ytSync,ytDropB:ytDrop}[id];$(id).addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();fn(e);});});
+click('ytMinus',()=>ytNudge(-0.02)); click('ytPlus',()=>ytNudge(0.02));
+addEventListener('keydown',e=>{if(!(YT.on&&game.state==='playing'))return; if(e.code==='KeyT')ytTap(); else if(e.code==='KeyY')ytSync(); else if(e.code==='KeyB')ytDrop(); else if(e.code==='Comma')ytNudge(-0.02); else if(e.code==='Period')ytNudge(0.02);});
+
 // ================= MAIN LOOP =================
 const perf={frames:0,t0:realNow(),cool:realNow()+3}; const showFps=params.has('fps'); if(showFps)$('fps').classList.remove('hidden');
 let crowdTick=0; const INFO={};
@@ -2544,6 +2787,7 @@ function update(dt){
   else if(t-game.lastHitT>BEAT*1.5) game.hype=Math.max(0,game.hype-dt*(sec.t==='drop'?4:2));
   if(A.ctx&&A.ctx.state==='running'&&rt>crowdTick){crowdTick=rt+0.3;const now=A.ctx.currentTime;if(!(A.cheerUntil>now))A.crowd.gain.setTargetAtTime(game.state==='playing'?0.012+game.hype*0.0011:0.006,now,0.6);}
   if(game.state==='playing'&&game.mode==='show'&&t>SHOW_BARS*BAR+BEAT*2) endShow();
+  if(YT.on&&YT.ended&&game.state==='playing'){YT.ended=false;endShow();}
   updateShow(dt,info); updateCamera(dt,rt); updateHUD(info);
 }
 function render(){
@@ -2562,7 +2806,7 @@ function frame(now){
 }
 drawBooth(PALS[0].map(hex)); buildGenreCards(); applyQuality(qLevel); labelSettings(); setMuted(settings.muted); showScreen('menu');
 requestAnimationFrame(frame);
-window.__dropControl={version:VERSION,game,fx,cam,startMode,userHit,trigger,quality:()=>qLevel,particles:()=>P.n,applyQuality,genre:()=>G.id,setGenreChoice:id=>pickGenre(id),cycleCam,drop1:()=>DROP1,audioState:()=>A.ctx?A.ctx.state:'none',fov:()=>camera.fov};
+window.__dropControl={yt:YT,parseYouTube,ytDrop:()=>ytDrop(),ytErr:c=>ytOnError(c),ytTime:()=>ytTime(),getT:()=>getT(),version:VERSION,game,fx,cam,startMode,userHit,trigger,quality:()=>qLevel,particles:()=>P.n,applyQuality,genre:()=>G.id,setGenreChoice:id=>pickGenre(id),cycleCam,drop1:()=>DROP1,audioState:()=>A.ctx?A.ctx.state:'none',fov:()=>camera.fov};
 })();
 </script>
 </body>
