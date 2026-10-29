@@ -1,9 +1,9 @@
 // Core: utilities, device, event bus, versioned save system, settings, key bindings, command log (drives replay + scoring)
-const VERSION='v2.2';
+const VERSION='v2.3';
 // seedable RNG: shadows Math inside the bundle so a challenge seed replays the identical show
 const RNG={f:globalThis.Math.random};const Math=Object.create(globalThis.Math,{random:{value:()=>RNG.f()}});
 function rngSeed(s){RNG.f=s?seeded(s):globalThis.Math.random;}
-const SAVE_VERSION=1;
+const SAVE_VERSION=2; // v2: adds SAVE.fun (stars, achievements, daily festival, duel stats); v1 saves migrate automatically
 const params=new URLSearchParams(location.search);
 const UA=navigator.userAgent||'';
 const IS_IOS=/iPad|iPhone|iPod/.test(UA)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
@@ -53,7 +53,15 @@ function defBindings(){const b={};ACTIONS.forEach(a=>b[a[0]]=a[2]);return b;}
 // ---- versioned save ----
 function freshSave(){return {v:SAVE_VERSION,created:Date.now(),settings:JSON.parse(JSON.stringify(DEF_SETTINGS)),bind:defBindings(),
   career:{credits:400,xp:0,rep:0,venue:0,best:{},missions:{},challenges:{},shows:0},owned:[],skin:'default',
-  groups:[],presets:[],cues:[],programs:{},ledPresets:[],macros:[],festivals:[],swatches:['#ff2bd6','#20e3ff','#ffffff','#ffb300'],favorites:[],tutorialDone:false,seenWarn:false,welcomed:false,lastTrack:'bigroom',mp:{name:'',lb:{}}};}
+  groups:[],presets:[],cues:[],programs:{},ledPresets:[],macros:[],festivals:[],swatches:['#ff2bd6','#20e3ff','#ffffff','#ffb300'],favorites:[],tutorialDone:false,seenWarn:false,welcomed:false,lastTrack:'bigroom',mp:{name:'',lb:{}},fun:freshFun()};}
+function freshFun(){return {stars:{},ach:{},daily:{last:'',streak:0,bestStreak:0,best:{},played:0},played:{},stats:{fever:0,req:0,perfDrops:0,duels:0,duelWins:0,maxCombo:0,maxHype:0}};}
+function sanitizeFun(f){const F=freshFun(),o=v=>v&&typeof v==='object'&&!Array.isArray(v);if(!o(f))return F;
+  for(const k of ['stars','ach','played']){if(o(f[k]))for(const [a,b] of Object.entries(f[k]))if(typeof a==='string'&&Number.isFinite(+b))F[k][a.slice(0,40)]=Math.max(0,Math.min(1e7,Math.floor(+b)));}
+  if(o(f.daily)){const d=f.daily;F.daily.last=typeof d.last==='string'&&/^\d{4}-\d\d-\d\d$/.test(d.last)?d.last:'';['streak','bestStreak','played'].forEach(k=>{F.daily[k]=Number.isFinite(+d[k])?Math.max(0,Math.floor(+d[k])):0;});
+    if(o(d.best))for(const [a,b] of Object.entries(d.best))if(/^\d{4}-\d\d-\d\d$/.test(a)&&Number.isFinite(+b))F.daily.best[a]=Math.max(0,Math.min(99999,Math.floor(+b)));
+    const ks=Object.keys(F.daily.best).sort();ks.slice(0,Math.max(0,ks.length-60)).forEach(k=>delete F.daily.best[k]);}
+  if(o(f.stats))for(const k of Object.keys(F.stats))if(Number.isFinite(+f.stats[k]))F.stats[k]=Math.max(0,Math.floor(+f.stats[k]));
+  return F;}
 let SAVE, SAVE_NOTE='';
 function sanitizeSave(s){
   const f=freshSave(); if(!s||typeof s!=='object'||Array.isArray(s)) throw new Error('not an object');
@@ -75,6 +83,8 @@ function sanitizeSave(s){
   if(!out.programs||typeof out.programs!=='object')out.programs={};
   for(const k in out.programs){const p=out.programs[k];if(!p||!Array.isArray(p.ev))delete out.programs[k];else p.ev=p.ev.filter(e=>e&&Number.isFinite(e.b)&&typeof e.cue==='string');}
   out.swatches=out.swatches.filter(hexOk).slice(0,16);
+  out.fun=sanitizeFun(s.fun); // v1 -> v2 migration: v1 saves have no 'fun' block, so they get a fresh one
+  out.v=SAVE_VERSION;
   return out;
 }
 function loadSave(){
@@ -105,7 +115,11 @@ function confirmBox(title,text,okLabel,fn,danger){const m=$('modal'),c=$('mcard'
 function promptBox(title,value,fn){const m=$('modal'),c=$('mcard');c.innerHTML='<h2></h2><input id="mIn" maxlength="40" style="width:100%"><div class="row" style="justify-content:flex-end;margin-top:.6rem"><button id="mNo">Cancel</button><button id="mYes" class="sel">OK</button></div>';
   c.querySelector('h2').textContent=title;const i=c.querySelector('#mIn');i.value=value||'';m.classList.remove('hidden');setTimeout(()=>{i.focus();i.select();},30);
   const done=()=>{const v=i.value.trim().slice(0,40);m.classList.add('hidden');if(v)fn(v);};c.querySelector('#mNo').onclick=()=>m.classList.add('hidden');c.querySelector('#mYes').onclick=done;i.onkeydown=e=>{if(e.key==='Enter')done();e.stopPropagation();};}
-function buzz(p){if(ST.haptics&&navigator.vibrate)try{navigator.vibrate(p);}catch(e){}}
+function buzz(p){if(!ST.haptics)return;if(navigator.vibrate){try{navigator.vibrate(p);}catch(e){}return;}if(IS_IOS)iosTick(Array.isArray(p)?p.filter((x,i)=>i%2===0).length:1);}
+// iOS Safari has no Vibration API. Since iOS 18, toggling an <input type=checkbox switch> through its <label> plays a system haptic tick (best effort, only inside a user gesture).
+let _hapL=null,_hapT=0;function iosTick(n){const t=realNow();if(t-_hapT<0.035)return;_hapT=t;try{if(!_hapL){const i=document.createElement('input');i.type='checkbox';i.setAttribute('switch','');i.id='hapSw';i.style.cssText='position:fixed;left:-99px;top:0;opacity:0;pointer-events:none';
+  _hapL=document.createElement('label');_hapL.htmlFor='hapSw';_hapL.style.cssText='position:fixed;left:-99px;top:0;width:1px;height:1px;opacity:0;pointer-events:none';_hapL.setAttribute('aria-hidden','true');i.setAttribute('aria-hidden','true');i.tabIndex=-1;document.body.append(i,_hapL);}
+  _hapL.click();for(let k=1;k<Math.min(n,3);k++)setTimeout(()=>{try{_hapL.click();}catch(e){}},k*70);}catch(e){}}
 // ---- command log: every show-state mutation goes through CMD.run so it can be recorded, replayed and scored ----
 const CMD={reg:{},rec:null,replaying:false,
   def(name,fn){this.reg[name]=fn;},

@@ -44,7 +44,7 @@ async function layout(p,name){const r=await p.evaluate(()=>{const sc=document.qu
  await p.goto('about:blank');const bad=url.slice(0,-8)+(url.slice(-8,-7)==='a'?'b':'a')+url.slice(-7);await p.goto(bad);await W(2500);
  const tb=await p.evaluate(()=>({ses:!!__fc.SES(),menu:!!document.querySelector('.playBig'),toast:(document.getElementById('toast')||{}).textContent||''}));log('tamperedLink',tb);ok('tamperedLink',!tb.ses&&tb.menu);
  // 5) leaderboard trim
- const lb=await p.evaluate(()=>{const f=__fc,c={track:'r_mine',venue:2,auto:'manual',short:true};for(let i=0;i<12;i++)f.lbRecord('P'+i,1000+i*10,c);const L=f.SAVE().mp.lb['r_mine@2'];return {n:L.length,top:L[0][1],bottom:L[9][1],all:f.SAVE().mp.lb.all.length};});log('leaderboardTrim',lb);ok('lbTrim',lb.n===10&&lb.top===1110&&lb.bottom===1020&&lb.all===10);
+ const lb=await p.evaluate(()=>{const f=__fc,c={track:'r_acceptance',venue:2,auto:'manual',short:true};for(let i=0;i<12;i++)f.lbRecord('P'+i,1000+i*10,c);const L=f.SAVE().mp.lb['r_acceptance@2'];return {n:L.length,top:L[0][1],bottom:L[9][1],all:f.SAVE().mp.lb.all.length};});log('leaderboardTrim',lb);ok('lbTrim',lb.n===10&&lb.top===1110&&lb.bottom===1020&&lb.all===10);
  await p.click('[data-u="mp"]');await W(300);await layout(p,'hub');await p.click('[data-u="lb"]');await W(300);await layout(p,'leaderboard');
  // 6) party mode, 3 players
  await p.click('[data-u="mp"]');await W(200);await p.click('[data-u="party"]');await W(300);await p.selectOption('#pN','3');await W(200);

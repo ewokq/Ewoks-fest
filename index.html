@@ -14,9 +14,9 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<link rel="apple-touch-icon" href="apple-touch-icon.png?v=2.1">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=2.3">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="manifest" href="manifest.webmanifest?v=2.1">
+<link rel="manifest" href="manifest.webmanifest?v=2.3">
 <title>FESTIVAL CONTROL v2.1</title>
 <style>
 :root{--ui:1;--txt:1;--acc:#ff2bd6;--acc2:#20e3ff;--ok:#3dff8e;--warn:#ffb300;--bad:#ff3b3b;--bg:rgba(8,9,20,.86);--bg2:rgba(20,22,42,.92);--line:rgba(255,255,255,.12);
@@ -257,6 +257,84 @@ canvas.graph{display:block;border-radius:.5rem;background:rgba(255,255,255,.03)}
 .podium{display:flex;justify-content:center;align-items:flex-end;gap:.5rem;margin:.6rem 0}.pod{flex:1;max-width:8rem;text-align:center}.pod .pm{font-size:2rem}.pod .pn{font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pod .ps{color:#ffb300;font-weight:700}
 .pod .pb{background:linear-gradient(#ff2bd6,#5b2bff);border-radius:.5rem .5rem 0 0;display:flex;align-items:flex-start;justify-content:center;font-size:1.6rem;font-weight:900;padding-top:.3rem;margin-top:.3rem}
 .pass .wIcon{font-size:3rem}
+
+/* v2.3 fun layer */
+#hypeBox{position:absolute;left:calc(var(--sal) + .5rem);bottom:calc(100% + .35rem);min-height:44px;box-sizing:border-box;display:flex;align-items:center;gap:.35rem;padding:.25rem .8rem;border-radius:1.4rem;font-weight:800;background:rgba(10,10,30,.78);border:1px solid var(--line);font-size:1rem;pointer-events:none;z-index:3}
+#hypeBox b{font-variant-numeric:tabular-nums;min-width:3.2rem;text-align:right}
+#multN{font-style:normal;font-weight:900;color:#ffd27a}#multN.bump{animation:bump .35s ease-out}
+@keyframes bump{0%{transform:scale(1.8)}100%{transform:scale(1)}}
+body.m2 #multN{color:#7dffb8}body.m3 #multN{color:#20e3ff}body.m4 #multN{color:#ff2bd6;text-shadow:0 0 8px #ff2bd6}
+body.m3 #hud::after,body.m4 #hud::after,body.fever #hud::after{content:'';position:fixed;inset:0;pointer-events:none;border-radius:0;box-shadow:inset 0 0 40px rgba(32,227,255,.35);z-index:0}
+body.m4 #hud::after{box-shadow:inset 0 0 55px rgba(255,43,214,.45)}
+body.fever #hud::after{box-shadow:inset 0 0 70px rgba(255,120,30,.6);animation:feverPulse .48s ease-in-out infinite alternate}
+@keyframes feverPulse{from{opacity:.55}to{opacity:1}}
+#bFever{position:absolute;right:calc(var(--sar) + .5rem);bottom:calc(100% + .35rem);min-height:44px;min-width:8.5rem;padding:0 .8rem;border-radius:1.4rem;border:1px solid rgba(255,140,50,.6);color:#fff;font-weight:900;letter-spacing:.05em;
+ background:linear-gradient(90deg,rgba(255,110,30,.85) var(--f,0%),rgba(20,20,46,.85) var(--f,0%));touch-action:manipulation}
+#bFever.ready{animation:spGlow .7s ease-in-out infinite;border-color:#fff;background:linear-gradient(90deg,#ff6a1a,#ff2bd6)}
+#bFever.on{background:linear-gradient(90deg,#ff2bd6 var(--f,0%),rgba(20,20,46,.85) var(--f,0%));border-color:#fff}
+#req{position:relative;overflow:hidden;font-weight:800;font-size:.9rem;padding:.35rem .8rem;border-radius:1rem;background:rgba(40,20,70,.88);border:1px solid #ffd27a;color:#fff;animation:reqIn .3s ease-out}
+#req i{position:absolute;left:0;bottom:0;height:3px;background:#ffd27a;display:block}
+#req.done{border-color:#3dff8e;background:rgba(20,80,50,.9)}#req.miss{border-color:#ff6b6b;opacity:.7}
+@keyframes reqIn{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+.spark{position:fixed;width:0;height:0;pointer-events:none;z-index:15}
+.spark i{position:absolute;width:7px;height:7px;margin:-3px;border-radius:50%;background:#7dffb8;animation:spk .6s ease-out forwards}
+.spark.great i{background:#9ad8ff}.spark.drop i{background:#ffd27a;width:10px;height:10px}
+.spark i:nth-child(1){--x:0;--y:-46px}.spark i:nth-child(2){--x:40px;--y:-24px}.spark i:nth-child(3){--x:40px;--y:24px}.spark i:nth-child(4){--x:0;--y:46px}.spark i:nth-child(5){--x:-40px;--y:24px}.spark i:nth-child(6){--x:-40px;--y:-24px}
+@keyframes spk{to{transform:translate(var(--x),var(--y)) scale(.3);opacity:0}}
+.starsRow{display:flex;align-items:center;gap:.6rem;margin:.3rem 0}.stars{font-size:1.9rem;color:#ffd27a;letter-spacing:.08em;text-shadow:0 0 10px rgba(255,210,122,.5)}.starsRow em{font-style:normal;color:var(--ok);font-weight:800}
+.chips{display:flex;flex-wrap:wrap;gap:.35rem;margin:.3rem 0 .4rem}.chips span{font-size:.8rem;padding:.25rem .55rem;border-radius:.8rem;background:rgba(255,255,255,.07);border:1px solid var(--line)}
+.hls div{font-size:.85rem;padding:.12rem 0}
+.dailyRes{margin:.5rem 0;padding:.55rem .7rem;border-radius:.8rem;border:1px solid #ffd27a;background:rgba(80,60,10,.25)}
+.dailyCard{display:flex;flex-direction:column;gap:.15rem;padding:.7rem .9rem;border-radius:1rem;background:rgba(255,255,255,.06);border:1px solid var(--line);margin:.4rem 0}.dailyCard b{font-size:1.15rem}.dailyCard span{color:var(--mut,#aab);font-size:.85rem}
+.dailyStats{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin:.5rem 0}.dailyStats div{text-align:center;padding:.5rem .2rem;border-radius:.8rem;background:rgba(255,255,255,.05)}.dailyStats b{display:block;font-size:1.25rem}.dailyStats span{font-size:.72rem;opacity:.75}
+.menuGrid button.hot{border-color:rgba(255,210,122,.65)}
+.achList{display:grid;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr));gap:.4rem}
+.ach{display:flex;align-items:center;gap:.6rem;padding:.5rem .65rem;border-radius:.8rem;background:rgba(255,255,255,.04);border:1px solid var(--line);opacity:.65}.ach.got{opacity:1;border-color:rgba(255,210,122,.6)}
+.ach i{font-style:normal;font-size:1.5rem}.ach div{flex:1;display:flex;flex-direction:column}.ach span{font-size:.78rem;opacity:.75}.ach em{font-style:normal;font-weight:800;color:#ffd27a;font-size:.85rem}
+.h2hT{width:100%;border-collapse:collapse;margin:.5rem 0;font-size:.9rem}.h2hT th,.h2hT td{padding:.3rem .4rem;border-bottom:1px solid var(--line);text-align:center}.h2hT td:first-child{text-align:left;opacity:.85}.h2hT .w{color:#7dffb8;font-weight:900}
+.duelHow{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin:.5rem 0}.duelHow button{display:flex;flex-direction:column;align-items:center;gap:.1rem;padding:.6rem .4rem;min-height:44px}.duelHow i{font-style:normal;font-size:1.6rem}.duelHow span{font-size:.75rem;opacity:.75}
+/* v2.3 duel split screen */
+body.duel #topbar,body.duel #guide,body.duel #bottom,body.duel #hypeBox,body.duel #suggest,body.duel #banner,body.duel #pop,body.duel #panel{display:none!important}
+#duel{position:fixed;inset:0;z-index:5;display:grid;grid-template-rows:auto 1fr auto;touch-action:none;user-select:none;-webkit-user-select:none;pointer-events:none;
+ padding:calc(var(--sat) + .3rem) calc(var(--sar) + .3rem) calc(var(--sab) + .3rem) calc(var(--sal) + .3rem);gap:.3rem}
+#duel>*{pointer-events:auto}
+.dp{position:relative;display:flex;flex-direction:column;gap:.3rem;padding:.4rem;border-radius:1rem;background:rgba(8,8,22,.72);border:2px solid rgba(32,227,255,.55)}
+.dp2{border-color:rgba(255,43,214,.6)}
+.dp.lead{box-shadow:0 0 14px rgba(255,210,122,.55)}.dp.fever{border-color:#ff8a2a;box-shadow:0 0 22px rgba(255,120,30,.7)}
+.dpHead{display:flex;align-items:baseline;gap:.5rem;font-size:.9rem}.dpName{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dpPts{font-size:1.3rem;font-weight:900;font-variant-numeric:tabular-nums}.dpMult{font-weight:900;color:#ffd27a}.dpCombo{font-size:.75rem;opacity:.8;min-width:3.5rem}
+.dpPads{display:grid;grid-template-columns:repeat(3,1fr);gap:.3rem}
+.dpad{min-height:52px;min-width:44px;border-radius:.8rem;background:#14162e;border:1px solid var(--line);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:.15rem;touch-action:none}
+.dpad i{font-style:normal;font-size:1.3rem;line-height:1.1}.dpad b{font-size:.7rem}
+.dpad.hit{background:#fff;color:#000}.dpad.glow{animation:spGlow .9s ease-in-out infinite;border-color:#fff}
+.dpad-drop{background:linear-gradient(135deg,#ff2bd6,#ff7a1a)}
+.dpFever{min-height:44px;border-radius:.8rem;border:1px solid rgba(255,140,50,.6);color:#fff;font-weight:900;background:linear-gradient(90deg,rgba(255,110,30,.85) var(--f,0%),rgba(20,20,46,.85) var(--f,0%));touch-action:none}
+.dpFever.ready{animation:spGlow .7s ease-in-out infinite;background:linear-gradient(90deg,#ff6a1a,#ff2bd6);border-color:#fff}
+.dpPop{position:absolute;left:50%;top:-.2rem;transform:translate(-50%,-100%);font-weight:900;font-size:1.25rem;opacity:0;pointer-events:none;white-space:nowrap;text-shadow:0 2px 8px #000}
+.dpPop.go{animation:dpop .8s ease-out forwards}.dpPop.perfect{color:#7dffb8}.dpPop.great{color:#9ad8ff}.dpPop.miss{color:#ff9a9a;font-size:.95rem}.dpPop.drop,.dpPop.combo{color:#ffd27a}
+@keyframes dpop{0%{opacity:0;transform:translate(-50%,-60%) scale(.7)}20%{opacity:1;transform:translate(-50%,-100%) scale(1.15)}100%{opacity:0;transform:translate(-50%,-150%) scale(1)}}
+.dp2 .dpPop{top:-.2rem}
+.dMid{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;pointer-events:none!important;position:relative}
+.dMid>*{pointer-events:auto}
+.dTug{position:relative;width:min(92%,30rem);height:1.5rem;border-radius:.8rem;background:rgba(255,43,214,.75);overflow:hidden;border:1px solid #fff}
+.dTug i{position:absolute;left:0;top:0;bottom:0;background:rgba(32,227,255,.9);transition:width .25s}
+.dTug span{position:absolute;top:0;line-height:1.5rem;font-size:.72rem;font-weight:900;color:#000;padding:0 .5rem;max-width:45%;overflow:hidden;white-space:nowrap}.dT1{left:0}.dT2{right:0}
+.dInfo{display:flex;flex-direction:column;align-items:center;gap:.3rem;pointer-events:none!important}
+.dReq{position:relative;font-weight:800;font-size:.9rem;padding:.3rem .8rem;border-radius:1rem;background:rgba(40,20,70,.88) linear-gradient(90deg,rgba(255,210,122,.35) var(--l,0%),transparent var(--l,0%));border:1px solid #ffd27a}
+.dCd{font-weight:900;font-size:1.1rem;color:#fff;text-shadow:0 0 10px #ff2bd6}.dCd.num{font-size:2.4rem}
+.dPause{position:absolute;right:0;top:50%;transform:translateY(-50%);min-width:44px;min-height:44px;border-radius:50%;background:rgba(10,10,30,.8);border:1px solid var(--line);color:#fff;font-size:1.1rem}
+@media (orientation:portrait){
+ .dp2{transform:rotate(180deg)}
+ #duel{grid-template-rows:auto 1fr auto}
+}
+@media (orientation:landscape){
+ #duel{grid-template-rows:1fr;grid-template-columns:minmax(12rem,30%) 1fr minmax(12rem,30%)}
+ .dp1{grid-column:1;grid-row:1}.dMid{grid-column:2;grid-row:1}.dp2{grid-column:3;grid-row:1}
+ .dpPads{grid-template-columns:repeat(2,1fr);flex:1}.dpad{min-height:44px}
+ .dp{justify-content:space-between}
+ .dpPop{top:auto;bottom:40%;transform:translate(-50%,0)}
+ .dPause{top:auto;bottom:0;right:50%;transform:translateX(50%)}
+}
 </style>
 </head>
 <body>
@@ -282,13 +360,15 @@ canvas.graph{display:block;border-radius:.5rem;background:rgba(255,255,255,.03)}
   <button id="bCon" class="ib" data-help="Lighting console (Q). Tab opens the full dashboard." aria-label="Console">&#127899;</button>
  </div>
  <div id="suggest" class="hidden"></div>
- <div id="guide"><div id="cdown" class="hidden"></div><div id="hint" class="hidden"></div><div id="combo" class="hidden"></div></div>
+ <div id="guide"><div id="cdown" class="hidden"></div><div id="hint" class="hidden"></div><div id="combo" class="hidden"></div><div id="req" class="hidden"></div></div>
  <div id="pop"></div>
  <div id="banner" class="hidden"></div>
  <div id="ytCtl" class="hidden"></div>
  <div id="freePad" class="hidden"></div>
  <div id="panel" class="hidden"><div id="tabs"></div><div id="selbar"></div><div id="pbody"></div></div>
  <div id="bottom">
+ <div id="hypeBox" class="hidden" data-help="HYPE: bonus points for hitting the beat. The multiplier grows every 8 combo (max ×4), FEVER doubles it."><span>📣</span><b id="hypeN">0</b><em id="multN">×1</em></div>
+  <button id="bFever" class="hidden" data-help="FEVER: fill it with PERFECT taps, drops and crowd requests, then tap (or press B) for 8 bars of double HYPE." aria-label="Fever"><b>FEVER 0%</b></button>
   <div id="spads"></div>
   <div id="pads"></div>
   <div id="tlrow">
@@ -1616,14 +1696,14 @@ class OutputPass extends Pass {
 
 return {EffectComposer,RenderPass,UnrealBloomPass,OutputPass};})();</script>
 <script>(function(){"use strict";
-const REAL_META=[{"id":"mouse","g":"progressive","genre":"Electro Swing House","title":"Mouse in my House ft. Karl Hayden, Adam Herne","artist":"Reiswerk","file":"music/mouse.mp3","page":"https://ccmixter.org/files/Reiswerk/52740","lic":"CC BY 3.0","lic_url":"https://creativecommons.org/licenses/by/3.0/","samples":[["mouse in my house","stellarartwars","https://ccmixter.org/files/stellarartwars/52279"]],"bpm":125,"off":1.751,"dur":236.23,"bars":122,"secs":[[0,10,"intro","INTRO"],[10,18,"groove","GROOVE"],[18,27,"break","BREAKDOWN"],[27,31,"groove","GROOVE"],[31,43,"break","BREAKDOWN"],[43,72,"groove","GROOVE"],[72,80,"build","BUILD-UP"],[80,88,"drop","DROP"],[88,91,"break","BREAKDOWN"],[91,104,"main","MAIN GROOVE"],[104,112,"build","BUILD-UP"],[112,120,"drop","MAIN DROP"],[120,122,"outro","OUTRO"]],"drops":[155.35,216.79],"short":[64,122],"dj":"kito"},{"id":"mind","g":"techhouse","genre":"Electro / Nu-Disco House","title":"Mind (Robbero Mix)","artist":"Robbero","file":"music/mind.mp3","page":"https://ccmixter.org/files/Robbero/50420","lic":"CC BY 3.0","lic_url":"https://creativecommons.org/licenses/by/3.0/","samples":[["Mind","Donnie Ozone","https://ccmixter.org/files/donnieozone/49919"]],"bpm":126.01,"off":1.85,"dur":175.31,"bars":91,"secs":[[0,7,"build","BUILD-UP"],[7,15,"drop","DROP"],[15,27,"peak","PEAK"],[27,39,"break","BREAKDOWN"],[39,47,"build","BUILD-UP"],[47,55,"drop","MAIN DROP"],[55,65,"peak","PEAK"],[65,73,"build","BUILD-UP"],[73,81,"drop","DROP 3"],[81,89,"peak","PEAK"],[89,91,"outro","OUTRO"]],"drops":[15.18,91.37,140.89],"short":[0,63],"dj":"lumen"},{"id":"again","g":"bigroom","genre":"Big Room EDM","title":"Again, Once Again","artist":"fluffy","file":"music/again.mp3","page":"https://ccmixter.org/files/fluffy/53739","lic":"CC BY 3.0","lic_url":"https://creativecommons.org/licenses/by/3.0/","samples":[["Once Again (Original RumbleStep Mix)","cdk","https://ccmixter.org/files/cdk/43797"]],"bpm":128.075,"off":1.837,"dur":188.61,"bars":99,"secs":[[0,7,"build","BUILD-UP"],[7,15,"drop","DROP"],[15,39,"peak","PEAK"],[39,83,"main","MAIN GROOVE"],[83,91,"break","BREAKDOWN"],[91,95,"main","MAIN GROOVE"],[95,99,"outro","OUTRO"]],"drops":[14.95],"short":[0,47],"dj":"novak"},{"id":"breakers","g":"mainstage","genre":"Electro House","title":"Breakers Delight","artist":"awkward_tom","file":"music/breakers.mp3","page":"https://ccmixter.org/files/awkward_tom/36183","lic":"CC BY 3.0","lic_url":"https://creativecommons.org/licenses/by/3.0/","samples":[["Brake Dance","Andres Franco","https://ccmixter.org/files/andrewfranco/33929"]],"bpm":130.08,"off":1.726,"dur":238.73,"bars":128,"secs":[[0,5,"build","BUILD-UP"],[5,13,"drop","DROP"],[13,27,"peak","PEAK"],[27,35,"build","BUILD-UP"],[35,43,"drop","MAIN DROP"],[43,67,"peak","PEAK"],[67,71,"main","MAIN GROOVE"],[71,78,"break","BREAKDOWN"],[78,86,"build","BUILD-UP"],[86,94,"drop","DROP 3"],[94,118,"peak","PEAK"],[118,125,"main","MAIN GROOVE"],[125,128,"outro","OUTRO"]],"drops":[10.95,66.3,160.4],"short":[0,51],"dj":"atlas"},{"id":"puck","g":"basshouse","genre":"Complextro","title":"Suck My Puck","artist":"cdk","file":"music/puck.mp3","page":"https://ccmixter.org/files/cdk/48598","lic":"CC BY 3.0","lic_url":"https://creativecommons.org/licenses/by/3.0/","samples":[],"bpm":130.045,"off":0.148,"dur":243.75,"bars":131,"secs":[[0,26,"intro","INTRO"],[26,40,"break","BREAKDOWN"],[40,48,"build","BUILD-UP"],[48,56,"drop","DROP"],[56,80,"peak","PEAK"],[80,88,"break","BREAKDOWN"],[88,96,"build","BUILD-UP"],[96,104,"drop","MAIN DROP"],[104,128,"peak","PEAK"],[128,131,"outro","OUTRO"]],"drops":[88.73,177.32],"short":[32,112],"dj":"novak"},{"id":"normal","g":"peaktechno","genre":"Techno","title":"Turning Into Normal (What Once Felt Strange)","artist":"SackJo22","file":"music/normal.mp3","page":"https://ccmixter.org/files/SackJo22/43036","lic":"CC BY 3.0","lic_url":"https://creativecommons.org/licenses/by/3.0/","samples":[["Analog By Nature - Are You Ready","AnalogByNature","https://ccmixter.org/files/AnalogByNature/41473"]],"bpm":129.97,"off":1.533,"dur":355.68,"bars":191,"secs":[[0,23,"intro","INTRO"],[23,31,"build","BUILD-UP"],[31,39,"drop","DROP"],[39,63,"peak","PEAK"],[63,96,"main","MAIN GROOVE"],[96,125,"break","BREAKDOWN"],[125,188,"main","MAIN GROOVE"],[188,191,"outro","OUTRO"]],"drops":[58.78],"short":[15,71],"dj":"vanta"},{"id":"mine","g":"trance","genre":"Trance","title":"Mine + Yours = Ours","artist":"George_Ellinas","file":"music/mine.mp3","page":"https://ccmixter.org/files/George_Ellinas/28107","lic":"CC BY 3.0","lic_url":"https://creativecommons.org/licenses/by/3.0/","samples":[["Mine + Yours = Ours","Madam Snowflake","https://ccmixter.org/files/snowflake/27820"]],"bpm":138.025,"off":1.697,"dur":372.24,"bars":213,"secs":[[0,1,"intro","INTRO"],[1,41,"groove","GROOVE"],[41,49,"build","BUILD-UP"],[49,59,"drop","DROP"],[59,66,"break","BREAKDOWN"],[66,70,"main","MAIN GROOVE"],[70,81,"break","BREAKDOWN"],[81,105,"main","MAIN GROOVE"],[105,113,"build","BUILD-UP"],[113,121,"drop","MAIN DROP"],[121,128,"peak","PEAK"],[128,149,"break","BREAKDOWN"],[149,153,"main","MAIN GROOVE"],[153,157,"break","BREAKDOWN"],[157,165,"build","BUILD-UP"],[165,173,"drop","DROP 3"],[173,195,"peak","PEAK"],[195,201,"break","BREAKDOWN"],[201,204,"main","MAIN GROOVE"],[204,213,"outro","OUTRO"]],"drops":[86.9,198.18,288.6],"short":[33,89],"dj":"lumen"},{"id":"haunted","g":"dubstep","genre":"Dubstep","title":"The Haunted Hotel","artist":"SackJo22","file":"music/haunted.mp3","page":"https://ccmixter.org/files/SackJo22/41323","lic":"CC BY 3.0","lic_url":"https://creativecommons.org/licenses/by/3.0/","samples":[["Karma 88 BPM Ft. Geechbeatz.com","coruscate","https://ccmixter.org/files/Coruscate/35585"],["The Secret Of Life (94 BPM) Ft. QBBeats.com","coruscate","https://ccmixter.org/files/Coruscate/35586"],["Make You Stomp","coruscate","https://ccmixter.org/files/Coruscate/39550"],["Kaleidoscopic Visions Dubby Mix","coruscate","https://ccmixter.org/files/Coruscate/41032"]],"bpm":140.06,"off":1.325,"dur":247.13,"bars":143,"secs":[[0,1,"intro","INTRO"],[1,9,"build","BUILD-UP"],[9,17,"drop","DROP"],[17,31,"peak","PEAK"],[31,39,"build","BUILD-UP"],[39,47,"drop","MAIN DROP"],[47,71,"peak","PEAK"],[71,79,"build","BUILD-UP"],[79,87,"drop","DROP 3"],[87,105,"peak","PEAK"],[105,113,"build","BUILD-UP"],[113,121,"drop","DROP 4"],[121,132,"peak","PEAK"],[132,143,"outro","OUTRO"]],"drops":[16.75,68.15,136.7,194.96],"short":[0,55],"dj":"vanta"},{"id":"drive","g":"dnb","genre":"Drum & Bass","title":"Drive","artist":"AlexBeroza","file":"music/drive.mp3","page":"https://ccmixter.org/files/AlexBeroza/43098","lic":"CC BY 3.0","lic_url":"https://creativecommons.org/licenses/by/3.0/","samples":[["Drive (Original RumbleStep Mix)","cdk","https://ccmixter.org/files/cdk/43076"]],"bpm":165,"off":1.459,"dur":190.59,"bars":130,"secs":[[0,13,"intro","INTRO"],[13,32,"groove","GROOVE"],[32,40,"break","BREAKDOWN"],[40,62,"groove","GROOVE"],[62,70,"build","BUILD-UP"],[70,78,"drop","DROP"],[78,102,"peak","PEAK"],[102,128,"main","MAIN GROOVE"],[128,130,"outro","OUTRO"]],"drops":[103.28],"short":[54,110],"dj":"mira"},{"id":"party","g":"futurerave","genre":"Hardstyle","title":"Keep The Party Rocking","artist":"F_Fact","file":"music/party.mp3","page":"https://ccmixter.org/files/F_Fact/46526","lic":"CC BY 3.0","lic_url":"https://creativecommons.org/licenses/by/3.0/","samples":[["Power Music","Donnie Ozone","https://ccmixter.org/files/donnieozone/46066"]],"bpm":150.03,"off":1.559,"dur":248.93,"bars":154,"secs":[[0,16,"groove","GROOVE"],[16,23,"break","BREAKDOWN"],[23,31,"build","BUILD-UP"],[31,39,"drop","DROP"],[39,63,"peak","PEAK"],[63,96,"main","MAIN GROOVE"],[96,104,"build","BUILD-UP"],[104,112,"drop","MAIN DROP"],[112,136,"peak","PEAK"],[136,152,"main","MAIN GROOVE"],[152,154,"outro","OUTRO"]],"drops":[51.15,167.93],"short":[15,71],"dj":"atlas"}];
+const REAL_META=[{"id":"sailboat","g":"progressive","genre":"Progressive House","title":"Sailboat feat. snowflake","artist":"Levihica","file":"music/sailboat.mp3","page":"https://ccmixter.org/files/Levihica/47608","lic":"CC BY-NC 3.0","lic_url":"https://creativecommons.org/licenses/by-nc/3.0/","samples":[["Sailboat","Madam Snowflake","https://ccmixter.org/files/snowflake/45446"]],"bpm":128.01,"off":1.604,"dur":358.17,"bars":190,"secs":[[0,7,"intro","INTRO"],[7,15,"build","BUILD-UP"],[15,23,"drop","DROP"],[23,47,"peak","PEAK"],[47,95,"main","MAIN GROOVE"],[95,103,"build","BUILD-UP"],[103,111,"drop","MAIN DROP"],[111,135,"peak","PEAK"],[135,183,"main","MAIN GROOVE"],[183,190,"outro","OUTRO"]],"drops":[29.73,194.71],"short":[0,55],"dj":"kito"},{"id":"broken","g":"melodic","genre":"Melodic Dubstep","title":"Broken (Leap Of The Heart)","artist":"7OOP3D","file":"music/broken.mp3","page":"https://ccmixter.org/files/7OOP3D/35783","lic":"CC BY-NC 3.0","lic_url":"https://creativecommons.org/licenses/by-nc/3.0/","samples":[["Broken Acappella","reblaw27","https://ccmixter.org/files/reblaw27/18661"],["Mellow Piano Triplets","Clarence Simpson","https://ccmixter.org/files/casimps1/28535"],["Broken","Clarence Simpson","https://ccmixter.org/files/casimps1/33941"]],"bpm":140,"off":0.376,"dur":303.46,"bars":176,"secs":[[0,8,"intro","INTRO"],[8,16,"build","BUILD-UP"],[16,24,"drop","DROP"],[24,48,"peak","PEAK"],[48,107,"main","MAIN GROOVE"],[107,115,"build","BUILD-UP"],[115,123,"drop","MAIN DROP"],[123,127,"peak","PEAK"],[127,145,"break","BREAKDOWN"],[145,161,"main","MAIN GROOVE"],[161,176,"outro","OUTRO"]],"drops":[27.8,197.52],"short":[0,56],"dj":"lumen"},{"id":"again","g":"bigroom","genre":"Big Room EDM","title":"Again, Once Again","artist":"fluffy","file":"music/again.mp3","page":"https://ccmixter.org/files/fluffy/53739","lic":"CC BY 3.0","lic_url":"https://creativecommons.org/licenses/by/3.0/","samples":[["Once Again (Original RumbleStep Mix)","cdk","https://ccmixter.org/files/cdk/43797"]],"bpm":128.075,"off":1.837,"dur":188.61,"bars":99,"secs":[[0,7,"build","BUILD-UP"],[7,15,"drop","DROP"],[15,39,"peak","PEAK"],[39,83,"main","MAIN GROOVE"],[83,91,"break","BREAKDOWN"],[91,95,"main","MAIN GROOVE"],[95,99,"outro","OUTRO"]],"drops":[14.95],"short":[0,47],"dj":"novak"},{"id":"breakers","g":"mainstage","genre":"Electro House","title":"Breakers Delight","artist":"awkward_tom","file":"music/breakers.mp3","page":"https://ccmixter.org/files/awkward_tom/36183","lic":"CC BY 3.0","lic_url":"https://creativecommons.org/licenses/by/3.0/","samples":[["Brake Dance","Andres Franco","https://ccmixter.org/files/andrewfranco/33929"]],"bpm":130.08,"off":1.726,"dur":238.73,"bars":128,"secs":[[0,5,"build","BUILD-UP"],[5,13,"drop","DROP"],[13,27,"peak","PEAK"],[27,35,"build","BUILD-UP"],[35,43,"drop","MAIN DROP"],[43,67,"peak","PEAK"],[67,71,"main","MAIN GROOVE"],[71,78,"break","BREAKDOWN"],[78,86,"build","BUILD-UP"],[86,94,"drop","DROP 3"],[94,118,"peak","PEAK"],[118,125,"main","MAIN GROOVE"],[125,128,"outro","OUTRO"]],"drops":[10.95,66.3,160.4],"short":[0,51],"dj":"atlas"},{"id":"puck","g":"basshouse","genre":"Complextro","title":"Suck My Puck","artist":"cdk","file":"music/puck.mp3","page":"https://ccmixter.org/files/cdk/48598","lic":"CC BY 3.0","lic_url":"https://creativecommons.org/licenses/by/3.0/","samples":[],"bpm":130.045,"off":0.148,"dur":243.75,"bars":131,"secs":[[0,26,"intro","INTRO"],[26,40,"break","BREAKDOWN"],[40,48,"build","BUILD-UP"],[48,56,"drop","DROP"],[56,80,"peak","PEAK"],[80,88,"break","BREAKDOWN"],[88,96,"build","BUILD-UP"],[96,104,"drop","MAIN DROP"],[104,128,"peak","PEAK"],[128,131,"outro","OUTRO"]],"drops":[88.73,177.32],"short":[32,112],"dj":"novak"},{"id":"hero","g":"peaktechno","genre":"Dubstep / Drum & Bass","title":"Hero","artist":"VJ_Memes","file":"music/hero.mp3","page":"https://ccmixter.org/files/VJ_Memes/31129","lic":"CC BY-NC 3.0","lic_url":"https://creativecommons.org/licenses/by-nc/3.0/","samples":[["Hero","Aamu","https://ccmixter.org/files/aamu/27232"]],"bpm":140.04,"off":1.693,"dur":233.2,"bars":135,"secs":[[0,7,"intro","INTRO"],[7,15,"build","BUILD-UP"],[15,23,"drop","DROP"],[23,47,"peak","PEAK"],[47,55,"break","BREAKDOWN"],[55,63,"build","BUILD-UP"],[63,71,"drop","MAIN DROP"],[71,95,"peak","PEAK"],[95,129,"main","MAIN GROOVE"],[129,135,"outro","OUTRO"]],"drops":[27.4,109.66],"short":[0,79],"dj":"vanta"},{"id":"acceptance","g":"trance","genre":"Festival Trance","title":"Acceptance","artist":"F_Fact","file":"music/acceptance.mp3","page":"https://ccmixter.org/files/F_Fact/53509","lic":"CC BY-NC 3.0","lic_url":"https://creativecommons.org/licenses/by-nc/3.0/","samples":[["Ya Ghaly","mentorrecords","https://ccmixter.org/files/mentorrecords/12985"],["Acceptance","MissJudged","https://ccmixter.org/files/MissJudged/49841"]],"bpm":138,"off":1.665,"dur":389.57,"bars":223,"secs":[[0,23,"intro","INTRO"],[23,31,"build","BUILD-UP"],[31,39,"drop","DROP"],[39,63,"peak","PEAK"],[63,78,"main","MAIN GROOVE"],[78,87,"break","BREAKDOWN"],[87,95,"build","BUILD-UP"],[95,103,"drop","MAIN DROP"],[103,127,"peak","PEAK"],[127,145,"main","MAIN GROOVE"],[145,151,"break","BREAKDOWN"],[151,159,"build","BUILD-UP"],[159,167,"drop","DROP 3"],[167,191,"peak","PEAK"],[191,209,"main","MAIN GROOVE"],[209,223,"outro","OUTRO"]],"drops":[55.58,166.88,278.19],"short":[15,71],"dj":"lumen"},{"id":"haunted","g":"dubstep","genre":"Dubstep","title":"The Haunted Hotel","artist":"SackJo22","file":"music/haunted.mp3","page":"https://ccmixter.org/files/SackJo22/41323","lic":"CC BY 3.0","lic_url":"https://creativecommons.org/licenses/by/3.0/","samples":[["Karma 88 BPM Ft. Geechbeatz.com","coruscate","https://ccmixter.org/files/Coruscate/35585"],["The Secret Of Life (94 BPM) Ft. QBBeats.com","coruscate","https://ccmixter.org/files/Coruscate/35586"],["Make You Stomp","coruscate","https://ccmixter.org/files/Coruscate/39550"],["Kaleidoscopic Visions Dubby Mix","coruscate","https://ccmixter.org/files/Coruscate/41032"]],"bpm":140.06,"off":1.325,"dur":247.13,"bars":143,"secs":[[0,1,"intro","INTRO"],[1,9,"build","BUILD-UP"],[9,17,"drop","DROP"],[17,31,"peak","PEAK"],[31,39,"build","BUILD-UP"],[39,47,"drop","MAIN DROP"],[47,71,"peak","PEAK"],[71,79,"build","BUILD-UP"],[79,87,"drop","DROP 3"],[87,105,"peak","PEAK"],[105,113,"build","BUILD-UP"],[113,121,"drop","DROP 4"],[121,132,"peak","PEAK"],[132,143,"outro","OUTRO"]],"drops":[16.75,68.15,136.7,194.96],"short":[0,55],"dj":"vanta"},{"id":"drive","g":"dnb","genre":"Drum & Bass","title":"Drive","artist":"AlexBeroza","file":"music/drive.mp3","page":"https://ccmixter.org/files/AlexBeroza/43098","lic":"CC BY 3.0","lic_url":"https://creativecommons.org/licenses/by/3.0/","samples":[["Drive (Original RumbleStep Mix)","cdk","https://ccmixter.org/files/cdk/43076"]],"bpm":165,"off":1.459,"dur":190.59,"bars":130,"secs":[[0,13,"intro","INTRO"],[13,32,"groove","GROOVE"],[32,40,"break","BREAKDOWN"],[40,62,"groove","GROOVE"],[62,70,"build","BUILD-UP"],[70,78,"drop","DROP"],[78,102,"peak","PEAK"],[102,128,"main","MAIN GROOVE"],[128,130,"outro","OUTRO"]],"drops":[103.28],"short":[54,110],"dj":"mira"},{"id":"party","g":"futurerave","genre":"Hardstyle","title":"Keep The Party Rocking","artist":"F_Fact","file":"music/party.mp3","page":"https://ccmixter.org/files/F_Fact/46526","lic":"CC BY 3.0","lic_url":"https://creativecommons.org/licenses/by/3.0/","samples":[["Power Music","Donnie Ozone","https://ccmixter.org/files/donnieozone/46066"]],"bpm":150.03,"off":1.559,"dur":248.93,"bars":154,"secs":[[0,16,"groove","GROOVE"],[16,23,"break","BREAKDOWN"],[23,31,"build","BUILD-UP"],[31,39,"drop","DROP"],[39,63,"peak","PEAK"],[63,96,"main","MAIN GROOVE"],[96,104,"build","BUILD-UP"],[104,112,"drop","MAIN DROP"],[112,136,"peak","PEAK"],[136,152,"main","MAIN GROOVE"],[152,154,"outro","OUTRO"]],"drops":[51.15,167.93],"short":[15,71],"dj":"atlas"}];
 // ===================== core.js =====================
 // Core: utilities, device, event bus, versioned save system, settings, key bindings, command log (drives replay + scoring)
-const VERSION='v2.2';
+const VERSION='v2.3';
 // seedable RNG: shadows Math inside the bundle so a challenge seed replays the identical show
 const RNG={f:globalThis.Math.random};const Math=Object.create(globalThis.Math,{random:{value:()=>RNG.f()}});
 function rngSeed(s){RNG.f=s?seeded(s):globalThis.Math.random;}
-const SAVE_VERSION=1;
+const SAVE_VERSION=2; // v2: adds SAVE.fun (stars, achievements, daily festival, duel stats); v1 saves migrate automatically
 const params=new URLSearchParams(location.search);
 const UA=navigator.userAgent||'';
 const IS_IOS=/iPad|iPhone|iPod/.test(UA)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
@@ -1673,7 +1753,15 @@ function defBindings(){const b={};ACTIONS.forEach(a=>b[a[0]]=a[2]);return b;}
 // ---- versioned save ----
 function freshSave(){return {v:SAVE_VERSION,created:Date.now(),settings:JSON.parse(JSON.stringify(DEF_SETTINGS)),bind:defBindings(),
   career:{credits:400,xp:0,rep:0,venue:0,best:{},missions:{},challenges:{},shows:0},owned:[],skin:'default',
-  groups:[],presets:[],cues:[],programs:{},ledPresets:[],macros:[],festivals:[],swatches:['#ff2bd6','#20e3ff','#ffffff','#ffb300'],favorites:[],tutorialDone:false,seenWarn:false,welcomed:false,lastTrack:'bigroom',mp:{name:'',lb:{}}};}
+  groups:[],presets:[],cues:[],programs:{},ledPresets:[],macros:[],festivals:[],swatches:['#ff2bd6','#20e3ff','#ffffff','#ffb300'],favorites:[],tutorialDone:false,seenWarn:false,welcomed:false,lastTrack:'bigroom',mp:{name:'',lb:{}},fun:freshFun()};}
+function freshFun(){return {stars:{},ach:{},daily:{last:'',streak:0,bestStreak:0,best:{},played:0},played:{},stats:{fever:0,req:0,perfDrops:0,duels:0,duelWins:0,maxCombo:0,maxHype:0}};}
+function sanitizeFun(f){const F=freshFun(),o=v=>v&&typeof v==='object'&&!Array.isArray(v);if(!o(f))return F;
+  for(const k of ['stars','ach','played']){if(o(f[k]))for(const [a,b] of Object.entries(f[k]))if(typeof a==='string'&&Number.isFinite(+b))F[k][a.slice(0,40)]=Math.max(0,Math.min(1e7,Math.floor(+b)));}
+  if(o(f.daily)){const d=f.daily;F.daily.last=typeof d.last==='string'&&/^\d{4}-\d\d-\d\d$/.test(d.last)?d.last:'';['streak','bestStreak','played'].forEach(k=>{F.daily[k]=Number.isFinite(+d[k])?Math.max(0,Math.floor(+d[k])):0;});
+    if(o(d.best))for(const [a,b] of Object.entries(d.best))if(/^\d{4}-\d\d-\d\d$/.test(a)&&Number.isFinite(+b))F.daily.best[a]=Math.max(0,Math.min(99999,Math.floor(+b)));
+    const ks=Object.keys(F.daily.best).sort();ks.slice(0,Math.max(0,ks.length-60)).forEach(k=>delete F.daily.best[k]);}
+  if(o(f.stats))for(const k of Object.keys(F.stats))if(Number.isFinite(+f.stats[k]))F.stats[k]=Math.max(0,Math.floor(+f.stats[k]));
+  return F;}
 let SAVE, SAVE_NOTE='';
 function sanitizeSave(s){
   const f=freshSave(); if(!s||typeof s!=='object'||Array.isArray(s)) throw new Error('not an object');
@@ -1695,6 +1783,8 @@ function sanitizeSave(s){
   if(!out.programs||typeof out.programs!=='object')out.programs={};
   for(const k in out.programs){const p=out.programs[k];if(!p||!Array.isArray(p.ev))delete out.programs[k];else p.ev=p.ev.filter(e=>e&&Number.isFinite(e.b)&&typeof e.cue==='string');}
   out.swatches=out.swatches.filter(hexOk).slice(0,16);
+  out.fun=sanitizeFun(s.fun); // v1 -> v2 migration: v1 saves have no 'fun' block, so they get a fresh one
+  out.v=SAVE_VERSION;
   return out;
 }
 function loadSave(){
@@ -1725,7 +1815,11 @@ function confirmBox(title,text,okLabel,fn,danger){const m=$('modal'),c=$('mcard'
 function promptBox(title,value,fn){const m=$('modal'),c=$('mcard');c.innerHTML='<h2></h2><input id="mIn" maxlength="40" style="width:100%"><div class="row" style="justify-content:flex-end;margin-top:.6rem"><button id="mNo">Cancel</button><button id="mYes" class="sel">OK</button></div>';
   c.querySelector('h2').textContent=title;const i=c.querySelector('#mIn');i.value=value||'';m.classList.remove('hidden');setTimeout(()=>{i.focus();i.select();},30);
   const done=()=>{const v=i.value.trim().slice(0,40);m.classList.add('hidden');if(v)fn(v);};c.querySelector('#mNo').onclick=()=>m.classList.add('hidden');c.querySelector('#mYes').onclick=done;i.onkeydown=e=>{if(e.key==='Enter')done();e.stopPropagation();};}
-function buzz(p){if(ST.haptics&&navigator.vibrate)try{navigator.vibrate(p);}catch(e){}}
+function buzz(p){if(!ST.haptics)return;if(navigator.vibrate){try{navigator.vibrate(p);}catch(e){}return;}if(IS_IOS)iosTick(Array.isArray(p)?p.filter((x,i)=>i%2===0).length:1);}
+// iOS Safari has no Vibration API. Since iOS 18, toggling an <input type=checkbox switch> through its <label> plays a system haptic tick (best effort, only inside a user gesture).
+let _hapL=null,_hapT=0;function iosTick(n){const t=realNow();if(t-_hapT<0.035)return;_hapT=t;try{if(!_hapL){const i=document.createElement('input');i.type='checkbox';i.setAttribute('switch','');i.id='hapSw';i.style.cssText='position:fixed;left:-99px;top:0;opacity:0;pointer-events:none';
+  _hapL=document.createElement('label');_hapL.htmlFor='hapSw';_hapL.style.cssText='position:fixed;left:-99px;top:0;width:1px;height:1px;opacity:0;pointer-events:none';_hapL.setAttribute('aria-hidden','true');i.setAttribute('aria-hidden','true');i.tabIndex=-1;document.body.append(i,_hapL);}
+  _hapL.click();for(let k=1;k<Math.min(n,3);k++)setTimeout(()=>{try{_hapL.click();}catch(e){}},k*70);}catch(e){}}
 // ---- command log: every show-state mutation goes through CMD.run so it can be recorded, replayed and scored ----
 const CMD={reg:{},rec:null,replaying:false,
   def(name,fn){this.reg[name]=fn;},
@@ -1769,7 +1863,7 @@ const TRACKS=[
  {id:'trance',g:'trance',title:'Aurora Run',dj:'lumen'},{id:'dnb',g:'dnb',title:'Velocity',dj:'kito'},{id:'dubstep',g:'dubstep',title:'Fault Line',dj:'vanta'},
  {id:'basshouse',g:'basshouse',title:'Wobble District',dj:'novak'},{id:'futurerave',g:'futurerave',title:'Neon Rapture',dj:'atlas'},{id:'atmospheric',g:'atmospheric',title:'Glass Horizon',dj:'mira'},
  {id:'tutorial',g:'bigroom',title:'First Light (tutorial)',dj:'novak',arr:[4,4,4,8,4,4,4,8,4,4],bpm:124}];
-// v2.2: real, Creative-Commons-licensed EDM tracks (ccMixter, CC BY 3.0) = the Career setlist; analysed offline (tools/analyze2.py + mkmeta.py)
+// v2.2: real, Creative-Commons-licensed EDM tracks (ccMixter, CC BY 3.0 / CC BY-NC 3.0; v2.3 swapped 4 tracks for harder-hitting festival EDM) = the Career setlist; analysed offline (tools/analyze2.py + mkmeta.py)
 const REAL_TRACKS=REAL_META.map(r=>({id:'r_'+r.id,g:r.g,title:r.title,artist:r.artist,dj:r.dj,genre:r.genre,bpm:r.bpm,real:r}));
 TRACKS.forEach(t=>{t.synth=true;});TRACKS.unshift(...REAL_TRACKS);
 const TMAP={};TRACKS.forEach(t=>TMAP[t.id]=t);
@@ -1808,17 +1902,17 @@ const ENVMAP={};ENVS.forEach(e=>ENVMAP[e.id]=e);
 const RIG_TYPES=['beam','spot','wash','strobe','blinder','pixel','laser'];
 const FX_TYPES=['flames','co2','confetti','streamers','sparks','fireworks'];
 const VENUES=[
- {id:'vault',track:'r_mind',name:'The Vault',kind:'Underground club',env:'warehouse',S:0.55,crowd:250,req:50,reward:300,rig:{beam:6,spot:0,wash:6,strobe:2,blinder:2,pixel:2,laser:1},fx:{flames:2,co2:2,confetti:1,streamers:0,sparks:2,fireworks:0},
+ {id:'vault',track:'r_broken',name:'The Vault',kind:'Underground club',env:'warehouse',S:0.55,crowd:250,req:50,reward:300,rig:{beam:6,spot:0,wash:6,strobe:2,blinder:2,pixel:2,laser:1},fx:{flames:2,co2:2,confetti:1,streamers:0,sparks:2,fireworks:0},
   missions:[{id:'sync',txt:'Timing score 60+',k:'timing',v:60},{id:'drop',txt:'Hit the first drop (accent within 1 beat)',k:'dropHit',v:1}]},
- {id:'neon',track:'r_mouse',name:'Neon Room',kind:'Local venue',env:'arena',S:0.65,crowd:600,req:55,reward:400,rig:{beam:8,spot:2,wash:6,strobe:4,blinder:2,pixel:2,laser:2},fx:{flames:4,co2:2,confetti:2,streamers:0,sparks:4,fireworks:0},
+ {id:'neon',track:'r_sailboat',name:'Neon Room',kind:'Local venue',env:'arena',S:0.65,crowd:600,req:55,reward:400,rig:{beam:8,spot:2,wash:6,strobe:4,blinder:2,pixel:2,laser:2},fx:{flames:4,co2:2,confetti:2,streamers:0,sparks:4,fireworks:0},
   missions:[{id:'var',txt:'Use 3+ different looks (presets/cues)',k:'looks',v:3},{id:'break',txt:'Keep the breakdown calm (intensity < 45%)',k:'calmBreak',v:1}]},
- {id:'hall',track:'r_normal',name:'Grand Hall',kind:'Concert hall',env:'arena',S:0.8,crowd:1200,req:60,reward:550,rig:{beam:10,spot:4,wash:8,strobe:4,blinder:4,pixel:4,laser:2},fx:{flames:4,co2:4,confetti:2,streamers:2,sparks:4,fireworks:0},
+ {id:'hall',track:'r_hero',name:'Grand Hall',kind:'Concert hall',env:'arena',S:0.8,crowd:1200,req:60,reward:550,rig:{beam:10,spot:4,wash:8,strobe:4,blinder:4,pixel:4,laser:2},fx:{flames:4,co2:4,confetti:2,streamers:2,sparks:4,fireworks:0},
   missions:[{id:'led',txt:'Change the LED style 3+ times',k:'ledChanges',v:3},{id:'eng',txt:'Crowd engagement 60%+ on average',k:'engAvg',v:60}]},
  {id:'river',track:'r_breakers',name:'Riverside Fest',kind:'Regional festival',env:'night',S:0.9,crowd:2000,req:62,reward:700,rig:{beam:12,spot:4,wash:8,strobe:6,blinder:4,pixel:4,laser:3},fx:{flames:6,co2:4,confetti:2,streamers:2,sparks:6,fireworks:1},
   missions:[{id:'co2',txt:'Fire CO2 on a drop',k:'co2Drop',v:1},{id:'dyn',txt:'Dynamic range score 60+',k:'dynamics',v:60}]},
  {id:'horizon',track:'r_again',name:'Horizon Mainstage',kind:'Large outdoor mainstage',env:'desert',S:1,crowd:3000,req:65,reward:900,rig:{beam:14,spot:6,wash:10,strobe:8,blinder:6,pixel:6,laser:4},fx:{flames:8,co2:6,confetti:4,streamers:2,sparks:8,fireworks:1},
   missions:[{id:'moment',txt:'Create a memorable drop moment (dark before, big hit on the drop)',k:'moments',v:1},{id:'creat',txt:'Creativity score 65+',k:'creativity',v:65}]},
- {id:'pulse',track:'r_mine',name:'Global Pulse',kind:'International EDM festival',env:'coastal',S:1.15,crowd:3600,req:68,reward:1200,rig:{beam:16,spot:6,wash:12,strobe:8,blinder:6,pixel:6,laser:5},fx:{flames:8,co2:6,confetti:4,streamers:4,sparks:8,fireworks:1},
+ {id:'pulse',track:'r_acceptance',name:'Global Pulse',kind:'International EDM festival',env:'coastal',S:1.15,crowd:3600,req:68,reward:1200,rig:{beam:16,spot:6,wash:12,strobe:8,blinder:6,pixel:6,laser:5},fx:{flames:8,co2:6,confetti:4,streamers:4,sparks:8,fireworks:1},
   missions:[{id:'fin',txt:'Finale: confetti + fireworks in the last phrase',k:'finale',v:1},{id:'tech',txt:'Technical execution 70+',k:'technical',v:70}]},
  {id:'nexus',track:'r_party',name:'NEXUS 2099',kind:'Futuristic mega-festival',env:'cyber',S:1.3,crowd:4200,req:72,reward:2000,rig:{beam:18,spot:8,wash:12,strobe:10,blinder:8,pixel:8,laser:6},fx:{flames:10,co2:8,confetti:4,streamers:4,sparks:10,fireworks:1},
   missions:[{id:'all',txt:'Overall score 75+',k:'overall',v:75},{id:'eng2',txt:'Crowd never below 40% after the first drop',k:'holdCrowd',v:1}]}];
@@ -3469,10 +3563,12 @@ function menuScreen(){if(SES)endSession();const c=SAVE.career;
    <button data-u="free"><i>🎛️</i><b>Free Play</b><span>Everything unlocked, no score</span></button>
    <button data-u="mysong"><i>🎵</i><b>My Song</b><span>Play to a YouTube song</span></button>
    <button data-u="tutorial"><i>🎓</i><b>Tutorial</b><span>${SAVE.tutorialDone?'Completed ✓':'2 minutes, +100 credits'}</span></button>
+   <button data-u="daily" class="hot"><i>📅</i><b>Daily Festival</b><span>${dailyMenuTxt()}</span></button>
+   <button data-u="duel" class="hot"><i>⚔️</i><b>1v1 Duel</b><span>Same phone split-screen, or by link</span></button>
    <button data-u="mp"><i>👥</i><b>Multiplayer</b><span>Party mode · challenge links · leaderboards</span></button>
    <button data-u="settings"><i>⚙️</i><b>Settings</b><span>Console, graphics, sound</span></button>
   </div>
-  <div class="menuSmall"><button data-u="quick">Show setup</button><button data-u="challenges">Challenges ${Object.keys(c.challenges).length}/${CHALLENGES.length}</button><button data-u="help">Help</button><button data-u="credits">Music credits</button><a href="classic/" style="color:var(--acc)">Classic v1.4</a></div>
+  <div class="menuSmall"><button data-u="quick">Show setup</button><button data-u="ach">Achievements ${Object.keys(SAVE.fun.ach).length}/${ACH.length}</button><button data-u="challenges">Challenges ${Object.keys(c.challenges).length}/${CHALLENGES.length}</button><button data-u="help">Help</button><button data-u="credits">Music credits</button><a href="classic/" style="color:var(--acc)">Classic v1.4</a></div>
   ${SAVE_NOTE?'<p style="text-align:center"><b style="color:var(--ok)">'+esc(SAVE_NOTE)+'</b></p>':''}`);SAVE_NOTE='';}
 UA_.menu=()=>menuScreen();
 // ---------- quick show / free play setup ----------
@@ -3525,7 +3621,7 @@ function chScreen(){const c=SAVE.career.challenges;scr(`<h2>Challenges</h2>${CHA
 UA_.challenges=()=>chScreen();
 // ---------- v2.2 music credits ----------
 function creditsScreen(){const L=REAL_TRACKS.map(t=>{const r=t.real;return `<div class="crd"><b>${esc(r.title)}</b> – ${esc(r.artist)}<br><span class="muted">${esc(r.genre)} · ${Math.round(r.bpm)} BPM · <a href="${esc(r.lic_url)}" target="_blank" rel="noopener">${esc(r.lic)}</a> · <a href="${esc(r.page)}" target="_blank" rel="noopener">source (ccMixter)</a></span>${r.samples&&r.samples.length?'<br><span class="muted" style="font-size:.78rem">Samples: '+r.samples.map(x=>`<a href="${esc(x[2])}" target="_blank" rel="noopener">${esc(x[0])}</a> by ${esc(x[1])}`).join('; ')+'</span>':''}</div>`;}).join('');
-  scr(`<h2>Music credits</h2><p class="muted" style="font-size:.85rem">The Career setlist uses real tracks published on ccMixter under Creative Commons Attribution licenses. Re-encoded to 128 kbps MP3 for streaming, otherwise unmodified. Synth tracks are generated live in your browser.</p><div class="credits">${L}</div><div class="row"><button class="pri" data-u="menu">Back</button></div>`);}
+  scr(`<h2>Music credits</h2><p class="muted" style="font-size:.85rem">The Career setlist uses real tracks published on ccMixter under Creative Commons Attribution (CC BY 3.0) and Attribution-NonCommercial (CC BY-NC 3.0) licenses. FESTIVAL CONTROL is free and non-commercial. Tracks are re-encoded to 128 kbps MP3 for streaming and otherwise unmodified. Synth tracks are generated live in your browser.</p><div class="credits">${L}</div><div class="row"><button class="pri" data-u="menu">Back</button></div>`);}
 UA_.credits=()=>creditsScreen();
 UA_.ch=id=>{const ch=CHALLENGES.find(c=>c.id===id),v=VENUES[ch.venue];warnThen(()=>startSession({mode:'challenge',challenge:ch,venue:ch.venue,env:ch.env,track:ch.track,dj:null,style:'energetic',crowdN:v.crowd,auto:'manual',scored:true,rig:ch.rig||v.rig,fx:ch.fx||v.fx}));};
 // ---------- My Song ----------
@@ -3602,7 +3698,7 @@ UA_.quit=()=>{SEQ.pausedForMenu=false;menuScreen();};
 // ---------- analysis ----------
 function analysisScreen(R,rw){UI.lastAn={R,rw};let M={html:'',btns:null};try{M=mpResults(R);}catch(e){reportError(e,'mpResults');}const grade=R.overall>=90?'S':R.overall>=80?'A':R.overall>=70?'B':R.overall>=55?'C':'D';
   scr(`<h2>Show analysis <small class="muted">${esc(TR?TR.title:'')}</small></h2><div class="row"><div style="font-size:3rem;font-weight:800;color:var(--acc)">${R.overall}</div><div><b>Grade ${grade}</b><br><span class="muted">${R.accents} accents · ${R.drops.length} drops (${R.drops.filter(d=>d.hit).length} hit) · ${R.drops.filter(d=>d.moment).length} big moments</span></div></div>
-  ${M.html}
+  ${R._funHtml||''}${M.html}
   ${CATS.map(([k,n])=>`<div class="catrow"><span>${n}</span><div class="bar"><i style="width:${R.cats[k]}%"></i></div><b>${R.cats[k]}</b></div>`).join('')}
   <div class="lbl">Show graph: intensity (cyan) vs music energy (white) and crowd (pink); dots = drops (green hit / red missed)</div><canvas class="graph" id="graph" style="width:100%;height:120px"></canvas>
   ${rw&&rw.lines.length?'<div class="lbl">Results</div>'+rw.lines.map(l=>`<div>${l}</div>`).join(''):''}
@@ -3661,7 +3757,7 @@ function hudTick(dt){if(!SES||!TR)return;const now=realNow(),bp=beatPos(),fr=bp-
     if(nm&&nm.m.kind==='drop'&&nm.bars<=4)msg=(pyro&&!FXS.armed?'Drop coming: ARM the pyro now. ':'')+'Go dark or minimal, then hit FLASH / FLAMES on the drop!';
     else if(sec&&sec.t==='drop'&&bp-sec.a*4<8)msg='DROP! Fire your effects on the beat.';else if(sec&&sec.t==='break')msg='Breakdown: calm colours, slow movement, no pyro.';else if(sec&&sec.t==='build')msg='Build-up: raise intensity and speed, add strobes near the end.';}
   sg.textContent=msg;sg.classList.toggle('hidden',!msg);
-  simTick();const bh=$('bottom').offsetHeight;if(bh&&bh!==UI.botH){UI.botH=bh;document.documentElement.style.setProperty('--botH',bh+'px');}
+  simTick();try{funTick();}catch(e){}const bh=$('bottom').offsetHeight;if(bh&&bh!==UI.botH){UI.botH=bh;document.documentElement.style.setProperty('--botH',bh+'px');}
   if(ST.showFps)$('fps').textContent=(G.fps||0).toFixed(0)+' fps · q'+G.quality.toFixed(2);
   const sc=!!SES.scored;$('bBack').classList.toggle('hidden',sc||TR.yt);$('bFwd').classList.toggle('hidden',sc||TR.yt);$('bRec').classList.toggle('hidden',SES.mode!=='free');}
 // ---------- keyboard ----------
@@ -3684,7 +3780,7 @@ function keyAct(a,down){if(!down){padAct(a,false);return;}const tabs={lights:'li
 const GP={prev:[]};
 function gamepadTick(){if(!SES||UI.scr||!navigator.getGamepads)return;let p=null;try{p=[...navigator.getGamepads()].find(x=>x);}catch(e){}if(!p)return;const map={0:'flash',1:'blackout',2:'go',3:'flames',4:'camP',5:'cam',9:'menu'};
   p.buttons.forEach((b,i)=>{const was=GP.prev[i],is=b.pressed;GP.prev[i]=is;const a=map[i];if(!a||was===is)return;if(a==='menu'){if(is)pauseScreen();return;}if(a==='camP'||a==='cam'){if(is)camNext();return;}keyAct(a,is);});}
-function uiInit(){screenInput();hudInput();keyInput();conInput();buildPads();tlInput();ytCtlBuild();applySettings();simpleInit();}
+function uiInit(){screenInput();hudInput();keyInput();conInput();buildPads();tlInput();ytCtlBuild();applySettings();simpleInit();funInit();duelInit();}
 
 // ===================== simple.js =====================
 // v2.1 Simple console: big labelled pads, hints, drop countdown, glowing suggestions, timing judge (PERFECT / GREAT + combos), haptics, auto-arm pyro,
@@ -3719,15 +3815,21 @@ function buildSimplePads(){const p=$('spads');if(!p)return;p.innerHTML=SPADS.map
     b.addEventListener('keydown',e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();e.stopPropagation();if(!e.repeat){simAct(id,true);judgeTap(id,true);}}});b.addEventListener('keyup',e=>{if((e.key===' '||e.key==='Enter')&&hold){e.stopPropagation();simAct(id,false);}});});}
 // ---- timing judge ----
 const JUDGED={flash:1,strobe:1,bo:1,co2:1,flames:1,confetti:1,fireworks:1,drop:1,colors:1,looks:1,laser:1,drophit:1,sparks:1,blind:1,go:1};
-function judgeTap(id,ok){buzz(12);if(!ok||!SES||!SEQ.playing||!JUDGED[id])return;const bp=beatPos(),off=Math.abs(bp-Math.round(bp));SIM.lastAction=bp;
+// v2.3: the judge itself is shared by the solo player and both Duel players (P = per-player state)
+function judgeCore(P,id){const bp=beatPos(),off=Math.abs(bp-Math.round(bp));
   const sec=curSecObj();const dropB=sec&&sec.t==='drop'?sec.a*4:null;const nm=nextMarker();let nearDrop=dropB!=null&&bp-dropB<1.05&&bp-dropB>-0.3;
   if(!nearDrop&&nm&&nm.m.kind==='drop'){const left=nm.bars*4-(bp-Math.floor(bp/4)*4);if(left<0.35)nearDrop=true;}
-  const big=id==='drop'||id==='drophit'||id==='flames'||id==='fireworks'||id==='confetti'||id==='co2'||id==='flash';
-  if(nearDrop&&big&&realNow()-(SIM.dropPop||0)>3){SIM.dropPop=realNow();SIM.combo++;pop('PERFECT DROP!','drop');sfx('dropok');buzz([30,40,70]);CRW.boost=Math.min(1,CRW.boost+0.25);return;}
-  if(off<0.12){SIM.combo++;SIM.perfect++;pop(SIM.combo>=3?`PERFECT ×${SIM.combo}`:'PERFECT','perfect');sfx('perfect',1);buzz(25);CRW.boost=Math.min(1,CRW.boost+0.04);}
-  else if(off<0.25){SIM.combo++;SIM.great++;pop(SIM.combo>=3?`GREAT ×${SIM.combo}`:'GREAT','great');sfx('great',1);}
-  else{if(SIM.combo>=3)pop('Combo lost – tap on the beat','miss');SIM.combo=0;}
-  SIM.best=Math.max(SIM.best,SIM.combo);if(SIM.combo>0&&SIM.combo%5===0){sfx('combo');buzz([20,30,20,30,40]);pop(`COMBO ×${SIM.combo}!`,'combo');crowdReact(0.4);}}
+  const big=id==='drop'||id==='drophit'||id==='flames'||id==='fireworks'||id==='confetti'||id==='co2'||id==='flash';let k;
+  if(nearDrop&&big&&realNow()-(P.dropPop||0)>3){P.dropPop=realNow();P.combo++;k='drop';}
+  else if(off<0.12){P.combo++;P.perfect++;k='perfect';}else if(off<0.25){P.combo++;P.great++;k='great';}else{k='miss';P.lostCombo=P.combo;P.combo=0;}
+  P.best=Math.max(P.best||0,P.combo);return k;}
+function judgeTap(id,ok){buzz(12);if(!ok||!SES||!SEQ.playing||!JUDGED[id]||(SES.cfg&&SES.cfg.duel))return;SIM.lastAction=beatPos();const k=judgeCore(SIM,id);
+  if(k==='drop'){pop('PERFECT DROP!','drop');sfx('dropok');buzz([30,40,70]);CRW.boost=Math.min(1,CRW.boost+0.25);}
+  else if(k==='perfect'){pop(SIM.combo>=3?`PERFECT ×${SIM.combo}`:'PERFECT','perfect');sfx('perfect',1);buzz(25);CRW.boost=Math.min(1,CRW.boost+0.04);}
+  else if(k==='great'){pop(SIM.combo>=3?`GREAT ×${SIM.combo}`:'GREAT','great');sfx('great',1);}
+  else if(SIM.lostCombo>=3)pop('Combo lost – tap on the beat','miss');
+  Bus.emit('judge',k,id,SIM);
+  if(k!=='miss'&&SIM.combo>0&&SIM.combo%5===0){sfx('combo');buzz([20,30,20,30,40]);pop(`COMBO ×${SIM.combo}!`,'combo');crowdReact(0.4);}}
 function pop(txt,cls){const p=$('pop');if(!p)return;p.textContent=txt;p.className='show '+(cls||'');void p.offsetWidth;p.classList.add('go');clearTimeout(SIM.popT);SIM.popT=setTimeout(()=>p.className='',900);}
 Bus.on('cmd',(n,a,o)=>{if(o&&o.manual&&isPro()&&SES&&{flash:a&&a[0],strobe:a&&a[0],macro:1,bo:1,go:1,blind:1}[n])judgeTap(n==='macro'?'drophit':n,true);});
 // ---- auto-arm pyro in Simple mode ----
@@ -3798,12 +3900,16 @@ const b64e=s=>btoa(unescape(encodeURIComponent(s))).replace(/\+/g,'-').replace(/
 const b64d=s=>decodeURIComponent(escape(atob(s.replace(/-/g,'+').replace(/_/g,'/'))));
 function cleanName(n){return String(n==null?'':n).replace(/[\u0000-\u001f\u007f<>"'`&\\]/g,'').replace(/\s+/g,' ').trim().slice(0,16);}
 const fmtPts=n=>(n|0).toLocaleString('en-US');
-function showPoints(R){const cs=Object.values(R.cats||{}).reduce((a,b)=>a+(+b||0),0);return Math.max(0,Math.min(99999,Math.round((R.overall||0)*100+cs*10+((R.metrics&&R.metrics.dropHit)||0)*500+Math.min(R.accents||0,300)*5)));}
-function chalEncode(o){const p={v:1,ve:o.venue|0,t:o.track,sd:o.seed>>>0,d:o.diff,n:cleanName(o.name),s:o.score|0,c:(o.chain||[]).slice(-5).map(([n,s])=>[cleanName(n),s|0])};const b=b64e(JSON.stringify(p));return b+'.'+mpSum(b);}
+function showPoints(R){const cs=Object.values(R.cats||{}).reduce((a,b)=>a+(+b||0),0);return Math.max(0,Math.min(99999,Math.round((R.overall||0)*100+cs*10+((R.metrics&&R.metrics.dropHit)||0)*500+Math.min(R.accents||0,300)*5+Math.min(10000,(R.hype||0)/20))));}
+function chalEncode(o){const p={v:1,ve:o.venue|0,t:o.track,sd:o.seed>>>0,d:o.diff,n:cleanName(o.name),s:o.score|0,c:(o.chain||[]).slice(-5).map(([n,s])=>[cleanName(n),s|0])};if(o.x)p.x=packX(o.x);if(o.duel)p.k='duel';const b=b64e(JSON.stringify(p));return b+'.'+mpSum(b);}
 function chalDecode(str){try{str=String(str||'').trim();const i=str.lastIndexOf('.');if(i<1)return null;const b=str.slice(0,i),sum=str.slice(i+1);if(!/^[A-Za-z0-9_-]+$/.test(b)||sum!==mpSum(b))return null;
   const p=JSON.parse(b64d(b));if(!p||p.v!==1||!Number.isInteger(p.ve)||!VENUES[p.ve]||typeof p.t!=='string'||!TMAP[p.t]||p.t==='tutorial'||!DIFFN[p.d]||!Number.isInteger(p.s)||p.s<0||p.s>99999||!Number.isInteger(p.sd)||!Array.isArray(p.c))return null;
   const n=cleanName(p.n);if(!n)return null;const chain=p.c.filter(x=>Array.isArray(x)&&x.length===2&&Number.isInteger(x[1])&&x[1]>=0&&x[1]<=99999).slice(-5).map(([a,s])=>[cleanName(a)||'?',s]);
-  return {venue:p.ve,track:p.t,seed:p.sd>>>0,diff:p.d,name:n,score:p.s,chain};}catch(e){return null;}}
+  return {venue:p.ve,track:p.t,seed:p.sd>>>0,diff:p.d,name:n,score:p.s,chain,x:unpackX(p.x),duel:p.k==='duel'};}catch(e){return null;}}
+// v2.3: optional per-show stats on links (async Duel head-to-head). Old links simply have none.
+const XK=['st','bc','pf','gr','dr','rq','hy'];
+function packX(x){return XK.map(k=>Math.max(0,Math.min(9999999,(x&&x[k])|0)));}
+function unpackX(a){if(!Array.isArray(a)||a.length!==XK.length||!a.every(v=>Number.isInteger(v)&&v>=0&&v<=9999999))return null;const o={};XK.forEach((k,i)=>o[k]=a[i]);o.st=Math.max(1,Math.min(5,o.st));return o;}
 const baseUrl=()=>location.href.replace(/[?#].*$/,'');
 function chalUrl(o){return baseUrl()+'#c='+chalEncode(o);}
 // ---- name (asked once, editable in Settings) ----
@@ -3843,12 +3949,12 @@ function startMp(c,mp){const V=VENUES[c.venue]||VENUES[4],d=diffCfg(c.diff);SAVE
   warnThen(()=>startSession({mode:'show',venue:c.venue,env:V.env,track:c.track,dj:null,style:'energetic',crowdSize:null,crowdN:Math.min(V.crowd,4000),auto:d.auto,short:d.short,scored:true,rig:V.rig,fx:V.fx,seed:c.seed||0,diff:c.diff,mp}));}
 // ---- receiving a challenge link ----
 function chalScreen(c){const T=TMAP[c.track],V=VENUES[c.venue];preloadTrack(c.track);
-  scr(`<div class="hero"><h1 style="margin:.2rem 0">📣 Challenge!</h1><p class="chalBig">Beat ${esc(c.name)}'s <b>${fmtPts(c.score)}</b></p>
+  scr(`<div class="hero"><h1 style="margin:.2rem 0">${c.duel?'⚔️ Duel!':'📣 Challenge!'}</h1><p class="chalBig">Beat ${esc(c.name)}'s <b>${fmtPts(c.score)}</b></p>
   <p class="muted">${esc(T.title)}${T.artist?' – '+esc(T.artist):''} · ${esc(V.name)} · ${DIFFN[c.diff]} · same show seed</p></div>
   ${c.chain.length?'<div class="lbl">Challenge chain</div>'+chainHtml(c.chain.concat([[c.name,c.score]])):''}
   <div class="row" style="margin-top:.8rem"><button data-u="menu">Not now</button><button class="sel big" data-u="chalGo">ACCEPT ▶</button></div>`);MP.pending=c;}
 function chainHtml(ch){return `<div class="chain">${ch.map(([n,s],i)=>`<span>${esc(n)} <b>${fmtPts(s)}</b></span>`).join('<i>→</i>')}</div>`;}
-UA_.chalGo=()=>{const c=MP.pending;if(!c)return menuScreen();needName(()=>startMp(c,{kind:'vs',vs:{name:c.name,score:c.score},chain:c.chain}),'Your name goes on the counter-challenge link.');};
+UA_.chalGo=()=>{const c=MP.pending;if(!c)return menuScreen();needName(()=>startMp(c,{kind:'vs',vs:{name:c.name,score:c.score,x:c.x,duel:c.duel},chain:c.chain}),'Your name goes on the counter-challenge link.');};
 function chalFromHash(){const m=/[#&]c=([^&]+)/.exec(location.hash||'');if(!m)return false;try{history.replaceState(null,'',location.href.replace(/#.*$/,''));}catch(e){}
   const c=chalDecode(decodeURIComponent(m[1]));if(!c){menuScreen();toast('⚠️ That challenge link is broken or was edited, so it can\'t be played.',4000);return true;}
   if(SES)endSession(true);chalScreen(c);return true;}
@@ -3860,14 +3966,16 @@ function mpResults(R){const S=SES;if(!S||!S.scored)return {html:'',btns:null};co
       btns=left.length?`<button class="danger" data-u="partyQuit">Quit party</button><button class="sel big" data-u="partyNext">Pass to ${esc(left[0].name)} ▶</button>`:`<button class="sel big" data-u="podium">🏆 Podium</button>`;}}
   else{const me=mpName()||'You',r=lbRecord(me,pts,cfg);
     if(mp.kind==='vs'){const d=pts-mp.vs.score,win=d>0;html+=`<div class="h2h ${win?'win':d<0?'lose':''}"><div><span>${esc(me)}</span><b>${fmtPts(pts)}</b></div><i>vs</i><div><span>${esc(mp.vs.name)}</span><b>${fmtPts(mp.vs.score)}</b></div></div>
-      <p class="h2hMsg">${win?'🏆 You beat '+esc(mp.vs.name)+' by '+fmtPts(d)+'!':d<0?'😤 '+esc(mp.vs.name)+' wins by '+fmtPts(-d)+'. Rematch?':'🤝 Dead heat!'}</p>`+chainHtml((mp.chain||[]).concat([[mp.vs.name,mp.vs.score],[me,pts]]));}
+      <p class="h2hMsg">${win?'🏆 You beat '+esc(mp.vs.name)+' by '+fmtPts(d)+'!':d<0?'😤 '+esc(mp.vs.name)+' wins by '+fmtPts(-d)+'. Rematch?':'🤝 Dead heat!'}</p>`+(mp.vs.x&&R.fx?h2hStats(me,R.fx,mp.vs.name,mp.vs.x):'')+chainHtml((mp.chain||[]).concat([[mp.vs.name,mp.vs.score],[me,pts]]));if(win&&mp.vs.duel){SAVE.fun.stats.duels++;SAVE.fun.stats.duelWins++;funAch('duelwin');}else if(mp.vs.duel)SAVE.fun.stats.duels++;}
     if(r.rank>=0&&r.rank<10)html+=`<p class="muted">#${r.rank+1} on this track's leaderboard${r.overall>=0&&r.overall<10?' · #'+(r.overall+1)+' overall':''}</p>`;
     const chain=mp.kind==='vs'?(mp.chain||[]).concat([[mp.vs.name,mp.vs.score]]).slice(-4):[];
-    MP.link={venue:cfg.venue|0,track:cfg.track,seed:cfg.seed,diff:cfgDiff(cfg),score:pts,chain,ents:r.ents};mpLink();
-    html+=`<div class="row"><button class="sel" data-u="mpShare">📣 ${mp.kind==='vs'?'Send counter-challenge':'Challenge a friend'}</button><button data-u="lb" data-v="${esc(lbKey(cfg.track,cfg.venue|0))}">🏅 Leaderboard</button></div><div id="shareBox"></div>`;}
+    MP.link={venue:cfg.venue|0,track:cfg.track,seed:cfg.seed,diff:cfgDiff(cfg),score:pts,chain,ents:r.ents,x:R.fx||null,duel:!!mp.duel||mp.kind==='vs'&&!!mp.vs.duel};mpLink();
+    html+=`<div class="row"><button class="sel" data-u="mpShare">📣 ${mp.kind==='vs'?'Send counter-challenge':mp.duel?'⚔️ Send duel link':'Challenge a friend'}</button><button data-u="lb" data-v="${esc(lbKey(cfg.track,cfg.venue|0))}">🏅 Leaderboard</button></div><div id="shareBox"></div>`;}
   R._mp={html,btns};return R._mp;}
+function h2hStats(a,A,b,B){const rows=[['⭐ Stars','st'],['📣 HYPE','hy'],['🔗 Best combo','bc'],['🎯 Perfects','pf'],['🚀 Perfect drops','dr'],['🙋 Requests','rq']];
+  return `<table class="h2hT"><tr><th></th><th>${esc(a)}</th><th>${esc(b)}</th></tr>${rows.map(([n,k])=>{const x=A[k]|0,y=B[k]|0;return `<tr><td>${n}</td><td class="${x>y?'w':''}">${k==='st'?starStr(x):fmtPts(x)}</td><td class="${y>x?'w':''}">${k==='st'?starStr(y):fmtPts(y)}</td></tr>`;}).join('')}</table>`;}
 function mpLink(){const L=MP.link;if(!L)return '';const me=mpName()||'You';L.ents.forEach(e=>{if(e[0]==='You'&&me!=='You')e[0]=me;});const T=TMAP[L.track];
-  MP.lastText=`Beat ${me}'s ${fmtPts(L.score)} on ${T?T.title:'this track'} in Festival Control!`;return MP.lastLink=chalUrl(Object.assign({name:me},L));}
+  MP.lastText=L.duel?`⚔️ ${me} challenges you to a Festival Control duel: ${fmtPts(L.score)} pts on ${T?T.title:'this track'}. Same show, your turn!`:`Beat ${me}'s ${fmtPts(L.score)} on ${T?T.title:'this track'} in Festival Control!`;return MP.lastLink=chalUrl(Object.assign({name:me},L));}
 UA_.mpShare=()=>{if(!MP.link)return;if(!mpName()){const keep=UI.lastAn;askName(()=>{dirty();analysisScreen(keep.R,keep.rw);doShare(mpLink());},'Your name goes on the challenge link so your friend knows who to beat.');return;}doShare(mpLink());};
 function shareFallback(url,msg){const b=$('shareBox');if(b)b.innerHTML=`<p class="muted">${esc(msg)}</p><input id="shareUrl" readonly value="${esc(url)}" style="width:100%;font-size:.8rem;padding:.5rem;min-height:44px" onclick="this.select()">`;const i=$('shareUrl');if(i){i.focus();i.select();}}
 function doShare(url){const txt=MP.lastText||'Beat my score in Festival Control!';
@@ -3913,6 +4021,213 @@ function mpInit(){if(!SAVE.mp||typeof SAVE.mp!=='object')SAVE.mp={name:'',lb:{}}
     el.innerHTML=t;el.classList.toggle('hidden',!t);if(t)toast(t.replace(/<[^>]*>/g,''),2600);});
   addEventListener('hashchange',()=>{if(/[#&]c=/.test(location.hash))chalFromHash();});}
 
+// ===================== fun.js =====================
+// v2.3 "more fun" layer: combo multiplier + HYPE points, FEVER (player-triggered overdrive), timed crowd requests,
+// 1-5 star ratings, Daily Festival with streaks, achievements, end-of-show highlights, extra juice (edge glow, sparks, haptics).
+// Design notes: Guitar Hero Star Power (player chooses when to cash in), Fuser crowd requests, GMTK "juice", ethical daily missions (no FOMO, grace day).
+const FUN={on:false,req_on:false,hype:0,mult:1,fever:0,feverOn:false,feverEnd:0,feverReady:false,req:null,nextReq:0,reqDone:0,reqMiss:0,hl:[],maxMult:1,feverN:0,perfDrops:0,newAch:[],rng:Math.random};
+const HYPE_PTS={perfect:300,great:150,drop:1000},REQ_PTS=1500,FEVER_BEATS=32,MULT_STEP=8;
+const funMult=c=>Math.min(4,1+Math.floor((c||0)/MULT_STEP));
+const STAR_T=[40,55,70,82,92];
+function funStars(pct){let n=0;STAR_T.forEach(t=>{if(pct>=t)n++;});return Math.max(1,n);}
+const starStr=(n,max)=>'★'.repeat(n)+'☆'.repeat((max||5)-n);
+// ---- achievements (each pays credits once) ----
+const ACH=[['first','🎬','First show','Finish a scored show',100],['combo25','🔗','On the beat','Reach a 25 combo',150],['combo50','🎯','Metronome','Reach a 50 combo',300],
+ ['mult4','✖️','Max multiplier','Reach the ×4 HYPE multiplier',150],['fever','🔥','FEVER!','Trigger FEVER mode',100],['pdrop','🚀','Perfect drop','Hit DROP! exactly on a drop',100],
+ ['req3','🙋','Crowd pleaser','Fulfil 3 crowd requests in one show',150],['hype50k','📣','Hype machine','Score 50,000 HYPE in one show',200],['stars5','⭐','Headliner','Get 5 stars on a show',300],
+ ['stars3x5','🌟','Setlist hero','Get 3+ stars on 5 different real tracks',250],['daily3','📅','Regular','Play the Daily Festival 3 days in a row',200],['duelwin','⚔️','Duel winner','Win a 1v1 Duel',150],
+ ['crate','💿','Crate digger','Play all 10 real tracks in scored shows',250]];
+const ACHMAP=Object.fromEntries(ACH.map(a=>[a[0],a]));
+function funAch(id){const a=ACHMAP[id];if(!a||!SAVE||!SAVE.fun||SAVE.fun.ach[id])return false;SAVE.fun.ach[id]=1;SAVE.career.credits+=a[4];dirty();FUN.newAch.push(id);
+  toast(`🏅 Achievement: ${a[1]} ${a[2]} (+${a[4]} credits)`,2600);sfx('cheer');return true;}
+function achScreen(){const A=SAVE.fun.ach,n=ACH.filter(a=>A[a[0]]).length;
+  scr(`<h2>🏅 Achievements <small class="muted">${n}/${ACH.length}</small></h2><p class="muted">Each one pays credits once. No timers, no pressure.</p>
+  <div class="achList">${ACH.map(a=>`<div class="ach${A[a[0]]?' got':''}"><i>${A[a[0]]?a[1]:'🔒'}</i><div><b>${esc(a[2])}</b><span>${esc(a[3])}</span></div><em>${A[a[0]]?'✓':'+'+a[4]}</em></div>`).join('')}</div>
+  <div class="row" style="margin-top:.8rem">${backBtn()}</div>`);}
+UA_.ach=()=>achScreen();
+// ---- session lifecycle ----
+function funReset(S){Object.assign(FUN,{hype:0,mult:1,fever:0,feverOn:false,feverEnd:0,feverReady:false,req:null,nextReq:24,reqDone:0,reqMiss:0,hl:[],maxMult:1,feverN:0,perfDrops:0,newAch:[]});
+  const ok=!!(S&&TR&&!TR.yt&&S.mode!=='tutorial');FUN.on=ok&&S.scored&&!S.cfg.duel;FUN.req_on=ok&&(S.scored||!!S.cfg.duel);FUN.rng=seeded(((S&&S.cfg.seed)||1)^0x9e3779b9);
+  document.body.classList.remove('fever','m2','m3','m4');document.body.classList.toggle('funon',FUN.on);funHud(true);}
+Bus.on('session',S=>funReset(S));
+function setMultClass(m){const b=document.body.classList;['m2','m3','m4'].forEach(c=>b.toggle(c,c==='m'+m));}
+function funHl(kind,txt,v){FUN.hl.push({t:songPos(),kind,txt,v:v||0});if(FUN.hl.length>40)FUN.hl.shift();}
+function hitSpark(id,kind){const el=document.querySelector(`#spads [data-s="${id}"]`);if(!el||!el.offsetParent)return;const r=el.getBoundingClientRect(),s=document.createElement('div');
+  s.className='spark '+kind;s.style.left=(r.left+r.width/2)+'px';s.style.top=(r.top+r.height/2)+'px';s.innerHTML='<i></i><i></i><i></i><i></i><i></i><i></i>';document.body.appendChild(s);setTimeout(()=>s.remove(),650);}
+Bus.on('judge',(k,id,P)=>{if(!FUN.on)return;
+  if(k==='miss'){if(FUN.mult>1){FUN.mult=1;setMultClass(1);}funHud();return;}
+  const m=funMult(P.combo);if(m>FUN.mult){const x=$('multN');if(x){x.classList.remove('bump');void x.offsetWidth;x.classList.add('bump');}if(m===4)funHl('mult','Hit ×4 multiplier',4);}
+  FUN.mult=m;FUN.maxMult=Math.max(FUN.maxMult,m);setMultClass(m);
+  const gain=HYPE_PTS[k]*m*(FUN.feverOn?2:1);FUN.hype+=gain;hitSpark(id,k);
+  if(!FUN.feverOn)funFill(k==='drop'?0.25:k==='perfect'?0.035:0.015);
+  if(k==='drop'){FUN.perfDrops++;funHl('drop','PERFECT DROP',gain);funAch('pdrop');}
+  if(P.combo&&P.combo%10===0)funHl('combo','Combo ×'+P.combo,P.combo);
+  if(P.combo>=25)funAch('combo25');if(P.combo>=50)funAch('combo50');if(m>=4)funAch('mult4');if(FUN.hype>=50000)funAch('hype50k');funHud();});
+function funFill(a){const was=FUN.fever>=1;FUN.fever=Math.min(1,FUN.fever+a);if(!was&&FUN.fever>=1&&!FUN.feverOn){FUN.feverReady=true;toast('🔥 FEVER ready! Tap FEVER (or B) to double your HYPE',2200);sfx('combo');buzz([20,30,20]);}}
+function funFever(){if(!FUN.on||FUN.feverOn||FUN.fever<1||!SEQ.playing)return false;FUN.feverOn=true;FUN.feverReady=false;FUN.feverEnd=beatPos()+FEVER_BEATS;FUN.feverN++;
+  document.body.classList.add('fever');pop('FEVER ×2!','drop');sfx('dropok');buzz([40,30,40,30,80]);crowdReact(1);crowdCheer(0.8);CRW.boost=1;ENG.e=Math.min(1,ENG.e+0.06);
+  funHl('fever','FEVER for 8 bars');funAch('fever');funHud();return true;}
+UA_.fever=()=>funFever();
+// ---- crowd requests (Fuser-style): a timed ask from the crowd; fulfil it for bonus HYPE + cheer, miss it and the crowd dips a little ----
+const REQS={colors:['🎨','New colours!',1],looks:['💡','New look!',1],flash:['⚡','Flash ×4!',4],laser:['🟢','Lasers!',1],strobe:['💥','Strobe!',1],confetti:['🎊','Confetti!',1],flames:['🔥','Flames!',1],led:['📺','New LED wall!',1]};
+function reqPool(sec){const has=k=>(FXS.dev[k]||[]).length>0,lz=FIX.list.some(f=>f.type==='laser');let L;
+  if(sec==='break')L=['colors','looks','led'];else if(sec==='build')L=['strobe','flash','colors'];else if(sec==='drop'||sec==='peak')L=['confetti','flames','flash','looks','laser'];else L=['colors','looks','laser','flash','led'];
+  return L.filter(k=>(k!=='confetti'&&k!=='flames'||has(k))&&(k!=='laser'||lz));}
+function reqSpawn(bp){const sec=curSecObj(),L=reqPool(sec?sec.t:'groove');if(!L.length)return;const k=L[(FUN.rng()*L.length)|0];
+  FUN.req={k,n:REQS[k][2],got:[0,0],t0:bp,until:bp+16};sfx('ok');funHud(true);}
+function reqHit(pad,who){const R=FUN.req;if(!FUN.req_on||!R||!SEQ.playing)return;const k=pad==='fireworks'||pad==='co2'?'confetti':pad;if(k!==R.k)return;const w=who|0;R.got[w]++;
+  if(R.got[w]<R.n){funHud(true);return;}FUN.req=null;FUN.nextReq=beatPos()+24+((FUN.rng()*4)|0)*4;FUN.reqDone++;crowdReact(0.7);crowdCheer(0.6);sfx('combo');
+  if(SES&&SES.cfg.duel){duelReq(w);}else{const g=REQ_PTS*FUN.mult*(FUN.feverOn?2:1);FUN.hype+=g;funFill(0.2);toast(`🙌 Request done! +${fmtPts(g)} HYPE`,1400);funHl('req','Crowd request: '+REQS[k][1],g);if(FUN.reqDone>=3)funAch('req3');}
+  const b=$('req');if(b){b.classList.remove('miss');b.classList.add('done');}funHud(true);}
+const CMD_PAD={pal:'colors',preset:'looks',led:'led',macro:'drop'};
+Bus.on('cmd',(n,a,o)=>{if(!FUN.req||!o||!o.manual||(SES&&SES.cfg.duel))return;let p=CMD_PAD[n];if(n==='led'&&a&&a[0]!=='style')p=null;
+  if(n==='fx')p=a&&a[0];else if((n==='flash'||n==='strobe'||n==='laser')&&a&&a[0])p=n;if(p)reqHit(p,0);});
+// ---- per-frame (HUD rate) ----
+function funTick(){if(!SES)return;const bp=beatPos();
+  if(FUN.feverOn&&bp>=FUN.feverEnd){FUN.feverOn=false;FUN.fever=0;document.body.classList.remove('fever');toast('FEVER over: fill it again with PERFECTs',1500);}
+  if(FUN.req_on&&SEQ.playing){if(FUN.req&&bp>=FUN.req.until){FUN.req=null;FUN.reqMiss++;FUN.nextReq=bp+20;ENG.e=Math.max(0,ENG.e-0.04);if(!(SES.cfg.duel))toast('😕 Missed the crowd request',1200);sfx('deny');const b=$('req');if(b)b.classList.add('miss');}
+    else if(!FUN.req&&bp>=FUN.nextReq&&TR&&bp<TR.len*TR.bpm/60-24)reqSpawn(bp);}
+  funHud();if(SES.cfg.duel&&typeof duelTick==='function')duelTick();}
+function funHud(force){const box=$('hypeBox');if(!box)return;box.classList.toggle('hidden',!FUN.on);
+  if(FUN.on){$('hypeN').textContent=fmtPts(FUN.hype);$('multN').textContent='×'+FUN.mult;const bp=SES?beatPos():0;
+    const fb=$('bFever'),fill=FUN.feverOn?Math.max(0,(FUN.feverEnd-bp)/FEVER_BEATS):FUN.fever;fb.classList.remove('hidden');fb.style.setProperty('--f',(fill*100).toFixed(0)+'%');
+    fb.classList.toggle('ready',FUN.fever>=1&&!FUN.feverOn);fb.classList.toggle('on',FUN.feverOn);const lb=FUN.feverOn?'FEVER ×2':FUN.fever>=1?'FEVER!':'FEVER '+Math.floor(FUN.fever*100)+'%';if(fb.dataset.l!==lb){fb.dataset.l=lb;fb.querySelector('b').textContent=lb;}}
+  else{const fb=$('bFever');if(fb)fb.classList.add('hidden');}
+  const rq=$('req');if(!rq)return;const R=FUN.req,show=FUN.req_on&&!!R&&!(SES&&SES.cfg.duel);
+  if(show){const bp=beatPos(),left=Math.max(0,(R.until-bp)/16);const t=`🙋 Crowd wants: ${REQS[R.k][0]} ${REQS[R.k][1]}${R.n>1?' '+R.got[0]+'/'+R.n:''}`;
+    if(rq.dataset.t!==t){rq.dataset.t=t;rq.innerHTML=`<span>${esc(t)}</span><i></i>`;rq.className='';}rq.querySelector('i').style.width=(left*100).toFixed(0)+'%';}
+  else if(!rq.classList.contains('hidden')&&!(rq.classList.contains('done')||rq.classList.contains('miss'))){rq.classList.add('hidden');rq.dataset.t='';}
+  else if((rq.classList.contains('done')||rq.classList.contains('miss'))&&!R){clearTimeout(FUN.rqT);FUN.rqT=setTimeout(()=>{if(!FUN.req){rq.className='hidden';rq.dataset.t='';}},900);}}
+// ---- Daily Festival: one seeded show per day, same for everyone; streak with a 1-day grace ----
+function dayKey(d){d=d||new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function dayNum(k){const [y,m,d]=k.split('-').map(Number);return Date.UTC(y,m-1,d)/864e5;}
+function dailyCfg(k){k=k||dayKey();const s=fnv32('fc-daily|'+k)||1;const V=[1,2,3,4,5,6];return {venue:V[(s>>>8)%V.length],track:REAL_TRACKS[s%REAL_TRACKS.length].id,seed:s,diff:'normal',day:k};}
+function dailyScreen(){const c=dailyCfg(),D=SAVE.fun.daily,T=TMAP[c.track],V=VENUES[c.venue],best=D.best[c.day];preloadTrack(c.track);
+  const alive=D.last&&dayNum(c.day)-dayNum(D.last)<=2;
+  scr(`<div class="hero"><h1 style="margin:.2rem 0">📅 Daily Festival</h1><p class="muted">${esc(c.day)} · one show a day, the same for every player</p></div>
+  <div class="dailyCard"><b>${esc(T.title)}</b><span>${esc(T.artist||'')} · ${esc(T.genre||'')}</span><span>${esc(V.name)} · Normal · 2 min</span></div>
+  <div class="dailyStats"><div><b>🔥 ${alive?D.streak:0}</b><span>day streak</span></div><div><b>${best!=null?fmtPts(best):'–'}</b><span>today's best</span></div><div><b>${D.bestStreak}</b><span>best streak</span></div></div>
+  <p class="muted" style="font-size:.8rem">Miss a day? Your streak survives one skipped day. Replays are free, and your best score counts.</p>
+  <div class="row" style="margin-top:.6rem">${backBtn()}<button class="sel big" data-u="dailyGo">▶ PLAY TODAY'S SHOW</button></div>`);}
+UA_.daily=()=>dailyScreen();
+UA_.dailyGo=()=>{const c=dailyCfg();startMp({venue:c.venue,track:c.track,seed:c.seed,diff:'normal'},{kind:'solo',daily:c.day});};
+function dailyRecord(day,pts,stars){const D=SAVE.fun.daily;if(day!==dayKey()){return null;}const first=D.last!==day;
+  if(first){const gap=D.last?dayNum(day)-dayNum(D.last):99;D.streak=gap<=2?D.streak+1:1;D.last=day;D.played++;D.bestStreak=Math.max(D.bestStreak,D.streak);}
+  const prev=D.best[day];D.best[day]=Math.max(prev||0,pts);if(D.streak>=3)funAch('daily3');FUN.daily={day,pts,stars,streak:D.streak,best:D.best[day],newBest:prev==null||pts>prev};return FUN.daily;}
+function dailyText(){const d=FUN.daily;if(!d)return '';return `FESTIVAL CONTROL Daily ${d.day}\n${starStr(d.stars)} ${fmtPts(d.pts)} pts\n🔥 ${d.streak}-day streak\n${baseUrl()}`;}
+UA_.dailyShare=()=>{const t=dailyText();if(!t)return;if(navigator.share){navigator.share({text:t}).then(()=>toast('Shared!')).catch(e=>{if(e&&e.name!=='AbortError')dailyCopy(t);});return;}dailyCopy(t);};
+function dailyCopy(t){const fb=()=>{const b=$('shareBox');if(b)b.innerHTML=`<p class="muted">Copy and share:</p><textarea readonly rows="4" style="width:100%;font-size:.85rem" onclick="this.select()">${esc(t)}</textarea>`;};
+  try{if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(t).then(()=>{toast('📋 Result copied',1800);fb();},fb);else fb();}catch(e){fb();}}
+// ---- end of show: stars, HYPE, highlights, achievements, credits ----
+function funFinish(R){if(!SES||!SES.scored||SES.cfg.duel)return [];const F=SAVE.fun,id=TR&&TR.id,L=[];FUN.newAch=FUN.newAch||[];
+  R.hype=FUN.hype;R.stars=funStars(R.overall);const st={st:R.stars,bc:SIM.best|0,pf:SIM.perfect|0,gr:SIM.great|0,dr:FUN.perfDrops,rq:FUN.reqDone,hy:Math.min(9999999,FUN.hype|0),mx:FUN.maxMult};R.fx=st;
+  const prevStars=F.stars[id]||0;if(id&&R.stars>prevStars)F.stars[id]=R.stars;
+  if(id&&TMAP[id]&&TMAP[id].real)F.played[id]=(F.played[id]||0)+1;
+  const S=F.stats;S.fever+=FUN.feverN;S.req+=FUN.reqDone;S.perfDrops+=FUN.perfDrops;S.maxCombo=Math.max(S.maxCombo,SIM.best|0);S.maxHype=Math.max(S.maxHype,FUN.hype|0);
+  funAch('first');if(R.stars>=5)funAch('stars5');if(REAL_TRACKS.filter(t=>(F.stars[t.id]||0)>=3).length>=5)funAch('stars3x5');if(REAL_TRACKS.every(t=>F.played[t.id]))funAch('crate');
+  const mp=SES.cfg.mp;if(mp&&mp.daily)R._daily=true;
+  R._funHtml=`<div class="starsRow"><span class="stars s${R.stars}">${starStr(R.stars)}</span>${R.stars>prevStars&&prevStars?'<em>New best!</em>':''}</div>
+  <div class="chips"><span>📣 <b>${fmtPts(FUN.hype)}</b> HYPE</span><span>🔗 Best combo <b>${SIM.best|0}</b></span><span>✖️ Max <b>×${FUN.maxMult}</b></span><span>🎯 <b>${SIM.perfect|0}</b> perfect · <b>${SIM.great|0}</b> great</span><span>🚀 Perfect drops <b>${FUN.perfDrops}</b></span><span>🙋 Requests <b>${FUN.reqDone}/${FUN.reqDone+FUN.reqMiss}</b></span>${FUN.feverN?`<span>🔥 FEVER ×<b>${FUN.feverN}</b></span>`:''}</div>
+  ${funHlHtml()}`;
+  return L;}
+function funAfterRewards(R,rw){if(!R||!rw)return;const c=SAVE.career;let d='';
+  if(R._daily){const r=dailyRecord(SES.cfg.mp.daily,showPoints(R),R.stars||1);if(r)d=`<div class="dailyRes"><b>📅 Daily Festival ${esc(r.day)}</b> · 🔥 ${r.streak}-day streak${r.newBest?' · new best today!':''}<div class="row"><button class="sel" data-u="dailyShare">📤 Share result</button></div></div>`;}
+  const A=FUN.newAch.map(id=>ACHMAP[id]).filter(Boolean);if(A.length){rw.lines.splice(Math.max(0,rw.lines.length-1),0,...A.map(a=>`🏅 Achievement: ${a[1]} ${esc(a[2])} (+${a[4]})`));rw.lines[rw.lines.length-1]=`<b>Credits: ${c.credits}</b>`;}
+  R._funHtml=(R._funHtml||'')+d;dirty();}
+function funHlHtml(){const H=FUN.hl.slice();if(!H.length)return '';const pri={drop:5,fever:4,mult:3,req:2,combo:1};
+  const top=H.sort((a,b)=>pri[b.kind]-pri[a.kind]||b.v-a.v).slice(0,5).sort((a,b)=>a.t-b.t);
+  return `<div class="lbl">Highlights</div><div class="hls">${top.map(h=>`<div><span class="muted">${fmtT(h.t)}</span> ${{drop:'🚀',fever:'🔥',mult:'✖️',req:'🙋',combo:'🔗'}[h.kind]} ${esc(h.txt)}${h.v>100&&h.kind!=='combo'?` <b>+${fmtPts(h.v)}</b>`:''}</div>`).join('')}</div>`;}
+function funInit(){if(!SAVE.fun)SAVE.fun=freshFun();if(SAVE.lastTrack&&!TMAP[SAVE.lastTrack])SAVE.lastTrack='bigroom';
+  const fb=$('bFever');if(fb)fb.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();if(!funFever()&&FUN.fever<1)toast('Fill FEVER with PERFECT taps, drops and crowd requests',1600);});
+  addEventListener('keydown',e=>{if(e.code==='KeyB'&&SES&&!SES.cfg.duel&&!UI.scr&&!/INPUT|SELECT|TEXTAREA/.test((e.target&&e.target.tagName)||'')){funFever();}});}
+function dailyMenuTxt(){const D=SAVE.fun.daily,k=dayKey(),alive=D.last&&dayNum(k)-dayNum(D.last)<=2;return D.last===k?`Played today ✓ · 🔥 ${D.streak}-day streak`:alive&&D.streak?`🔥 ${D.streak}-day streak: keep it going`:'One new show every day';}
+
+// ===================== duel.js =====================
+// v2.3 1v1 DUEL: two players, one phone, same show at the same time (split screen: portrait = face-to-face, landscape = side by side).
+// Each player has their own pads, judge, combo, multiplier, FEVER and points; crowd requests go to whoever answers first.
+// Async alternative: "Duel by link" = play the seeded show, send a link, your friend plays the same show and gets a head-to-head stats table.
+const DUEL={P:[],names:['P1','P2'],track:'',el:null,keys:{},setup:null,last:null};
+const DPADS=[['flash','⚡','Flash','hold'],['colors','🎨','Colours','tap'],['looks','💡','Looks','tap'],['laser','🟢','Lasers','tap'],['fx','🎊','Pyro','tap'],['drop','🚀','DROP!','tap']];
+const DKEYS=[{KeyQ:'flash',KeyW:'colors',KeyE:'looks',KeyA:'laser',KeyS:'fx',KeyD:'drop',KeyF:'fever'},{KeyU:'flash',KeyI:'colors',KeyO:'looks',KeyJ:'laser',KeyK:'fx',KeyL:'drop',KeyH:'fever'}];
+function duelP(name){return {name,pts:0,combo:0,best:0,perfect:0,great:0,drops:0,miss:0,req:0,mult:1,fever:0,feverOn:false,feverEnd:0,lastB:-99,dropPop:0,lostCombo:0};}
+function duelFxKind(){for(const k of ['confetti','flames','co2','fireworks'])if((FXS.dev[k]||[]).length&&(k!=='fireworks'||G.env.outdoor))return k;return 'confetti';}
+// ---- setup ----
+function duelScreen(){const S=DUEL.setup=DUEL.setup||{n1:mpName()||'',n2:'',track:'',how:'local'};
+  const trks=[['','🎲 Random real track']].concat(REAL_TRACKS.map(t=>[t.id,trackLabel(t)]));
+  scr(`<h2>⚔️ 1v1 Duel</h2><p class="muted">Same song, same stage, same moment. Hit the beat, nail the drop, answer the crowd. Most points wins.</p>
+  <div class="duelHow"><button class="${S.how==='local'?'sel':''}" data-u="duelHow" data-v="local"><i>📱</i><b>Same phone</b><span>Split screen, play at the same time</span></button>
+   <button class="${S.how==='link'?'sel':''}" data-u="duelHow" data-v="link"><i>🔗</i><b>By link</b><span>Play now, send the same show to a friend</span></button></div>
+  <div class="opts">${S.how==='local'?`<div class="pnames"><input id="dN1" maxlength="16" placeholder="Player 1" value="${esc(S.n1)}"><input id="dN2" maxlength="16" placeholder="Player 2" value="${esc(S.n2)}"></div>`:''}
+   <label>Track <select id="dT">${opt(trks,S.track)}</select></label></div>
+  <p class="muted" style="font-size:.8rem">${S.how==='local'?'Portrait: lay the phone flat between you, Player 2 sits opposite. Landscape: sit side by side. Keyboard: P1 Q W E / A S D, FEVER F · P2 U I O / J K L, FEVER H.':'You play a scored Normal show, then share a duel link. Your friend plays the exact same show and you both see a head-to-head table.'}</p>
+  <div class="row" style="margin-top:.6rem">${backBtn()}<button class="sel big" data-u="duelGo">${S.how==='local'?'START DUEL ▶':'PLAY & SEND ▶'}</button></div>`,'duelScr');
+  const sync=()=>{const a=$('dN1'),b=$('dN2');if(a)S.n1=a.value;if(b)S.n2=b.value;S.track=$('dT').value;};['dN1','dN2'].forEach(k=>{const e=$(k);if(e){e.oninput=sync;e.addEventListener('keydown',ev=>ev.stopPropagation());}});$('dT').onchange=sync;DUEL.sync=sync;}
+UA_.duel=()=>duelScreen();
+UA_.duelHow=v=>{DUEL.sync&&DUEL.sync();DUEL.setup.how=v==='link'?'link':'local';duelScreen();};
+UA_.duelGo=()=>{DUEL.sync&&DUEL.sync();const S=DUEL.setup,track=S.track&&TMAP[S.track]?S.track:pick(REAL_TRACKS).id;preloadTrack(track);
+  if(S.how==='link'){needName(()=>startMp({venue:4,track,seed:0,diff:'normal'},{kind:'solo',duel:true}),'Your name goes on the duel link.');return;}
+  let a=cleanName(S.n1)||'Player 1',b=cleanName(S.n2)||'Player 2';if(a===b)b=b.slice(0,13)+' 2';duelStart([a,b],track,0);};
+function duelStart(names,track,seed){const V=VENUES[4];DUEL.names=names;DUEL.track=track;DUEL.seed=seed||((globalThis.Math.random()*4294967295)>>>0)||1;
+  warnThen(()=>startSession({mode:'show',venue:4,env:V.env,track,dj:null,style:'energetic',crowdSize:'massive',crowdN:Math.min(V.crowd,4000),auto:'assisted',short:true,scored:false,rig:V.rig,fx:V.fx,seed:DUEL.seed,duel:{names:names.slice()}}));}
+function duelReset(){DUEL.P=[duelP(DUEL.names[0]),duelP(DUEL.names[1])];DUEL.fx=duelFxKind();duelBuild();}
+Bus.on('session',S=>{const on=!!(S&&S.cfg.duel);document.body.classList.toggle('duel',on);if(on){DUEL.names=S.cfg.duel.names;duelReset();toast(`⚔️ ${DUEL.names[0]} vs ${DUEL.names[1]}: tap on the beat!`,2200);}else duelRemove();});
+function duelRemove(){document.body.classList.remove('duel');if(DUEL.el){DUEL.el.remove();DUEL.el=null;}}
+// ---- split-screen overlay ----
+function duelPanel(i){const P=DUEL.P[i],fx=DUEL.fx;const ic={confetti:'🎊',flames:'🔥',co2:'💨',fireworks:'🎆'}[fx]||'🎊',nm=(FX_NAMES[fx]||'Pyro').split(' ')[0];
+  return `<div class="dp dp${i+1}" data-p="${i}"><div class="dpHead"><b class="dpName">${esc(P.name)}</b><span class="dpPts">0</span><span class="dpMult">×1</span><span class="dpCombo"></span></div>
+  <div class="dpPads">${DPADS.map(([id,i2,n])=>`<button class="dpad dpad-${id}" data-d="${id}"><i>${id==='fx'?ic:i2}</i><b>${id==='fx'?esc(nm):n}</b></button>`).join('')}</div>
+  <button class="dpFever" data-d="fever"><b>FEVER 0%</b></button><div class="dpPop"></div></div>`;}
+function duelBuild(){if(DUEL.el)DUEL.el.remove();const d=document.createElement('div');d.id='duel';
+  d.innerHTML=`${duelPanel(1)}<div class="dMid"><div class="dTug"><i></i><span class="dT1"></span><span class="dT2"></span></div><div class="dInfo"><div class="dReq hidden"></div><div class="dCd"></div></div><button class="dPause" aria-label="Pause">⏸</button></div>${duelPanel(0)}`;
+  document.body.appendChild(d);DUEL.el=d;
+  d.querySelectorAll('.dp').forEach(pn=>{const i=+pn.dataset.p;pn.querySelectorAll('[data-d]').forEach(b=>{const id=b.dataset.d;let down=false;
+    b.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();down=true;b.classList.add('hit');duelPress(i,id,true);});
+    const up=()=>{if(!down)return;down=false;b.classList.remove('hit');duelPress(i,id,false);};['pointerup','pointerleave','pointercancel'].forEach(ev=>b.addEventListener(ev,up));});});
+  d.querySelector('.dPause').addEventListener('click',e=>{e.stopPropagation();pauseScreen();});
+  d.addEventListener('contextmenu',e=>e.preventDefault());duelHud();}
+function duelPress(i,id,down){if(!SES||!SES.cfg.duel||SES.done)return;const P=DUEL.P[i];if(!P)return;
+  if(id==='fever'){if(down)duelFever(i);return;}
+  const act=id==='fx'?DUEL.fx:id;
+  if(act==='flash'){simAct('flash',down);}else if(!down)return;else if(act==='laser')padAct('laser',true);else simAct(act,true);
+  if(!down)return;buzz(10);if(!SEQ.playing)return;reqHit(act,i);duelJudge(i,act);}
+function duelJudge(i,id){const P=DUEL.P[i],bp=beatPos(),rb=Math.round(bp);if(rb===P.lastB&&id!=='drop')return;P.lastB=rb; // anti-mash: one judged tap per beat
+  const k=judgeCore(P,id);let g=0;if(k==='miss'){P.miss++;P.mult=1;if(P.lostCombo>=3)duelPop(i,'COMBO LOST','miss');}
+  else{P.mult=funMult(P.combo);if(k==='drop'){P.drops++;CRW.boost=Math.min(1,CRW.boost+0.2);sfx('dropok');}else sfx(k,1);
+    g=HYPE_PTS[k]*P.mult*(P.feverOn?2:1);P.pts+=g;if(!P.feverOn)duelFill(i,k==='drop'?0.25:k==='perfect'?0.035:0.015);
+    duelPop(i,(k==='drop'?'PERFECT DROP!':k.toUpperCase())+(P.combo>=3?' ×'+P.combo:''),k);if(P.combo>0&&P.combo%10===0){crowdReact(0.4);sfx('combo');}}
+  duelHud();return k;}
+function duelFill(i,a){const P=DUEL.P[i],was=P.fever>=1;P.fever=Math.min(1,P.fever+a);if(!was&&P.fever>=1){duelPop(i,'FEVER READY!','combo');buzz([20,30,20]);}}
+function duelFever(i){const P=DUEL.P[i];if(!P||P.feverOn||P.fever<1||!SEQ.playing)return false;P.feverOn=true;P.feverEnd=beatPos()+FEVER_BEATS;duelPop(i,'FEVER ×2!','drop');sfx('dropok');crowdReact(1);crowdCheer(0.7);CRW.boost=1;duelHud();return true;}
+function duelReq(w){const P=DUEL.P[w];if(!P)return;const g=REQ_PTS*P.mult*(P.feverOn?2:1);P.pts+=g;P.req++;duelFill(w,0.2);duelPop(w,'REQUEST! +'+fmtPts(g),'combo');duelHud();}
+function duelPop(i,txt,cls){const el=DUEL.el&&DUEL.el.querySelector(`.dp${i+1} .dpPop`);if(!el)return;el.textContent=txt;el.className='dpPop '+(cls||'');void el.offsetWidth;el.classList.add('go');}
+function duelTick(){if(!DUEL.el||!SES||!SES.cfg.duel)return;const bp=beatPos();DUEL.P.forEach((P,i)=>{if(P.feverOn&&bp>=P.feverEnd){P.feverOn=false;P.fever=0;}});duelHud();}
+function duelHud(){const d=DUEL.el;if(!d)return;const bp=SES?beatPos():0;
+  DUEL.P.forEach((P,i)=>{const pn=d.querySelector('.dp'+(i+1));if(!pn)return;const set=(s,v)=>{const e=pn.querySelector(s);if(e&&e.textContent!==v)e.textContent=v;};
+    set('.dpPts',fmtPts(P.pts));set('.dpMult','×'+P.mult);set('.dpCombo',P.combo>=2?'combo '+P.combo:'');
+    const fb=pn.querySelector('.dpFever'),f=P.feverOn?Math.max(0,(P.feverEnd-bp)/FEVER_BEATS):P.fever;fb.style.setProperty('--f',(f*100).toFixed(0)+'%');fb.classList.toggle('ready',P.fever>=1&&!P.feverOn);fb.classList.toggle('on',P.feverOn);
+    set('.dpFever b',P.feverOn?'FEVER ×2':P.fever>=1?'🔥 FEVER! TAP':'FEVER '+Math.floor(P.fever*100)+'%');pn.classList.toggle('fever',P.feverOn);pn.classList.toggle('lead',P.pts>DUEL.P[1-i].pts);});
+  const a=DUEL.P[0].pts,b=DUEL.P[1].pts,sh=a+b?a/(a+b):0.5;d.querySelector('.dTug i').style.width=(sh*100).toFixed(1)+'%';
+  const t1=d.querySelector('.dT1'),t2=d.querySelector('.dT2');if(t1.textContent!==DUEL.P[0].name)t1.textContent=DUEL.P[0].name;if(t2.textContent!==DUEL.P[1].name)t2.textContent=DUEL.P[1].name;
+  const R=FUN.req,rq=d.querySelector('.dReq');if(R){const t=`🙋 ${REQS[R.k][0]} ${REQS[R.k][1]}${R.n>1?' '+Math.max(R.got[0],R.got[1])+'/'+R.n:''}`;if(rq.textContent!==t)rq.textContent=t;rq.classList.remove('hidden');rq.style.setProperty('--l',(Math.max(0,(R.until-bp)/16)*100).toFixed(0)+'%');}else rq.classList.add('hidden');
+  const h=simHint(),cd=d.querySelector('.dCd');if(cd.textContent!==h.cd)cd.textContent=h.cd;cd.classList.toggle('num',/^\d$/.test(h.cd));
+  const g=h.g||[];d.querySelectorAll('.dpad').forEach(btn=>{const id=btn.dataset.d==='fx'?DUEL.fx:btn.dataset.d;btn.classList.toggle('glow',g.includes(id)||(R&&R.k===id));});}
+// ---- end: winner screen ----
+function duelStars(P){const j=P.perfect+P.great+P.drops+P.miss;if(!j)return 1;const acc=(P.perfect+P.great*0.6+P.drops)/j*100;let s=funStars(acc);if(j<12)s=Math.min(s,2);return s;}
+function duelFinish(){if(!SES||SES.done)return;SES.done=true;transportPause();fxStopAll();const [A,B]=DUEL.P;const res=DUEL.P.map(P=>Object.assign({},P,{stars:duelStars(P),acc:(()=>{const j=P.perfect+P.great+P.drops+P.miss;return j?Math.round((P.perfect+P.great+P.drops)/j*100):0;})()}));
+  const w=A.pts===B.pts?-1:A.pts>B.pts?0:1;const F=SAVE.fun.stats;F.duels++;if(w===0){F.duelWins++;funAch('duelwin');}F.maxCombo=Math.max(F.maxCombo,A.best|0,B.best|0);dirty();persist(false);DUEL.last={res,w};
+  sfx('cheer');crowdCheer(1);crowdReact(1);duelRemove();duelResults();}
+function duelResults(){const {res,w}=DUEL.last,T=TMAP[DUEL.track];
+  const rows=[['Points',P=>fmtPts(P.pts),P=>P.pts],['Stars',P=>starStr(P.stars),P=>P.stars],['Best combo',P=>P.best|0,P=>P.best|0],['Perfects',P=>P.perfect,P=>P.perfect],['Perfect drops',P=>P.drops,P=>P.drops],['Crowd requests',P=>P.req,P=>P.req],['Accuracy',P=>P.acc+'%',P=>P.acc]];
+  scr(`<div class="hero"><div class="wIcon">${w<0?'🤝':'🏆'}</div><h1 style="margin:.2rem 0">${w<0?'Dead heat!':esc(res[w].name)+' wins!'}</h1><p class="muted">${esc(T?T.title:'')} · ${fmtPts(Math.abs(res[0].pts-res[1].pts))} points apart</p></div>
+  <table class="h2hT duelT"><tr><th></th><th class="${w===0?'w':''}">${w===0?'👑 ':''}${esc(res[0].name)}</th><th class="${w===1?'w':''}">${w===1?'👑 ':''}${esc(res[1].name)}</th></tr>
+  ${rows.map(([n,f,v])=>{const a=v(res[0]),b=v(res[1]);return `<tr><td>${n}</td><td class="${a>b?'w':''}">${f(res[0])}</td><td class="${b>a?'w':''}">${f(res[1])}</td></tr>`;}).join('')}</table>
+  <div class="row" style="margin-top:.8rem"><button data-u="menu">Menu</button><button data-u="duelNew">New song</button><button class="sel big" data-u="duelRematch">Rematch ▶</button></div>`,'duelRes');}
+UA_.duelRematch=()=>duelStart(DUEL.names,DUEL.track,DUEL.seed);
+UA_.duelNew=()=>{const others=REAL_TRACKS.filter(t=>t.id!==DUEL.track);const t=pick(others).id;preloadTrack(t);duelStart(DUEL.names,t,0);};
+const _restartS=UA_.restartS;UA_.restartS=()=>{if(SES&&SES.cfg.duel){FUN.req=null;FUN.nextReq=24;duelReset();}_restartS();};
+function duelInit(){addEventListener('keydown',e=>{if(!SES||!SES.cfg.duel||UI.scr||e.repeat||e.metaKey||e.ctrlKey)return;for(let i=0;i<2;i++){const id=DKEYS[i][e.code];if(id){e.preventDefault();e.stopImmediatePropagation();DUEL.keys[e.code]=1;duelPress(i,id,true);return;}}},true);
+  addEventListener('keyup',e=>{if(!DUEL.keys[e.code])return;delete DUEL.keys[e.code];e.stopImmediatePropagation();for(let i=0;i<2;i++){const id=DKEYS[i][e.code];if(id)duelPress(i,id,false);}},true);}
+
 // ===================== main.js =====================
 // Main: boot, sessions (career / show / free play / challenge / tutorial / My Song), frame loop, end-of-show analysis + rewards, adaptive quality, test hook
 const SHOW_DEF=JSON.parse(JSON.stringify(SHOW));
@@ -3937,15 +4252,15 @@ function startSession(cfg){try{initAudio();}catch(e){}hideScr();if(SES)endSessio
   TUT.on=cfg.mode==='tutorial';TUT.i=0;tutShow();if(cfg.mode==='tutorial')ST.beginner=ST.beginner;
   transportPlay();toast((SES.scored?'Show: ':'')+TR.title+(TR.artist?' – '+TR.artist:'')+' @ '+V.name,1800);
   setTimeout(()=>{if(!SES||!TR)return;const k=VENUES.findIndex(v=>v===V),nv=VENUES[k+1];preloadTrack(nv&&nv.track||'');},5000);Bus.emit('session',SES);}
-function endSession(quiet){transportStop();if(TR&&TR.yt){ytPause();abStop();}fxStopAll();FXS.armed=false;CMD.rec=null;RUN.replay=null;SES=null;
+function endSession(quiet){try{duelRemove();}catch(e){}transportStop();if(TR&&TR.yt){ytPause();abStop();}fxStopAll();FXS.armed=false;CMD.rec=null;RUN.replay=null;SES=null;
   $('hud').classList.add('hidden');conOpen(false);TUT.on=false;tutShow();setHelpMode(false);document.body.classList.remove('insession','clean');if(!quiet)menuScene();}
 function restartSong(){if(!SES)return;RUN.replay=null;if(SES.scored){scoreReset(true);CMD.rec={track:TR.id,start:0,log:[]};}fxStopAll();if(AUTO.mode==='assisted')autoSecI=-1;transportSeek(0);transportPlay();toast('Restarted');}
 function startReplay(){const R=SES&&SES.lastReplay;if(!R||!R.log.length){toast('Nothing recorded yet: tap ⏺ to record');return;}if(CMD.rec)toggleRec();
   resetShowState();CMD.run('preset',['blue'],{auto:true,norec:true});RUN.replay={log:R.log,i:0};transportSeek(R.start||0);transportPlay();conOpen(false);toast('Replaying '+R.log.length+' recorded actions',2000);}
 function replayTick(){const R=RUN.replay;if(!R)return;const t=songPos();CMD.replaying=true;try{while(R.i<R.log.length&&R.log[R.i][0]<=t){const e=R.log[R.i++];CMD.run(e[1],e[2]);}}finally{CMD.replaying=false;}if(R.i>=R.log.length){RUN.replay=null;toast('Replay finished');}}
-function finishShow(natural){if(!SES||SES.done)return;if(!SES.scored){if(natural){toast('Song finished: press ▶ to play again, or End session in the SHOW tab',3500);SEQ.ended=false;transportPause();transportSeek(0);return;}menuScreen();return;}
+function finishShow(natural){if(!SES||SES.done)return;if(SES.cfg.duel){duelFinish();return;}if(!SES.scored){if(natural){toast('Song finished: press ▶ to play again, or End session in the SHOW tab',3500);SEQ.ended=false;transportPause();transportSeek(0);return;}menuScreen();return;}
   SES.done=true;transportPause();if(CMD.rec&&CMD.rec.log.length){SES.lastReplay=CMD.rec;}CMD.rec=null;if(FXS.armed)FXS.armed=false;let R;try{R=computeScore();}catch(e){reportError(e,'score');R={cats:{},overall:0,metrics:{},tips:[],samples:[],drops:[],accents:0};CATS.forEach(c=>R.cats[c[0]]=0);}
-  const rw=applyRewards(R);persist(false);sfx(R.overall>=60?'cheer':'ok');crowdCheer(R.overall/100);analysisScreen(R,rw);Bus.emit('analysis',R);}
+  let fl=[];try{fl=funFinish(R);}catch(e){reportError(e,'fun');}const rw=applyRewards(R);try{funAfterRewards(R,rw);}catch(e){reportError(e,'fun2');}persist(false);sfx(R.overall>=60?'cheer':'ok');crowdCheer(R.overall/100);analysisScreen(R,rw);Bus.emit('analysis',R);}
 function applyRewards(R){const c=SAVE.career,L=[],M=R.metrics;let cr=0;c.shows++;c.xp+=R.overall;
   if(SES.mode==='career'){const i=SES.cfg.venue,v=VENUES[i];cr+=Math.round(v.reward*R.overall/100);L.push(`Venue reward: +${cr} credits (${v.reward} × ${R.overall}%)`);
     v.missions.forEach(m=>{const k=v.id+':'+m.id,ok=(M[m.k]||0)>=m.v;if(ok&&!c.missions[k]){c.missions[k]=1;cr+=100;L.push(`✅ Mission complete: ${esc(m.txt)} (+100)`);}else L.push(`${ok||c.missions[k]?'✅':'⬜'} ${esc(m.txt)}`);});
@@ -3983,7 +4298,7 @@ function boot(){try{initScene();}catch(e){scr(`<h2>Can't start 3D</h2><p>${esc(e
   document.addEventListener('visibilitychange',()=>{if(document.hidden&&SES&&SEQ.playing&&!TR.yt&&!UI.scr)pauseScreen();});
   try{mpInit();}catch(e){reportError(e,'mp');}
   if(!chalFromHash()){if(!SAVE.welcomed&&!SAVE.tutorialDone&&!SAVE.career.shows)welcomeScreen();else menuScreen();}RUN.booted=true;requestAnimationFrame(frame);
-  window.__fc={rand:()=>Math.random(),MP,chalEncode,chalDecode,chalUrl,chalFromHash,showPoints,lbRecord,mpName,rngSeed,fnv32,FILE,REAL_TRACKS,songPos,transportSeek,transportPlay,loadTrack,preloadTrack,transportPause,SIM,setUiMode,simTick,simHint,simAct,TUT,welcomeScreen,UA_,nextMarker,curSecObj,beatPos,SHOW,CMD,FIX,FXS,SCORE:()=>SCORE,ENG,SEQ,SAVE:()=>SAVE,ST,TR:()=>TR,SES:()=>SES,CRW,DJ,CAM,AN,A,G,CON,UI,LEDRT,AUTO,SEL,YT,computeScore,startSession,finishShow,menuScreen,careerRig,careerFx,transportSeek,songPos,beatPos,ERRORS,persist,UA:UA_,CA,padAct,conOpen,renderPanel,camSet,keyAct,TUT,VERSION,Bus,curSec,liveScore,TRACKS,SHOP,VENUES,secAt,musBar,Store};}
+  window.__fc={rand:()=>Math.random(),MP,chalEncode,chalDecode,chalUrl,chalFromHash,showPoints,lbRecord,mpName,rngSeed,fnv32,FILE,REAL_TRACKS,songPos,transportSeek,transportPlay,loadTrack,preloadTrack,transportPause,SIM,setUiMode,simTick,simHint,simAct,TUT,welcomeScreen,UA_,nextMarker,curSecObj,beatPos,SHOW,CMD,FIX,FXS,SCORE:()=>SCORE,ENG,SEQ,SAVE:()=>SAVE,ST,TR:()=>TR,SES:()=>SES,CRW,DJ,CAM,AN,A,G,CON,UI,LEDRT,AUTO,SEL,YT,computeScore,startSession,finishShow,menuScreen,careerRig,careerFx,transportSeek,songPos,beatPos,ERRORS,persist,UA:UA_,CA,padAct,conOpen,renderPanel,camSet,keyAct,TUT,VERSION,Bus,curSec,liveScore,TRACKS,SHOP,VENUES,secAt,musBar,Store,FUN,DUEL,ACH,funStars,dailyCfg,dayKey,dailyRecord,funAch,funFever,funFinish,judgeCore,duelStart,duelPress,duelHud,duelJudge,duelFinish,duelReset,packX,unpackX,sanitizeSave:typeof sanitizeSave!=="undefined"?sanitizeSave:null,freshFun,SAVE_VERSION,reqSpawn,reqHit,loadSave:typeof loadSave!=="undefined"?loadSave:null};}
 boot();
 
 })();</script>

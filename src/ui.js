@@ -16,10 +16,12 @@ function menuScreen(){if(SES)endSession();const c=SAVE.career;
    <button data-u="free"><i>🎛️</i><b>Free Play</b><span>Everything unlocked, no score</span></button>
    <button data-u="mysong"><i>🎵</i><b>My Song</b><span>Play to a YouTube song</span></button>
    <button data-u="tutorial"><i>🎓</i><b>Tutorial</b><span>${SAVE.tutorialDone?'Completed ✓':'2 minutes, +100 credits'}</span></button>
+   <button data-u="daily" class="hot"><i>📅</i><b>Daily Festival</b><span>${dailyMenuTxt()}</span></button>
+   <button data-u="duel" class="hot"><i>⚔️</i><b>1v1 Duel</b><span>Same phone split-screen, or by link</span></button>
    <button data-u="mp"><i>👥</i><b>Multiplayer</b><span>Party mode · challenge links · leaderboards</span></button>
    <button data-u="settings"><i>⚙️</i><b>Settings</b><span>Console, graphics, sound</span></button>
   </div>
-  <div class="menuSmall"><button data-u="quick">Show setup</button><button data-u="challenges">Challenges ${Object.keys(c.challenges).length}/${CHALLENGES.length}</button><button data-u="help">Help</button><button data-u="credits">Music credits</button><a href="classic/" style="color:var(--acc)">Classic v1.4</a></div>
+  <div class="menuSmall"><button data-u="quick">Show setup</button><button data-u="ach">Achievements ${Object.keys(SAVE.fun.ach).length}/${ACH.length}</button><button data-u="challenges">Challenges ${Object.keys(c.challenges).length}/${CHALLENGES.length}</button><button data-u="help">Help</button><button data-u="credits">Music credits</button><a href="classic/" style="color:var(--acc)">Classic v1.4</a></div>
   ${SAVE_NOTE?'<p style="text-align:center"><b style="color:var(--ok)">'+esc(SAVE_NOTE)+'</b></p>':''}`);SAVE_NOTE='';}
 UA_.menu=()=>menuScreen();
 // ---------- quick show / free play setup ----------
@@ -72,7 +74,7 @@ function chScreen(){const c=SAVE.career.challenges;scr(`<h2>Challenges</h2>${CHA
 UA_.challenges=()=>chScreen();
 // ---------- v2.2 music credits ----------
 function creditsScreen(){const L=REAL_TRACKS.map(t=>{const r=t.real;return `<div class="crd"><b>${esc(r.title)}</b> – ${esc(r.artist)}<br><span class="muted">${esc(r.genre)} · ${Math.round(r.bpm)} BPM · <a href="${esc(r.lic_url)}" target="_blank" rel="noopener">${esc(r.lic)}</a> · <a href="${esc(r.page)}" target="_blank" rel="noopener">source (ccMixter)</a></span>${r.samples&&r.samples.length?'<br><span class="muted" style="font-size:.78rem">Samples: '+r.samples.map(x=>`<a href="${esc(x[2])}" target="_blank" rel="noopener">${esc(x[0])}</a> by ${esc(x[1])}`).join('; ')+'</span>':''}</div>`;}).join('');
-  scr(`<h2>Music credits</h2><p class="muted" style="font-size:.85rem">The Career setlist uses real tracks published on ccMixter under Creative Commons Attribution licenses. Re-encoded to 128 kbps MP3 for streaming, otherwise unmodified. Synth tracks are generated live in your browser.</p><div class="credits">${L}</div><div class="row"><button class="pri" data-u="menu">Back</button></div>`);}
+  scr(`<h2>Music credits</h2><p class="muted" style="font-size:.85rem">The Career setlist uses real tracks published on ccMixter under Creative Commons Attribution (CC BY 3.0) and Attribution-NonCommercial (CC BY-NC 3.0) licenses. FESTIVAL CONTROL is free and non-commercial. Tracks are re-encoded to 128 kbps MP3 for streaming and otherwise unmodified. Synth tracks are generated live in your browser.</p><div class="credits">${L}</div><div class="row"><button class="pri" data-u="menu">Back</button></div>`);}
 UA_.credits=()=>creditsScreen();
 UA_.ch=id=>{const ch=CHALLENGES.find(c=>c.id===id),v=VENUES[ch.venue];warnThen(()=>startSession({mode:'challenge',challenge:ch,venue:ch.venue,env:ch.env,track:ch.track,dj:null,style:'energetic',crowdN:v.crowd,auto:'manual',scored:true,rig:ch.rig||v.rig,fx:ch.fx||v.fx}));};
 // ---------- My Song ----------
@@ -149,7 +151,7 @@ UA_.quit=()=>{SEQ.pausedForMenu=false;menuScreen();};
 // ---------- analysis ----------
 function analysisScreen(R,rw){UI.lastAn={R,rw};let M={html:'',btns:null};try{M=mpResults(R);}catch(e){reportError(e,'mpResults');}const grade=R.overall>=90?'S':R.overall>=80?'A':R.overall>=70?'B':R.overall>=55?'C':'D';
   scr(`<h2>Show analysis <small class="muted">${esc(TR?TR.title:'')}</small></h2><div class="row"><div style="font-size:3rem;font-weight:800;color:var(--acc)">${R.overall}</div><div><b>Grade ${grade}</b><br><span class="muted">${R.accents} accents · ${R.drops.length} drops (${R.drops.filter(d=>d.hit).length} hit) · ${R.drops.filter(d=>d.moment).length} big moments</span></div></div>
-  ${M.html}
+  ${R._funHtml||''}${M.html}
   ${CATS.map(([k,n])=>`<div class="catrow"><span>${n}</span><div class="bar"><i style="width:${R.cats[k]}%"></i></div><b>${R.cats[k]}</b></div>`).join('')}
   <div class="lbl">Show graph: intensity (cyan) vs music energy (white) and crowd (pink); dots = drops (green hit / red missed)</div><canvas class="graph" id="graph" style="width:100%;height:120px"></canvas>
   ${rw&&rw.lines.length?'<div class="lbl">Results</div>'+rw.lines.map(l=>`<div>${l}</div>`).join(''):''}
@@ -208,7 +210,7 @@ function hudTick(dt){if(!SES||!TR)return;const now=realNow(),bp=beatPos(),fr=bp-
     if(nm&&nm.m.kind==='drop'&&nm.bars<=4)msg=(pyro&&!FXS.armed?'Drop coming: ARM the pyro now. ':'')+'Go dark or minimal, then hit FLASH / FLAMES on the drop!';
     else if(sec&&sec.t==='drop'&&bp-sec.a*4<8)msg='DROP! Fire your effects on the beat.';else if(sec&&sec.t==='break')msg='Breakdown: calm colours, slow movement, no pyro.';else if(sec&&sec.t==='build')msg='Build-up: raise intensity and speed, add strobes near the end.';}
   sg.textContent=msg;sg.classList.toggle('hidden',!msg);
-  simTick();const bh=$('bottom').offsetHeight;if(bh&&bh!==UI.botH){UI.botH=bh;document.documentElement.style.setProperty('--botH',bh+'px');}
+  simTick();try{funTick();}catch(e){}const bh=$('bottom').offsetHeight;if(bh&&bh!==UI.botH){UI.botH=bh;document.documentElement.style.setProperty('--botH',bh+'px');}
   if(ST.showFps)$('fps').textContent=(G.fps||0).toFixed(0)+' fps · q'+G.quality.toFixed(2);
   const sc=!!SES.scored;$('bBack').classList.toggle('hidden',sc||TR.yt);$('bFwd').classList.toggle('hidden',sc||TR.yt);$('bRec').classList.toggle('hidden',SES.mode!=='free');}
 // ---------- keyboard ----------
@@ -231,4 +233,4 @@ function keyAct(a,down){if(!down){padAct(a,false);return;}const tabs={lights:'li
 const GP={prev:[]};
 function gamepadTick(){if(!SES||UI.scr||!navigator.getGamepads)return;let p=null;try{p=[...navigator.getGamepads()].find(x=>x);}catch(e){}if(!p)return;const map={0:'flash',1:'blackout',2:'go',3:'flames',4:'camP',5:'cam',9:'menu'};
   p.buttons.forEach((b,i)=>{const was=GP.prev[i],is=b.pressed;GP.prev[i]=is;const a=map[i];if(!a||was===is)return;if(a==='menu'){if(is)pauseScreen();return;}if(a==='camP'||a==='cam'){if(is)camNext();return;}keyAct(a,is);});}
-function uiInit(){screenInput();hudInput();keyInput();conInput();buildPads();tlInput();ytCtlBuild();applySettings();simpleInit();}
+function uiInit(){screenInput();hudInput();keyInput();conInput();buildPads();tlInput();ytCtlBuild();applySettings();simpleInit();funInit();duelInit();}

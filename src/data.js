@@ -27,7 +27,7 @@ const TRACKS=[
  {id:'trance',g:'trance',title:'Aurora Run',dj:'lumen'},{id:'dnb',g:'dnb',title:'Velocity',dj:'kito'},{id:'dubstep',g:'dubstep',title:'Fault Line',dj:'vanta'},
  {id:'basshouse',g:'basshouse',title:'Wobble District',dj:'novak'},{id:'futurerave',g:'futurerave',title:'Neon Rapture',dj:'atlas'},{id:'atmospheric',g:'atmospheric',title:'Glass Horizon',dj:'mira'},
  {id:'tutorial',g:'bigroom',title:'First Light (tutorial)',dj:'novak',arr:[4,4,4,8,4,4,4,8,4,4],bpm:124}];
-// v2.2: real, Creative-Commons-licensed EDM tracks (ccMixter, CC BY 3.0) = the Career setlist; analysed offline (tools/analyze2.py + mkmeta.py)
+// v2.2: real, Creative-Commons-licensed EDM tracks (ccMixter, CC BY 3.0 / CC BY-NC 3.0; v2.3 swapped 4 tracks for harder-hitting festival EDM) = the Career setlist; analysed offline (tools/analyze2.py + mkmeta.py)
 const REAL_TRACKS=REAL_META.map(r=>({id:'r_'+r.id,g:r.g,title:r.title,artist:r.artist,dj:r.dj,genre:r.genre,bpm:r.bpm,real:r}));
 TRACKS.forEach(t=>{t.synth=true;});TRACKS.unshift(...REAL_TRACKS);
 const TMAP={};TRACKS.forEach(t=>TMAP[t.id]=t);
@@ -66,17 +66,17 @@ const ENVMAP={};ENVS.forEach(e=>ENVMAP[e.id]=e);
 const RIG_TYPES=['beam','spot','wash','strobe','blinder','pixel','laser'];
 const FX_TYPES=['flames','co2','confetti','streamers','sparks','fireworks'];
 const VENUES=[
- {id:'vault',track:'r_mind',name:'The Vault',kind:'Underground club',env:'warehouse',S:0.55,crowd:250,req:50,reward:300,rig:{beam:6,spot:0,wash:6,strobe:2,blinder:2,pixel:2,laser:1},fx:{flames:2,co2:2,confetti:1,streamers:0,sparks:2,fireworks:0},
+ {id:'vault',track:'r_broken',name:'The Vault',kind:'Underground club',env:'warehouse',S:0.55,crowd:250,req:50,reward:300,rig:{beam:6,spot:0,wash:6,strobe:2,blinder:2,pixel:2,laser:1},fx:{flames:2,co2:2,confetti:1,streamers:0,sparks:2,fireworks:0},
   missions:[{id:'sync',txt:'Timing score 60+',k:'timing',v:60},{id:'drop',txt:'Hit the first drop (accent within 1 beat)',k:'dropHit',v:1}]},
- {id:'neon',track:'r_mouse',name:'Neon Room',kind:'Local venue',env:'arena',S:0.65,crowd:600,req:55,reward:400,rig:{beam:8,spot:2,wash:6,strobe:4,blinder:2,pixel:2,laser:2},fx:{flames:4,co2:2,confetti:2,streamers:0,sparks:4,fireworks:0},
+ {id:'neon',track:'r_sailboat',name:'Neon Room',kind:'Local venue',env:'arena',S:0.65,crowd:600,req:55,reward:400,rig:{beam:8,spot:2,wash:6,strobe:4,blinder:2,pixel:2,laser:2},fx:{flames:4,co2:2,confetti:2,streamers:0,sparks:4,fireworks:0},
   missions:[{id:'var',txt:'Use 3+ different looks (presets/cues)',k:'looks',v:3},{id:'break',txt:'Keep the breakdown calm (intensity < 45%)',k:'calmBreak',v:1}]},
- {id:'hall',track:'r_normal',name:'Grand Hall',kind:'Concert hall',env:'arena',S:0.8,crowd:1200,req:60,reward:550,rig:{beam:10,spot:4,wash:8,strobe:4,blinder:4,pixel:4,laser:2},fx:{flames:4,co2:4,confetti:2,streamers:2,sparks:4,fireworks:0},
+ {id:'hall',track:'r_hero',name:'Grand Hall',kind:'Concert hall',env:'arena',S:0.8,crowd:1200,req:60,reward:550,rig:{beam:10,spot:4,wash:8,strobe:4,blinder:4,pixel:4,laser:2},fx:{flames:4,co2:4,confetti:2,streamers:2,sparks:4,fireworks:0},
   missions:[{id:'led',txt:'Change the LED style 3+ times',k:'ledChanges',v:3},{id:'eng',txt:'Crowd engagement 60%+ on average',k:'engAvg',v:60}]},
  {id:'river',track:'r_breakers',name:'Riverside Fest',kind:'Regional festival',env:'night',S:0.9,crowd:2000,req:62,reward:700,rig:{beam:12,spot:4,wash:8,strobe:6,blinder:4,pixel:4,laser:3},fx:{flames:6,co2:4,confetti:2,streamers:2,sparks:6,fireworks:1},
   missions:[{id:'co2',txt:'Fire CO2 on a drop',k:'co2Drop',v:1},{id:'dyn',txt:'Dynamic range score 60+',k:'dynamics',v:60}]},
  {id:'horizon',track:'r_again',name:'Horizon Mainstage',kind:'Large outdoor mainstage',env:'desert',S:1,crowd:3000,req:65,reward:900,rig:{beam:14,spot:6,wash:10,strobe:8,blinder:6,pixel:6,laser:4},fx:{flames:8,co2:6,confetti:4,streamers:2,sparks:8,fireworks:1},
   missions:[{id:'moment',txt:'Create a memorable drop moment (dark before, big hit on the drop)',k:'moments',v:1},{id:'creat',txt:'Creativity score 65+',k:'creativity',v:65}]},
- {id:'pulse',track:'r_mine',name:'Global Pulse',kind:'International EDM festival',env:'coastal',S:1.15,crowd:3600,req:68,reward:1200,rig:{beam:16,spot:6,wash:12,strobe:8,blinder:6,pixel:6,laser:5},fx:{flames:8,co2:6,confetti:4,streamers:4,sparks:8,fireworks:1},
+ {id:'pulse',track:'r_acceptance',name:'Global Pulse',kind:'International EDM festival',env:'coastal',S:1.15,crowd:3600,req:68,reward:1200,rig:{beam:16,spot:6,wash:12,strobe:8,blinder:6,pixel:6,laser:5},fx:{flames:8,co2:6,confetti:4,streamers:4,sparks:8,fireworks:1},
   missions:[{id:'fin',txt:'Finale: confetti + fireworks in the last phrase',k:'finale',v:1},{id:'tech',txt:'Technical execution 70+',k:'technical',v:70}]},
  {id:'nexus',track:'r_party',name:'NEXUS 2099',kind:'Futuristic mega-festival',env:'cyber',S:1.3,crowd:4200,req:72,reward:2000,rig:{beam:18,spot:8,wash:12,strobe:10,blinder:8,pixel:8,laser:6},fx:{flames:10,co2:8,confetti:4,streamers:4,sparks:10,fireworks:1},
   missions:[{id:'all',txt:'Overall score 75+',k:'overall',v:75},{id:'eng2',txt:'Crowd never below 40% after the first drop',k:'holdCrowd',v:1}]}];

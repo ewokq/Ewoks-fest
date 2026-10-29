@@ -30,15 +30,21 @@ function buildSimplePads(){const p=$('spads');if(!p)return;p.innerHTML=SPADS.map
     b.addEventListener('keydown',e=>{if(e.key===' '||e.key==='Enter'){e.preventDefault();e.stopPropagation();if(!e.repeat){simAct(id,true);judgeTap(id,true);}}});b.addEventListener('keyup',e=>{if((e.key===' '||e.key==='Enter')&&hold){e.stopPropagation();simAct(id,false);}});});}
 // ---- timing judge ----
 const JUDGED={flash:1,strobe:1,bo:1,co2:1,flames:1,confetti:1,fireworks:1,drop:1,colors:1,looks:1,laser:1,drophit:1,sparks:1,blind:1,go:1};
-function judgeTap(id,ok){buzz(12);if(!ok||!SES||!SEQ.playing||!JUDGED[id])return;const bp=beatPos(),off=Math.abs(bp-Math.round(bp));SIM.lastAction=bp;
+// v2.3: the judge itself is shared by the solo player and both Duel players (P = per-player state)
+function judgeCore(P,id){const bp=beatPos(),off=Math.abs(bp-Math.round(bp));
   const sec=curSecObj();const dropB=sec&&sec.t==='drop'?sec.a*4:null;const nm=nextMarker();let nearDrop=dropB!=null&&bp-dropB<1.05&&bp-dropB>-0.3;
   if(!nearDrop&&nm&&nm.m.kind==='drop'){const left=nm.bars*4-(bp-Math.floor(bp/4)*4);if(left<0.35)nearDrop=true;}
-  const big=id==='drop'||id==='drophit'||id==='flames'||id==='fireworks'||id==='confetti'||id==='co2'||id==='flash';
-  if(nearDrop&&big&&realNow()-(SIM.dropPop||0)>3){SIM.dropPop=realNow();SIM.combo++;pop('PERFECT DROP!','drop');sfx('dropok');buzz([30,40,70]);CRW.boost=Math.min(1,CRW.boost+0.25);return;}
-  if(off<0.12){SIM.combo++;SIM.perfect++;pop(SIM.combo>=3?`PERFECT ×${SIM.combo}`:'PERFECT','perfect');sfx('perfect',1);buzz(25);CRW.boost=Math.min(1,CRW.boost+0.04);}
-  else if(off<0.25){SIM.combo++;SIM.great++;pop(SIM.combo>=3?`GREAT ×${SIM.combo}`:'GREAT','great');sfx('great',1);}
-  else{if(SIM.combo>=3)pop('Combo lost – tap on the beat','miss');SIM.combo=0;}
-  SIM.best=Math.max(SIM.best,SIM.combo);if(SIM.combo>0&&SIM.combo%5===0){sfx('combo');buzz([20,30,20,30,40]);pop(`COMBO ×${SIM.combo}!`,'combo');crowdReact(0.4);}}
+  const big=id==='drop'||id==='drophit'||id==='flames'||id==='fireworks'||id==='confetti'||id==='co2'||id==='flash';let k;
+  if(nearDrop&&big&&realNow()-(P.dropPop||0)>3){P.dropPop=realNow();P.combo++;k='drop';}
+  else if(off<0.12){P.combo++;P.perfect++;k='perfect';}else if(off<0.25){P.combo++;P.great++;k='great';}else{k='miss';P.lostCombo=P.combo;P.combo=0;}
+  P.best=Math.max(P.best||0,P.combo);return k;}
+function judgeTap(id,ok){buzz(12);if(!ok||!SES||!SEQ.playing||!JUDGED[id]||(SES.cfg&&SES.cfg.duel))return;SIM.lastAction=beatPos();const k=judgeCore(SIM,id);
+  if(k==='drop'){pop('PERFECT DROP!','drop');sfx('dropok');buzz([30,40,70]);CRW.boost=Math.min(1,CRW.boost+0.25);}
+  else if(k==='perfect'){pop(SIM.combo>=3?`PERFECT ×${SIM.combo}`:'PERFECT','perfect');sfx('perfect',1);buzz(25);CRW.boost=Math.min(1,CRW.boost+0.04);}
+  else if(k==='great'){pop(SIM.combo>=3?`GREAT ×${SIM.combo}`:'GREAT','great');sfx('great',1);}
+  else if(SIM.lostCombo>=3)pop('Combo lost – tap on the beat','miss');
+  Bus.emit('judge',k,id,SIM);
+  if(k!=='miss'&&SIM.combo>0&&SIM.combo%5===0){sfx('combo');buzz([20,30,20,30,40]);pop(`COMBO ×${SIM.combo}!`,'combo');crowdReact(0.4);}}
 function pop(txt,cls){const p=$('pop');if(!p)return;p.textContent=txt;p.className='show '+(cls||'');void p.offsetWidth;p.classList.add('go');clearTimeout(SIM.popT);SIM.popT=setTimeout(()=>p.className='',900);}
 Bus.on('cmd',(n,a,o)=>{if(o&&o.manual&&isPro()&&SES&&{flash:a&&a[0],strobe:a&&a[0],macro:1,bo:1,go:1,blind:1}[n])judgeTap(n==='macro'?'drophit':n,true);});
 // ---- auto-arm pyro in Simple mode ----

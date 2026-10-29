@@ -11,12 +11,16 @@ const b64e=s=>btoa(unescape(encodeURIComponent(s))).replace(/\+/g,'-').replace(/
 const b64d=s=>decodeURIComponent(escape(atob(s.replace(/-/g,'+').replace(/_/g,'/'))));
 function cleanName(n){return String(n==null?'':n).replace(/[\u0000-\u001f\u007f<>"'`&\\]/g,'').replace(/\s+/g,' ').trim().slice(0,16);}
 const fmtPts=n=>(n|0).toLocaleString('en-US');
-function showPoints(R){const cs=Object.values(R.cats||{}).reduce((a,b)=>a+(+b||0),0);return Math.max(0,Math.min(99999,Math.round((R.overall||0)*100+cs*10+((R.metrics&&R.metrics.dropHit)||0)*500+Math.min(R.accents||0,300)*5)));}
-function chalEncode(o){const p={v:1,ve:o.venue|0,t:o.track,sd:o.seed>>>0,d:o.diff,n:cleanName(o.name),s:o.score|0,c:(o.chain||[]).slice(-5).map(([n,s])=>[cleanName(n),s|0])};const b=b64e(JSON.stringify(p));return b+'.'+mpSum(b);}
+function showPoints(R){const cs=Object.values(R.cats||{}).reduce((a,b)=>a+(+b||0),0);return Math.max(0,Math.min(99999,Math.round((R.overall||0)*100+cs*10+((R.metrics&&R.metrics.dropHit)||0)*500+Math.min(R.accents||0,300)*5+Math.min(10000,(R.hype||0)/20))));}
+function chalEncode(o){const p={v:1,ve:o.venue|0,t:o.track,sd:o.seed>>>0,d:o.diff,n:cleanName(o.name),s:o.score|0,c:(o.chain||[]).slice(-5).map(([n,s])=>[cleanName(n),s|0])};if(o.x)p.x=packX(o.x);if(o.duel)p.k='duel';const b=b64e(JSON.stringify(p));return b+'.'+mpSum(b);}
 function chalDecode(str){try{str=String(str||'').trim();const i=str.lastIndexOf('.');if(i<1)return null;const b=str.slice(0,i),sum=str.slice(i+1);if(!/^[A-Za-z0-9_-]+$/.test(b)||sum!==mpSum(b))return null;
   const p=JSON.parse(b64d(b));if(!p||p.v!==1||!Number.isInteger(p.ve)||!VENUES[p.ve]||typeof p.t!=='string'||!TMAP[p.t]||p.t==='tutorial'||!DIFFN[p.d]||!Number.isInteger(p.s)||p.s<0||p.s>99999||!Number.isInteger(p.sd)||!Array.isArray(p.c))return null;
   const n=cleanName(p.n);if(!n)return null;const chain=p.c.filter(x=>Array.isArray(x)&&x.length===2&&Number.isInteger(x[1])&&x[1]>=0&&x[1]<=99999).slice(-5).map(([a,s])=>[cleanName(a)||'?',s]);
-  return {venue:p.ve,track:p.t,seed:p.sd>>>0,diff:p.d,name:n,score:p.s,chain};}catch(e){return null;}}
+  return {venue:p.ve,track:p.t,seed:p.sd>>>0,diff:p.d,name:n,score:p.s,chain,x:unpackX(p.x),duel:p.k==='duel'};}catch(e){return null;}}
+// v2.3: optional per-show stats on links (async Duel head-to-head). Old links simply have none.
+const XK=['st','bc','pf','gr','dr','rq','hy'];
+function packX(x){return XK.map(k=>Math.max(0,Math.min(9999999,(x&&x[k])|0)));}
+function unpackX(a){if(!Array.isArray(a)||a.length!==XK.length||!a.every(v=>Number.isInteger(v)&&v>=0&&v<=9999999))return null;const o={};XK.forEach((k,i)=>o[k]=a[i]);o.st=Math.max(1,Math.min(5,o.st));return o;}
 const baseUrl=()=>location.href.replace(/[?#].*$/,'');
 function chalUrl(o){return baseUrl()+'#c='+chalEncode(o);}
 // ---- name (asked once, editable in Settings) ----
@@ -56,12 +60,12 @@ function startMp(c,mp){const V=VENUES[c.venue]||VENUES[4],d=diffCfg(c.diff);SAVE
   warnThen(()=>startSession({mode:'show',venue:c.venue,env:V.env,track:c.track,dj:null,style:'energetic',crowdSize:null,crowdN:Math.min(V.crowd,4000),auto:d.auto,short:d.short,scored:true,rig:V.rig,fx:V.fx,seed:c.seed||0,diff:c.diff,mp}));}
 // ---- receiving a challenge link ----
 function chalScreen(c){const T=TMAP[c.track],V=VENUES[c.venue];preloadTrack(c.track);
-  scr(`<div class="hero"><h1 style="margin:.2rem 0">📣 Challenge!</h1><p class="chalBig">Beat ${esc(c.name)}'s <b>${fmtPts(c.score)}</b></p>
+  scr(`<div class="hero"><h1 style="margin:.2rem 0">${c.duel?'⚔️ Duel!':'📣 Challenge!'}</h1><p class="chalBig">Beat ${esc(c.name)}'s <b>${fmtPts(c.score)}</b></p>
   <p class="muted">${esc(T.title)}${T.artist?' – '+esc(T.artist):''} · ${esc(V.name)} · ${DIFFN[c.diff]} · same show seed</p></div>
   ${c.chain.length?'<div class="lbl">Challenge chain</div>'+chainHtml(c.chain.concat([[c.name,c.score]])):''}
   <div class="row" style="margin-top:.8rem"><button data-u="menu">Not now</button><button class="sel big" data-u="chalGo">ACCEPT ▶</button></div>`);MP.pending=c;}
 function chainHtml(ch){return `<div class="chain">${ch.map(([n,s],i)=>`<span>${esc(n)} <b>${fmtPts(s)}</b></span>`).join('<i>→</i>')}</div>`;}
-UA_.chalGo=()=>{const c=MP.pending;if(!c)return menuScreen();needName(()=>startMp(c,{kind:'vs',vs:{name:c.name,score:c.score},chain:c.chain}),'Your name goes on the counter-challenge link.');};
+UA_.chalGo=()=>{const c=MP.pending;if(!c)return menuScreen();needName(()=>startMp(c,{kind:'vs',vs:{name:c.name,score:c.score,x:c.x,duel:c.duel},chain:c.chain}),'Your name goes on the counter-challenge link.');};
 function chalFromHash(){const m=/[#&]c=([^&]+)/.exec(location.hash||'');if(!m)return false;try{history.replaceState(null,'',location.href.replace(/#.*$/,''));}catch(e){}
   const c=chalDecode(decodeURIComponent(m[1]));if(!c){menuScreen();toast('⚠️ That challenge link is broken or was edited, so it can\'t be played.',4000);return true;}
   if(SES)endSession(true);chalScreen(c);return true;}
@@ -73,14 +77,16 @@ function mpResults(R){const S=SES;if(!S||!S.scored)return {html:'',btns:null};co
       btns=left.length?`<button class="danger" data-u="partyQuit">Quit party</button><button class="sel big" data-u="partyNext">Pass to ${esc(left[0].name)} ▶</button>`:`<button class="sel big" data-u="podium">🏆 Podium</button>`;}}
   else{const me=mpName()||'You',r=lbRecord(me,pts,cfg);
     if(mp.kind==='vs'){const d=pts-mp.vs.score,win=d>0;html+=`<div class="h2h ${win?'win':d<0?'lose':''}"><div><span>${esc(me)}</span><b>${fmtPts(pts)}</b></div><i>vs</i><div><span>${esc(mp.vs.name)}</span><b>${fmtPts(mp.vs.score)}</b></div></div>
-      <p class="h2hMsg">${win?'🏆 You beat '+esc(mp.vs.name)+' by '+fmtPts(d)+'!':d<0?'😤 '+esc(mp.vs.name)+' wins by '+fmtPts(-d)+'. Rematch?':'🤝 Dead heat!'}</p>`+chainHtml((mp.chain||[]).concat([[mp.vs.name,mp.vs.score],[me,pts]]));}
+      <p class="h2hMsg">${win?'🏆 You beat '+esc(mp.vs.name)+' by '+fmtPts(d)+'!':d<0?'😤 '+esc(mp.vs.name)+' wins by '+fmtPts(-d)+'. Rematch?':'🤝 Dead heat!'}</p>`+(mp.vs.x&&R.fx?h2hStats(me,R.fx,mp.vs.name,mp.vs.x):'')+chainHtml((mp.chain||[]).concat([[mp.vs.name,mp.vs.score],[me,pts]]));if(win&&mp.vs.duel){SAVE.fun.stats.duels++;SAVE.fun.stats.duelWins++;funAch('duelwin');}else if(mp.vs.duel)SAVE.fun.stats.duels++;}
     if(r.rank>=0&&r.rank<10)html+=`<p class="muted">#${r.rank+1} on this track's leaderboard${r.overall>=0&&r.overall<10?' · #'+(r.overall+1)+' overall':''}</p>`;
     const chain=mp.kind==='vs'?(mp.chain||[]).concat([[mp.vs.name,mp.vs.score]]).slice(-4):[];
-    MP.link={venue:cfg.venue|0,track:cfg.track,seed:cfg.seed,diff:cfgDiff(cfg),score:pts,chain,ents:r.ents};mpLink();
-    html+=`<div class="row"><button class="sel" data-u="mpShare">📣 ${mp.kind==='vs'?'Send counter-challenge':'Challenge a friend'}</button><button data-u="lb" data-v="${esc(lbKey(cfg.track,cfg.venue|0))}">🏅 Leaderboard</button></div><div id="shareBox"></div>`;}
+    MP.link={venue:cfg.venue|0,track:cfg.track,seed:cfg.seed,diff:cfgDiff(cfg),score:pts,chain,ents:r.ents,x:R.fx||null,duel:!!mp.duel||mp.kind==='vs'&&!!mp.vs.duel};mpLink();
+    html+=`<div class="row"><button class="sel" data-u="mpShare">📣 ${mp.kind==='vs'?'Send counter-challenge':mp.duel?'⚔️ Send duel link':'Challenge a friend'}</button><button data-u="lb" data-v="${esc(lbKey(cfg.track,cfg.venue|0))}">🏅 Leaderboard</button></div><div id="shareBox"></div>`;}
   R._mp={html,btns};return R._mp;}
+function h2hStats(a,A,b,B){const rows=[['⭐ Stars','st'],['📣 HYPE','hy'],['🔗 Best combo','bc'],['🎯 Perfects','pf'],['🚀 Perfect drops','dr'],['🙋 Requests','rq']];
+  return `<table class="h2hT"><tr><th></th><th>${esc(a)}</th><th>${esc(b)}</th></tr>${rows.map(([n,k])=>{const x=A[k]|0,y=B[k]|0;return `<tr><td>${n}</td><td class="${x>y?'w':''}">${k==='st'?starStr(x):fmtPts(x)}</td><td class="${y>x?'w':''}">${k==='st'?starStr(y):fmtPts(y)}</td></tr>`;}).join('')}</table>`;}
 function mpLink(){const L=MP.link;if(!L)return '';const me=mpName()||'You';L.ents.forEach(e=>{if(e[0]==='You'&&me!=='You')e[0]=me;});const T=TMAP[L.track];
-  MP.lastText=`Beat ${me}'s ${fmtPts(L.score)} on ${T?T.title:'this track'} in Festival Control!`;return MP.lastLink=chalUrl(Object.assign({name:me},L));}
+  MP.lastText=L.duel?`⚔️ ${me} challenges you to a Festival Control duel: ${fmtPts(L.score)} pts on ${T?T.title:'this track'}. Same show, your turn!`:`Beat ${me}'s ${fmtPts(L.score)} on ${T?T.title:'this track'} in Festival Control!`;return MP.lastLink=chalUrl(Object.assign({name:me},L));}
 UA_.mpShare=()=>{if(!MP.link)return;if(!mpName()){const keep=UI.lastAn;askName(()=>{dirty();analysisScreen(keep.R,keep.rw);doShare(mpLink());},'Your name goes on the challenge link so your friend knows who to beat.');return;}doShare(mpLink());};
 function shareFallback(url,msg){const b=$('shareBox');if(b)b.innerHTML=`<p class="muted">${esc(msg)}</p><input id="shareUrl" readonly value="${esc(url)}" style="width:100%;font-size:.8rem;padding:.5rem;min-height:44px" onclick="this.select()">`;const i=$('shareUrl');if(i){i.focus();i.select();}}
 function doShare(url){const txt=MP.lastText||'Beat my score in Festival Control!';
