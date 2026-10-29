@@ -1,5 +1,5 @@
 // Core: utilities, device, event bus, versioned save system, settings, key bindings, command log (drives replay + scoring)
-const VERSION='v2.3';
+const VERSION='v2.3.1';
 // seedable RNG: shadows Math inside the bundle so a challenge seed replays the identical show
 const RNG={f:globalThis.Math.random};const Math=Object.create(globalThis.Math,{random:{value:()=>RNG.f()}});
 function rngSeed(s){RNG.f=s?seeded(s):globalThis.Math.random;}
@@ -53,7 +53,7 @@ function defBindings(){const b={};ACTIONS.forEach(a=>b[a[0]]=a[2]);return b;}
 // ---- versioned save ----
 function freshSave(){return {v:SAVE_VERSION,created:Date.now(),settings:JSON.parse(JSON.stringify(DEF_SETTINGS)),bind:defBindings(),
   career:{credits:400,xp:0,rep:0,venue:0,best:{},missions:{},challenges:{},shows:0},owned:[],skin:'default',
-  groups:[],presets:[],cues:[],programs:{},ledPresets:[],macros:[],festivals:[],swatches:['#ff2bd6','#20e3ff','#ffffff','#ffb300'],favorites:[],tutorialDone:false,seenWarn:false,welcomed:false,lastTrack:'bigroom',mp:{name:'',lb:{}},fun:freshFun()};}
+  groups:[],presets:[],cues:[],programs:{},ledPresets:[],macros:[],festivals:[],swatches:['#ff2bd6','#20e3ff','#ffffff','#ffb300'],favorites:[],tutorialDone:false,seenWarn:false,welcomed:false,lastTrack:'bigroom',cam:'foh',mp:{name:'',lb:{}},fun:freshFun()};}
 function freshFun(){return {stars:{},ach:{},daily:{last:'',streak:0,bestStreak:0,best:{},played:0},played:{},stats:{fever:0,req:0,perfDrops:0,duels:0,duelWins:0,maxCombo:0,maxHype:0}};}
 function sanitizeFun(f){const F=freshFun(),o=v=>v&&typeof v==='object'&&!Array.isArray(v);if(!o(f))return F;
   for(const k of ['stars','ach','played']){if(o(f[k]))for(const [a,b] of Object.entries(f[k]))if(typeof a==='string'&&Number.isFinite(+b))F[k][a.slice(0,40)]=Math.max(0,Math.min(1e7,Math.floor(+b)));}

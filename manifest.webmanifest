@@ -1,7 +1,7 @@
 {
   "name": "Festival Control",
   "short_name": "Festival Control",
-  "start_url": "./?v=2.3",
+  "start_url": "./?v=2.3.1",
   "scope": "./",
   "display": "fullscreen",
   "orientation": "any",

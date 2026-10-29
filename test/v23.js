@@ -17,7 +17,7 @@ const onBeat=`(async()=>{const f=__fc;for(let i=0;i<400;i++){const b=f.beatPos()
  await p.evaluate(SK=>{const s=JSON.parse(localStorage.getItem(SK));delete s.fun;s.v=1;s.career.credits=1234;s.lastTrack='r_mouse';s.mp.lb={'r_mind@0':[['Old',5000,'normal',1,'r_mind',0]]};localStorage.setItem(SK,JSON.stringify(s));},SK);
  await p.reload();await W(1800);
  const mig=await p.evaluate(()=>{const f=__fc,s=f.SAVE();return {ver:f.VERSION,sv:f.SAVE_VERSION,v:s.v,fun:!!s.fun&&!!s.fun.daily&&!!s.fun.stats,credits:s.career.credits,last:s.lastTrack,menuHas:[...document.querySelectorAll('#scard [data-u]')].map(e=>e.dataset.u)};});
- log('migration',mig);ok('version',mig.ver==='v2.3');ok('migration',mig.v===2&&mig.fun&&mig.credits===1234&&mig.last==='bigroom');
+ log('migration',mig);ok('version',/^v2\.3(\.\d+)?$/.test(mig.ver));ok('migration',mig.v===2&&mig.fun&&mig.credits===1234&&mig.last==='bigroom');
  const corrupt=await p.evaluate(()=>{const s=__fc.sanitizeSave({v:2,fun:{stars:{r_x:'9e99'},ach:'bad',daily:{last:'<x>',streak:-5,best:{'2026-01-01':1e9}},stats:null}});return s.fun;});
  log('sanitize',corrupt);ok('sanitize',corrupt.stars.r_x<=1e7&&typeof corrupt.ach==='object'&&corrupt.daily.last===''&&corrupt.daily.streak===0&&corrupt.daily.best['2026-01-01']===99999&&corrupt.stats.duels===0);
  const mb=await p.evaluate(()=>{const s=__fc.SAVE();s.seenWarn=true;s.welcomed=true;s.mp.name='Neo';__fc.menuScreen();return [...document.querySelectorAll('#scard [data-u]')].map(e=>e.dataset.u);});
@@ -33,7 +33,7 @@ const onBeat=`(async()=>{const f=__fc;for(let i=0;i<400;i++){const b=f.beatPos()
   const bp=f.beatPos();F.req={k:'colors',n:1,got:[0,0],t0:bp,until:bp+16};F.nextReq=bp+99;for(let i=0;i<30&&document.getElementById('req').classList.contains('hidden');i++)await W(100);o.reqShown=!document.getElementById('req').classList.contains('hidden');o.reqText=document.getElementById('req').textContent;
   const h1=F.hype;f.simAct('colors',true);o.reqDone=F.reqDone;o.reqGain=F.hype-h1;
   f.Bus.emit('judge','miss','flash',Object.assign({},f.SIM,{combo:0}));o.multAfterMiss=F.mult;
-  F.req={k:'laser',n:1,got:[0,0],t0:f.beatPos()-20,until:f.beatPos()-0.1};const e0=f.ENG.e;await W(400);o.reqMissed=F.reqMiss===1&&!F.req;o.ach=Object.keys(f.SAVE().fun.ach);return o;});
+  F.req={k:'laser',n:1,got:[0,0],t0:f.beatPos()-20,until:f.beatPos()-0.1};const e0=f.ENG.e;for(let i=0;i<30&&!(F.reqMiss&&!F.req);i++)await W(100);o.reqMissed=F.reqMiss===1&&!F.req;o.ach=Object.keys(f.SAVE().fun.ach);return o;});
  log('fun',fun1);ok('fun_on',fun1.on&&fun1.req_on&&fun1.hud);ok('mult',fun1.mult===3&&fun1.hype===900&&/m3/.test(fun1.body));ok('fever',fun1.feverReady&&/ready/.test(fun1.feverBtn)&&fun1.fever&&fun1.feverOn);
  ok('feverDouble',fun1.feverGain===300*3*2);ok('request',fun1.reqShown&&fun1.reqDone===1&&fun1.reqGain===1500*3*2&&/colours/i.test(fun1.reqText));ok('missResetsMult',fun1.multAfterMiss===1);ok('reqMiss',fun1.reqMissed);
  ok('achInShow',['pdrop','fever','mult4'].filter(a=>fun1.ach.includes(a)).length>=2);

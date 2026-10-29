@@ -1,4 +1,4 @@
-# FESTIVAL CONTROL v2.3: Roadmap / spec coverage
+# FESTIVAL CONTROL v2.3.1: Roadmap / spec coverage
 
 This file covers every section of SPEC.txt (34 sections). Legend: ✅ done · 🟡 partial (the alternative used is listed) · ⏳ deferred.
 Platform: one self-contained HTML5 file (Three.js r160 + Web Audio), touch-first for iPhone Safari (portrait and landscape, safe areas), with desktop keyboard and mouse. The old v1.4 game is still playable at `/classic/`.
@@ -24,7 +24,7 @@ Platform: one self-contained HTML5 file (Three.js r160 + Web Audio), touch-first
 | 13 | Music-to-visual sync | ✅ | The beat grid drives chases, movement FX, LED content and pulses. Effects can be quantized. The drop and build engine reacts to section events. |
 | 14 | LED screens | ✅ | 16 procedural shader content styles (geometric, waves, gradient, EQ, tunnel, text…). Speed, brightness, colour mode, beat-reactive. Saved LED presets. Main wall plus side screens. Some styles are sold in the shop. |
 | 15 | Crowd simulation | ✅ / 🟡 | v2.1: per-person animation, circle pits, shoulder riders, flags/totems, cheer waves, phone lights, near/far LOD. Instanced crowd of up to 4,000+ (scaled by quality and venue), with reaction states (idle, bounce, jump, hands up, cheer) driven by music energy and the show. Phone lights, cheer audio, engagement model. Partial: simple low-poly figures. |
-| 16 | Cameras | ✅ | FOH booth, stage overview, in the crowd, DJ booth and a free camera (drag/pinch/WASD to move, rotate and zoom, plus speed, reset and cinematic auto-orbit). Cinematic, clean and compact HUD modes. |
+| 16 | Cameras | ✅ | v2.3.1: a simple angle changer. One small 🎥 button (or V, or the Pro console chips) cycles 5 presets (Front, Crowd POV, DJ booth, Wide, Side) with a smooth eased move; the angle is shown on the button and saved. The free-orbit camera and its on-screen grid were removed because they took too much of the phone screen. |
 | 17 | Intensity and energy | ✅ | A show-intensity model compared against music energy. Scoring rewards contrast before drops and penalises being "always max". |
 | 18 | Game modes | ✅ | Career (7 venues, club → mega-festival), Show (scored, any track), Free Play sandbox, 7 Challenges, Tutorial, and My Song (YouTube). |
 | 19 | Career and unlocks | ✅ | Credits per show (venue reward × score), missions, score thresholds unlock the next venue, and a shop with 39 items (equipment, pyro, LED content, music, DJs, console skins). Owned gear feeds into your rig, capped by the venue. |

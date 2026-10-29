@@ -14,9 +14,9 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<link rel="apple-touch-icon" href="apple-touch-icon.png?v=2.3">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=2.3.1">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="manifest" href="manifest.webmanifest?v=2.3">
+<link rel="manifest" href="manifest.webmanifest?v=2.3.1">
 <title>FESTIVAL CONTROL v2.1</title>
 <style>
 :root{--ui:1;--txt:1;--acc:#ff2bd6;--acc2:#20e3ff;--ok:#3dff8e;--warn:#ffb300;--bad:#ff3b3b;--bg:rgba(8,9,20,.86);--bg2:rgba(20,22,42,.92);--line:rgba(255,255,255,.12);
@@ -95,7 +95,7 @@ input[type=range]::-moz-range-thumb{width:1.3rem;height:1.3rem;border-radius:50%
 .tb{min-width:2.6rem;min-height:2.6rem;padding:.2rem .45rem;font-size:1rem}
 #vol{width:5.5rem}
 /* console panel */
-#panel{position:absolute;right:0;top:calc(var(--sat) + 3.3rem);bottom:calc(var(--sab) + 7.4rem);width:var(--panelW);display:flex;flex-direction:column;background:var(--bg);border:1px solid var(--line);border-right:0;border-radius:1rem 0 0 1rem;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding-right:var(--sar)}
+#panel{position:absolute;right:0;top:calc(var(--sat) + max(3.3rem,54px));bottom:calc(var(--sab) + 7.4rem);width:var(--panelW);display:flex;flex-direction:column;background:var(--bg);border:1px solid var(--line);border-right:0;border-radius:1rem 0 0 1rem;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding-right:var(--sar)}
 #panel.full{width:min(82vw,980px)}
 #tabs{display:flex;gap:.2rem;padding:.35rem;overflow-x:auto;border-bottom:1px solid var(--line);scrollbar-width:none;flex:0 0 auto}
 #tabs::-webkit-scrollbar{display:none}
@@ -156,7 +156,7 @@ body.pro #spads{display:none}
 @keyframes popA{0%{transform:translate(-50%,-30%) scale(.7);opacity:0}18%{transform:translate(-50%,-50%) scale(1.12);opacity:1}70%{opacity:1}100%{transform:translate(-50%,-90%) scale(1);opacity:0}}
 #tutPtr{position:fixed;z-index:31;border:3px solid #fff;border-radius:1rem;pointer-events:none;box-shadow:0 0 0 4px rgba(255,43,214,.7),0 0 24px rgba(255,43,214,.9);animation:ptr 1s ease-in-out infinite}
 @keyframes ptr{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-body.insession #toast{top:auto;bottom:calc(var(--botH,7.4rem) + .6rem)}
+body.insession #toast{top:auto;bottom:calc(var(--botH,7.4rem) + 44px + 1.1rem)}
 #upd{position:fixed;z-index:70;left:50%;transform:translateX(-50%);bottom:calc(var(--sab) + 1rem);padding:.7rem 1.1rem;border-radius:1rem;background:linear-gradient(135deg,var(--acc2),var(--acc));color:#000;font-weight:900;min-height:48px;cursor:pointer}
 body:not(.pro) #suggest{display:none}
 body.pro #pads{flex-wrap:wrap;overflow:visible;display:grid;grid-template-columns:repeat(auto-fill,minmax(4.1rem,1fr))}
@@ -219,8 +219,8 @@ body.helpmode [data-help]{outline:1px dashed var(--acc2)}
 body.cine #letterbox{display:block}
 body.clean #hud{display:none}
 body.compact #panel{display:none}
-#freePad{position:absolute;z-index:32;left:calc(var(--sal) + .5rem);bottom:calc(var(--botH,7.4rem) + .5rem);display:grid;grid-template-columns:repeat(3,3.1rem);gap:.3rem}
-#freePad button{min-height:3.1rem;padding:0;font-size:1.1rem;background:rgba(14,16,34,.92);border:1px solid var(--line)}#freePad.hidden{display:none!important}
+#topbar #bCam{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:0;min-width:44px;min-height:44px;width:auto;padding:.15rem .3rem;line-height:1;font-size:1rem;background:rgba(14,16,34,.45);border-color:rgba(255,255,255,.18)}
+#bCam #camLbl{font-style:normal;font-size:.56rem;font-weight:800;letter-spacing:.02em;margin-top:.12rem;white-space:nowrap;opacity:.9}
 #rot{position:fixed;inset:0;z-index:50;display:none}
 /* YouTube audio-only: player stays rendered (iOS keeps audio) but invisible */
 #ytBox{position:fixed;z-index:1;width:200px;height:200px;left:0;bottom:0;opacity:.01;pointer-events:none;overflow:hidden;border-radius:10px}
@@ -356,7 +356,7 @@ body.duel #topbar,body.duel #guide,body.duel #bottom,body.duel #hypeBox,body.due
    <div class="meter" data-help="CROWD: audience engagement."><i id="mEng"></i><b>CROWD</b></div>
   </div>
   <button id="bPro" class="ib" data-help="PRO: switch between the Simple pads and the full Pro console (every control)." aria-label="Open the pro console">PRO</button>
-  <button id="bCam" class="ib" data-help="Camera (V): FOH booth, stage overview, audience, DJ booth, free camera." aria-label="Camera">&#127909;</button>
+  <button id="bCam" class="ib" data-help="Camera angle (V): tap to switch Front, Crowd POV, DJ booth, Wide, Side." aria-label="Camera angle">&#127909;<i id="camLbl">Front</i></button>
   <button id="bCon" class="ib" data-help="Lighting console (Q). Tab opens the full dashboard." aria-label="Console">&#127899;</button>
  </div>
  <div id="suggest" class="hidden"></div>
@@ -364,7 +364,6 @@ body.duel #topbar,body.duel #guide,body.duel #bottom,body.duel #hypeBox,body.due
  <div id="pop"></div>
  <div id="banner" class="hidden"></div>
  <div id="ytCtl" class="hidden"></div>
- <div id="freePad" class="hidden"></div>
  <div id="panel" class="hidden"><div id="tabs"></div><div id="selbar"></div><div id="pbody"></div></div>
  <div id="bottom">
  <div id="hypeBox" class="hidden" data-help="HYPE: bonus points for hitting the beat. The multiplier grows every 8 combo (max ×4), FEVER doubles it."><span>📣</span><b id="hypeN">0</b><em id="multN">×1</em></div>

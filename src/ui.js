@@ -101,7 +101,7 @@ const TUT_STEPS=[['Welcome, operator! Open the lighting console: tap 🎛 (top r
  ['Hold FLASH right on a beat (watch the beat dot next to the BPM).',(e,n,a)=>e==='cmd'&&n==='flash'&&a[0]],
  ['Tap ARM to arm the pyro, then CO2 or FLAMES on a big moment.',(e,n,a)=>e==='fx'],
  ['Open the LED tab and change the LED wall style.',(e,n,a)=>e==='cmd'&&n==='led'&&a[0]==='style'],
- ['Switch camera: tap 🎥 or press V.',(e)=>e==='cam'],
+ ['Switch camera angle: tap 🎥 (or press V).',(e)=>e==='cam'],
  ['Done! Shows are scored on timing, music sync, variety and the crowd. End the session from the SHOW tab, or play a Career show.',()=>false]];
 function tutShow(){const t=$('tut');if(!TUT.on){t.classList.add('hidden');return;}if(TUT.i===0)TUT.pro=ST.uiMode==='pro';const SS=tutSteps();t.classList.remove('hidden');t.classList.toggle('big',!!ST.tutBig);const s=SS[TUT.i];const last=TUT.i===SS.length-1;
   t.innerHTML=`<b>Step ${TUT.i+1}/${SS.length}</b> ${esc(s[0])} `+(last?`<button class="chip sel tbtn" data-tt="close">Keep playing</button><button class="chip tbtn" data-tt="menu">Main menu</button>`:`<button class="chip tbtn" data-tt="skip">Skip step</button><button class="chip tbtn" data-tt="end">End tutorial</button>`);
@@ -115,7 +115,7 @@ const SET_DEF={graphics:[['quality','Quality','sel',[['auto','Auto (adaptive)'],
  audio:[['vol.master','Master','rng',[0,1,0.01]],['vol.music','Music','rng',[0,1,0.01]],['vol.crowd','Crowd','rng',[0,1,0.01]],['vol.env','Environment / ambience','rng',[0,1,0.01]],['vol.fx','Effects (pyro, CO2)','rng',[0,1,0.01]],['vol.ui','Interface clicks','rng',[0,1,0.01]]],
  access:[['reduceFlash','Reduce flashing','chk'],['noStrobe','Disable strobe effects','chk'],['reduceShake','Reduce camera shake','chk'],['reduceMotion','Reduce motion','chk'],['flashWarn','Show photosensitivity warning','chk'],['colorBlind','Colour-blind friendly HUD','chk'],
    ['uiScale','Interface size','rng',[0.8,1.4,0.05]],['textScale','Text size','rng',[0.8,1.5,0.05]],['tutBig','Large tutorial text','chk'],['tutSpeak','Read tutorial aloud','chk'],['haptics','Vibration (where supported)','chk']],
- gameplay:[['uiMode','Console','sel',[['simple','Simple (big pads)'],['pro','Pro (full console)']]],['hints','Hints & drop countdown','chk'],['autoArm','Auto-arm pyro in Simple mode','chk'],['beginner','Beginner suggestions (Pro)','chk'],['quantize','Quantize cues/macros','sel',[['off','Off'],['half','½ beat'],['beat','Beat'],['bar','Bar']]],['camSens','Camera sensitivity','rng',[0.3,2,0.05]],['maxFx','Max simultaneous FX','rng',[2,12,1]]]};
+ gameplay:[['uiMode','Console','sel',[['simple','Simple (big pads)'],['pro','Pro (full console)']]],['hints','Hints & drop countdown','chk'],['autoArm','Auto-arm pyro in Simple mode','chk'],['beginner','Beginner suggestions (Pro)','chk'],['quantize','Quantize cues/macros','sel',[['off','Off'],['half','½ beat'],['beat','Beat'],['bar','Bar']]],['maxFx','Max simultaneous FX','rng',[2,12,1]]]};
 const getS=k=>k.startsWith('vol.')?ST.vol[k.slice(4)]:ST[k];
 function setS(k,v){if(k.startsWith('vol.'))ST.vol[k.slice(4)]=v;else ST[k]=v;dirty();applySettings();}
 function settingsScreen(){const T=UI.setTab;const tabs=[['graphics','Graphics'],['audio','Audio'],['access','Accessibility'],['gameplay','Gameplay'],['keys','Controls'],['data','Data']];let h='';
@@ -135,7 +135,7 @@ function helpScreen(){scr(`<h2>Help</h2><div style="font-size:.9rem;line-height:
  <p><b>Console (🎛 / Q):</b> LIGHTS = groups, intensity, chases, presets · COLOR = palettes, swatches, wheel · MOVE = patterns, XY position, gobos, lasers · FX = pyro, CO2, confetti, sequences · LED = wall content and transitions · CUES = record/fire cues, timeline programming · SHOW = quantize, camera, sections.</p>
  <p><b>Selection:</b> group chips or tap fixtures in the 3D view while the console is open. With nothing selected, edits apply to all fixtures. <b>Release</b> returns to the base/automated look.</p>
  <p><b>Pads:</b> FLASH and STROBE are hold buttons. Pyro (flames, sparks, fireworks) needs ARM first; it auto-disarms when you pause. Fireworks are outdoor-only.</p>
- <p><b>Camera:</b> 🎥 cycles FOH booth, stage, crowd, DJ and free. Drag to orbit, pinch / wheel to zoom, WASD to move in free camera.</p>
+ <p><b>Camera:</b> tap 🎥 (top right) to switch angle: Front, Crowd POV, DJ booth, Wide, Side. The small label shows the current angle and it is remembered. Keyboard: V.</p>
  <p><b>Help mode:</b> tap ? (or press /) and then tap any control to see what it does.</p>
  <p><b>Keys:</b> ${ACTIONS.slice(0,22).map(a=>`<span class="kbd">${esc((SAVE.bind[a[0]]||'').replace(/^Key|^Digit/,''))}</span> ${esc(a[1])}`).join(' · ')}</p></div>
  <div class="row">${backBtn(SES?'pause':'menu')}<button data-u="helpMode">? Help mode</button></div>`);}

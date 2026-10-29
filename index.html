@@ -14,9 +14,9 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<link rel="apple-touch-icon" href="apple-touch-icon.png?v=2.3">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=2.3.1">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="manifest" href="manifest.webmanifest?v=2.3">
+<link rel="manifest" href="manifest.webmanifest?v=2.3.1">
 <title>FESTIVAL CONTROL v2.1</title>
 <style>
 :root{--ui:1;--txt:1;--acc:#ff2bd6;--acc2:#20e3ff;--ok:#3dff8e;--warn:#ffb300;--bad:#ff3b3b;--bg:rgba(8,9,20,.86);--bg2:rgba(20,22,42,.92);--line:rgba(255,255,255,.12);
@@ -95,7 +95,7 @@ input[type=range]::-moz-range-thumb{width:1.3rem;height:1.3rem;border-radius:50%
 .tb{min-width:2.6rem;min-height:2.6rem;padding:.2rem .45rem;font-size:1rem}
 #vol{width:5.5rem}
 /* console panel */
-#panel{position:absolute;right:0;top:calc(var(--sat) + 3.3rem);bottom:calc(var(--sab) + 7.4rem);width:var(--panelW);display:flex;flex-direction:column;background:var(--bg);border:1px solid var(--line);border-right:0;border-radius:1rem 0 0 1rem;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding-right:var(--sar)}
+#panel{position:absolute;right:0;top:calc(var(--sat) + max(3.3rem,54px));bottom:calc(var(--sab) + 7.4rem);width:var(--panelW);display:flex;flex-direction:column;background:var(--bg);border:1px solid var(--line);border-right:0;border-radius:1rem 0 0 1rem;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);padding-right:var(--sar)}
 #panel.full{width:min(82vw,980px)}
 #tabs{display:flex;gap:.2rem;padding:.35rem;overflow-x:auto;border-bottom:1px solid var(--line);scrollbar-width:none;flex:0 0 auto}
 #tabs::-webkit-scrollbar{display:none}
@@ -156,7 +156,7 @@ body.pro #spads{display:none}
 @keyframes popA{0%{transform:translate(-50%,-30%) scale(.7);opacity:0}18%{transform:translate(-50%,-50%) scale(1.12);opacity:1}70%{opacity:1}100%{transform:translate(-50%,-90%) scale(1);opacity:0}}
 #tutPtr{position:fixed;z-index:31;border:3px solid #fff;border-radius:1rem;pointer-events:none;box-shadow:0 0 0 4px rgba(255,43,214,.7),0 0 24px rgba(255,43,214,.9);animation:ptr 1s ease-in-out infinite}
 @keyframes ptr{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-body.insession #toast{top:auto;bottom:calc(var(--botH,7.4rem) + .6rem)}
+body.insession #toast{top:auto;bottom:calc(var(--botH,7.4rem) + 44px + 1.1rem)}
 #upd{position:fixed;z-index:70;left:50%;transform:translateX(-50%);bottom:calc(var(--sab) + 1rem);padding:.7rem 1.1rem;border-radius:1rem;background:linear-gradient(135deg,var(--acc2),var(--acc));color:#000;font-weight:900;min-height:48px;cursor:pointer}
 body:not(.pro) #suggest{display:none}
 body.pro #pads{flex-wrap:wrap;overflow:visible;display:grid;grid-template-columns:repeat(auto-fill,minmax(4.1rem,1fr))}
@@ -219,8 +219,8 @@ body.helpmode [data-help]{outline:1px dashed var(--acc2)}
 body.cine #letterbox{display:block}
 body.clean #hud{display:none}
 body.compact #panel{display:none}
-#freePad{position:absolute;z-index:32;left:calc(var(--sal) + .5rem);bottom:calc(var(--botH,7.4rem) + .5rem);display:grid;grid-template-columns:repeat(3,3.1rem);gap:.3rem}
-#freePad button{min-height:3.1rem;padding:0;font-size:1.1rem;background:rgba(14,16,34,.92);border:1px solid var(--line)}#freePad.hidden{display:none!important}
+#topbar #bCam{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:0;min-width:44px;min-height:44px;width:auto;padding:.15rem .3rem;line-height:1;font-size:1rem;background:rgba(14,16,34,.45);border-color:rgba(255,255,255,.18)}
+#bCam #camLbl{font-style:normal;font-size:.56rem;font-weight:800;letter-spacing:.02em;margin-top:.12rem;white-space:nowrap;opacity:.9}
 #rot{position:fixed;inset:0;z-index:50;display:none}
 /* YouTube audio-only: player stays rendered (iOS keeps audio) but invisible */
 #ytBox{position:fixed;z-index:1;width:200px;height:200px;left:0;bottom:0;opacity:.01;pointer-events:none;overflow:hidden;border-radius:10px}
@@ -356,7 +356,7 @@ body.duel #topbar,body.duel #guide,body.duel #bottom,body.duel #hypeBox,body.due
    <div class="meter" data-help="CROWD: audience engagement."><i id="mEng"></i><b>CROWD</b></div>
   </div>
   <button id="bPro" class="ib" data-help="PRO: switch between the Simple pads and the full Pro console (every control)." aria-label="Open the pro console">PRO</button>
-  <button id="bCam" class="ib" data-help="Camera (V): FOH booth, stage overview, audience, DJ booth, free camera." aria-label="Camera">&#127909;</button>
+  <button id="bCam" class="ib" data-help="Camera angle (V): tap to switch Front, Crowd POV, DJ booth, Wide, Side." aria-label="Camera angle">&#127909;<i id="camLbl">Front</i></button>
   <button id="bCon" class="ib" data-help="Lighting console (Q). Tab opens the full dashboard." aria-label="Console">&#127899;</button>
  </div>
  <div id="suggest" class="hidden"></div>
@@ -364,7 +364,6 @@ body.duel #topbar,body.duel #guide,body.duel #bottom,body.duel #hypeBox,body.due
  <div id="pop"></div>
  <div id="banner" class="hidden"></div>
  <div id="ytCtl" class="hidden"></div>
- <div id="freePad" class="hidden"></div>
  <div id="panel" class="hidden"><div id="tabs"></div><div id="selbar"></div><div id="pbody"></div></div>
  <div id="bottom">
  <div id="hypeBox" class="hidden" data-help="HYPE: bonus points for hitting the beat. The multiplier grows every 8 combo (max ×4), FEVER doubles it."><span>📣</span><b id="hypeN">0</b><em id="multN">×1</em></div>
@@ -1699,7 +1698,7 @@ return {EffectComposer,RenderPass,UnrealBloomPass,OutputPass};})();</script>
 const REAL_META=[{"id":"sailboat","g":"progressive","genre":"Progressive House","title":"Sailboat feat. snowflake","artist":"Levihica","file":"music/sailboat.mp3","page":"https://ccmixter.org/files/Levihica/47608","lic":"CC BY-NC 3.0","lic_url":"https://creativecommons.org/licenses/by-nc/3.0/","samples":[["Sailboat","Madam Snowflake","https://ccmixter.org/files/snowflake/45446"]],"bpm":128.01,"off":1.604,"dur":358.17,"bars":190,"secs":[[0,7,"intro","INTRO"],[7,15,"build","BUILD-UP"],[15,23,"drop","DROP"],[23,47,"peak","PEAK"],[47,95,"main","MAIN GROOVE"],[95,103,"build","BUILD-UP"],[103,111,"drop","MAIN DROP"],[111,135,"peak","PEAK"],[135,183,"main","MAIN GROOVE"],[183,190,"outro","OUTRO"]],"drops":[29.73,194.71],"short":[0,55],"dj":"kito"},{"id":"broken","g":"melodic","genre":"Melodic Dubstep","title":"Broken (Leap Of The Heart)","artist":"7OOP3D","file":"music/broken.mp3","page":"https://ccmixter.org/files/7OOP3D/35783","lic":"CC BY-NC 3.0","lic_url":"https://creativecommons.org/licenses/by-nc/3.0/","samples":[["Broken Acappella","reblaw27","https://ccmixter.org/files/reblaw27/18661"],["Mellow Piano Triplets","Clarence Simpson","https://ccmixter.org/files/casimps1/28535"],["Broken","Clarence Simpson","https://ccmixter.org/files/casimps1/33941"]],"bpm":140,"off":0.376,"dur":303.46,"bars":176,"secs":[[0,8,"intro","INTRO"],[8,16,"build","BUILD-UP"],[16,24,"drop","DROP"],[24,48,"peak","PEAK"],[48,107,"main","MAIN GROOVE"],[107,115,"build","BUILD-UP"],[115,123,"drop","MAIN DROP"],[123,127,"peak","PEAK"],[127,145,"break","BREAKDOWN"],[145,161,"main","MAIN GROOVE"],[161,176,"outro","OUTRO"]],"drops":[27.8,197.52],"short":[0,56],"dj":"lumen"},{"id":"again","g":"bigroom","genre":"Big Room EDM","title":"Again, Once Again","artist":"fluffy","file":"music/again.mp3","page":"https://ccmixter.org/files/fluffy/53739","lic":"CC BY 3.0","lic_url":"https://creativecommons.org/licenses/by/3.0/","samples":[["Once Again (Original RumbleStep Mix)","cdk","https://ccmixter.org/files/cdk/43797"]],"bpm":128.075,"off":1.837,"dur":188.61,"bars":99,"secs":[[0,7,"build","BUILD-UP"],[7,15,"drop","DROP"],[15,39,"peak","PEAK"],[39,83,"main","MAIN GROOVE"],[83,91,"break","BREAKDOWN"],[91,95,"main","MAIN GROOVE"],[95,99,"outro","OUTRO"]],"drops":[14.95],"short":[0,47],"dj":"novak"},{"id":"breakers","g":"mainstage","genre":"Electro House","title":"Breakers Delight","artist":"awkward_tom","file":"music/breakers.mp3","page":"https://ccmixter.org/files/awkward_tom/36183","lic":"CC BY 3.0","lic_url":"https://creativecommons.org/licenses/by/3.0/","samples":[["Brake Dance","Andres Franco","https://ccmixter.org/files/andrewfranco/33929"]],"bpm":130.08,"off":1.726,"dur":238.73,"bars":128,"secs":[[0,5,"build","BUILD-UP"],[5,13,"drop","DROP"],[13,27,"peak","PEAK"],[27,35,"build","BUILD-UP"],[35,43,"drop","MAIN DROP"],[43,67,"peak","PEAK"],[67,71,"main","MAIN GROOVE"],[71,78,"break","BREAKDOWN"],[78,86,"build","BUILD-UP"],[86,94,"drop","DROP 3"],[94,118,"peak","PEAK"],[118,125,"main","MAIN GROOVE"],[125,128,"outro","OUTRO"]],"drops":[10.95,66.3,160.4],"short":[0,51],"dj":"atlas"},{"id":"puck","g":"basshouse","genre":"Complextro","title":"Suck My Puck","artist":"cdk","file":"music/puck.mp3","page":"https://ccmixter.org/files/cdk/48598","lic":"CC BY 3.0","lic_url":"https://creativecommons.org/licenses/by/3.0/","samples":[],"bpm":130.045,"off":0.148,"dur":243.75,"bars":131,"secs":[[0,26,"intro","INTRO"],[26,40,"break","BREAKDOWN"],[40,48,"build","BUILD-UP"],[48,56,"drop","DROP"],[56,80,"peak","PEAK"],[80,88,"break","BREAKDOWN"],[88,96,"build","BUILD-UP"],[96,104,"drop","MAIN DROP"],[104,128,"peak","PEAK"],[128,131,"outro","OUTRO"]],"drops":[88.73,177.32],"short":[32,112],"dj":"novak"},{"id":"hero","g":"peaktechno","genre":"Dubstep / Drum & Bass","title":"Hero","artist":"VJ_Memes","file":"music/hero.mp3","page":"https://ccmixter.org/files/VJ_Memes/31129","lic":"CC BY-NC 3.0","lic_url":"https://creativecommons.org/licenses/by-nc/3.0/","samples":[["Hero","Aamu","https://ccmixter.org/files/aamu/27232"]],"bpm":140.04,"off":1.693,"dur":233.2,"bars":135,"secs":[[0,7,"intro","INTRO"],[7,15,"build","BUILD-UP"],[15,23,"drop","DROP"],[23,47,"peak","PEAK"],[47,55,"break","BREAKDOWN"],[55,63,"build","BUILD-UP"],[63,71,"drop","MAIN DROP"],[71,95,"peak","PEAK"],[95,129,"main","MAIN GROOVE"],[129,135,"outro","OUTRO"]],"drops":[27.4,109.66],"short":[0,79],"dj":"vanta"},{"id":"acceptance","g":"trance","genre":"Festival Trance","title":"Acceptance","artist":"F_Fact","file":"music/acceptance.mp3","page":"https://ccmixter.org/files/F_Fact/53509","lic":"CC BY-NC 3.0","lic_url":"https://creativecommons.org/licenses/by-nc/3.0/","samples":[["Ya Ghaly","mentorrecords","https://ccmixter.org/files/mentorrecords/12985"],["Acceptance","MissJudged","https://ccmixter.org/files/MissJudged/49841"]],"bpm":138,"off":1.665,"dur":389.57,"bars":223,"secs":[[0,23,"intro","INTRO"],[23,31,"build","BUILD-UP"],[31,39,"drop","DROP"],[39,63,"peak","PEAK"],[63,78,"main","MAIN GROOVE"],[78,87,"break","BREAKDOWN"],[87,95,"build","BUILD-UP"],[95,103,"drop","MAIN DROP"],[103,127,"peak","PEAK"],[127,145,"main","MAIN GROOVE"],[145,151,"break","BREAKDOWN"],[151,159,"build","BUILD-UP"],[159,167,"drop","DROP 3"],[167,191,"peak","PEAK"],[191,209,"main","MAIN GROOVE"],[209,223,"outro","OUTRO"]],"drops":[55.58,166.88,278.19],"short":[15,71],"dj":"lumen"},{"id":"haunted","g":"dubstep","genre":"Dubstep","title":"The Haunted Hotel","artist":"SackJo22","file":"music/haunted.mp3","page":"https://ccmixter.org/files/SackJo22/41323","lic":"CC BY 3.0","lic_url":"https://creativecommons.org/licenses/by/3.0/","samples":[["Karma 88 BPM Ft. Geechbeatz.com","coruscate","https://ccmixter.org/files/Coruscate/35585"],["The Secret Of Life (94 BPM) Ft. QBBeats.com","coruscate","https://ccmixter.org/files/Coruscate/35586"],["Make You Stomp","coruscate","https://ccmixter.org/files/Coruscate/39550"],["Kaleidoscopic Visions Dubby Mix","coruscate","https://ccmixter.org/files/Coruscate/41032"]],"bpm":140.06,"off":1.325,"dur":247.13,"bars":143,"secs":[[0,1,"intro","INTRO"],[1,9,"build","BUILD-UP"],[9,17,"drop","DROP"],[17,31,"peak","PEAK"],[31,39,"build","BUILD-UP"],[39,47,"drop","MAIN DROP"],[47,71,"peak","PEAK"],[71,79,"build","BUILD-UP"],[79,87,"drop","DROP 3"],[87,105,"peak","PEAK"],[105,113,"build","BUILD-UP"],[113,121,"drop","DROP 4"],[121,132,"peak","PEAK"],[132,143,"outro","OUTRO"]],"drops":[16.75,68.15,136.7,194.96],"short":[0,55],"dj":"vanta"},{"id":"drive","g":"dnb","genre":"Drum & Bass","title":"Drive","artist":"AlexBeroza","file":"music/drive.mp3","page":"https://ccmixter.org/files/AlexBeroza/43098","lic":"CC BY 3.0","lic_url":"https://creativecommons.org/licenses/by/3.0/","samples":[["Drive (Original RumbleStep Mix)","cdk","https://ccmixter.org/files/cdk/43076"]],"bpm":165,"off":1.459,"dur":190.59,"bars":130,"secs":[[0,13,"intro","INTRO"],[13,32,"groove","GROOVE"],[32,40,"break","BREAKDOWN"],[40,62,"groove","GROOVE"],[62,70,"build","BUILD-UP"],[70,78,"drop","DROP"],[78,102,"peak","PEAK"],[102,128,"main","MAIN GROOVE"],[128,130,"outro","OUTRO"]],"drops":[103.28],"short":[54,110],"dj":"mira"},{"id":"party","g":"futurerave","genre":"Hardstyle","title":"Keep The Party Rocking","artist":"F_Fact","file":"music/party.mp3","page":"https://ccmixter.org/files/F_Fact/46526","lic":"CC BY 3.0","lic_url":"https://creativecommons.org/licenses/by/3.0/","samples":[["Power Music","Donnie Ozone","https://ccmixter.org/files/donnieozone/46066"]],"bpm":150.03,"off":1.559,"dur":248.93,"bars":154,"secs":[[0,16,"groove","GROOVE"],[16,23,"break","BREAKDOWN"],[23,31,"build","BUILD-UP"],[31,39,"drop","DROP"],[39,63,"peak","PEAK"],[63,96,"main","MAIN GROOVE"],[96,104,"build","BUILD-UP"],[104,112,"drop","MAIN DROP"],[112,136,"peak","PEAK"],[136,152,"main","MAIN GROOVE"],[152,154,"outro","OUTRO"]],"drops":[51.15,167.93],"short":[15,71],"dj":"atlas"}];
 // ===================== core.js =====================
 // Core: utilities, device, event bus, versioned save system, settings, key bindings, command log (drives replay + scoring)
-const VERSION='v2.3';
+const VERSION='v2.3.1';
 // seedable RNG: shadows Math inside the bundle so a challenge seed replays the identical show
 const RNG={f:globalThis.Math.random};const Math=Object.create(globalThis.Math,{random:{value:()=>RNG.f()}});
 function rngSeed(s){RNG.f=s?seeded(s):globalThis.Math.random;}
@@ -1753,7 +1752,7 @@ function defBindings(){const b={};ACTIONS.forEach(a=>b[a[0]]=a[2]);return b;}
 // ---- versioned save ----
 function freshSave(){return {v:SAVE_VERSION,created:Date.now(),settings:JSON.parse(JSON.stringify(DEF_SETTINGS)),bind:defBindings(),
   career:{credits:400,xp:0,rep:0,venue:0,best:{},missions:{},challenges:{},shows:0},owned:[],skin:'default',
-  groups:[],presets:[],cues:[],programs:{},ledPresets:[],macros:[],festivals:[],swatches:['#ff2bd6','#20e3ff','#ffffff','#ffb300'],favorites:[],tutorialDone:false,seenWarn:false,welcomed:false,lastTrack:'bigroom',mp:{name:'',lb:{}},fun:freshFun()};}
+  groups:[],presets:[],cues:[],programs:{},ledPresets:[],macros:[],festivals:[],swatches:['#ff2bd6','#20e3ff','#ffffff','#ffb300'],favorites:[],tutorialDone:false,seenWarn:false,welcomed:false,lastTrack:'bigroom',cam:'foh',mp:{name:'',lb:{}},fun:freshFun()};}
 function freshFun(){return {stars:{},ach:{},daily:{last:'',streak:0,bestStreak:0,best:{},played:0},played:{},stats:{fever:0,req:0,perfDrops:0,duels:0,duelWins:0,maxCombo:0,maxHype:0}};}
 function sanitizeFun(f){const F=freshFun(),o=v=>v&&typeof v==='object'&&!Array.isArray(v);if(!o(f))return F;
   for(const k of ['stars','ach','played']){if(o(f[k]))for(const [a,b] of Object.entries(f[k]))if(typeof a==='string'&&Number.isFinite(+b))F[k][a.slice(0,40)]=Math.max(0,Math.min(1e7,Math.floor(+b)));}
@@ -3380,43 +3379,35 @@ function computeScore(){const S=SCORE,sm=S.samples,R={cats:{},metrics:{},tips:[]
 function liveScore(){if(!SCORE||!SCORE.on||SCORE.samples.length<8)return null;try{return computeScore().overall;}catch(e){return null;}}
 
 // ===================== camera.js =====================
-// Cameras: FOH booth, stage overview, in the crowd, DJ booth, free orbit (drag / pinch / wheel / on-screen pad / WASD). Tap on the 3D view selects fixtures when the console is open.
-const CAM_MODES=[['foh','FOH booth'],['stage','Stage overview'],['crowd','In the crowd'],['faces','Facing the crowd'],['dj','DJ booth'],['free','Free camera']];
-const CAM={mode:'foh',shake:0,th:0,ph:0.18,r:46,tgt:new THREE.Vector3(0,5,0),pos:new THREE.Vector3(0,7,44),look:new THREE.Vector3(0,5,0),blend:1,keys:{},zoom:1,ptrs:new Map(),pinch0:0,down:null,t:0};
+// Cameras: 5 preset angles (Front, Crowd POV, DJ booth, Wide, Side) cycled by the 🎥 button or V, with a smooth move between them. Tap on the 3D view selects fixtures when the console is open.
+const CAM_MODES=[['foh','Front'],['crowd','Crowd POV'],['dj','DJ booth'],['wide','Wide'],['side','Side']];
+const CAM_OLD={stage:'wide',faces:'crowd',free:'foh'}; // v2.3 angles saved in shows / replays
+const CAM={mode:'foh',shake:0,pos:new THREE.Vector3(0,7,44),look:new THREE.Vector3(0,5,0),blend:1,zoom:1,ptrs:new Map(),down:null,t:0};
 const _cp=new THREE.Vector3(),_cl=new THREE.Vector3();
-function camSet(m,instant){if(!CAM_MODES.find(x=>x[0]===m))m='foh';if(m==='free'&&CAM.mode!=='free'){const A=G.anch,d=_cp.copy(G.cam.position).sub(CAM.tgt.set(0,A?A.ledY*0.6:5,0));CAM.r=clamp(d.length(),6,120);CAM.th=Math.atan2(d.x,d.z);CAM.ph=Math.asin(clamp(d.y/CAM.r,-0.1,1.3));}
-  CAM.mode=m;CAM.blend=instant?1:0;CAM.zoom=1;$('freePad').classList.toggle('hidden',m!=='free');Bus.emit('cam',m);}
-function camNext(){const i=CAM_MODES.findIndex(x=>x[0]===CAM.mode);camSet(CAM_MODES[(i+1)%CAM_MODES.length][0]);toast('Camera: '+CAM_MODES[(i+1)%CAM_MODES.length][1],1000);}
+// v2.3.1: the camera is a simple angle changer: one small 🎥 button cycles 5 preset angles with a smooth move; the last angle is saved.
+function camSet(m,instant,save){m=CAM_OLD[m]||m;if(!CAM_MODES.find(x=>x[0]===m))m='foh';CAM.mode=m;CAM.blend=instant?1:0;CAM.zoom=1;camLabel();
+  if(save&&typeof SAVE==='object'&&SAVE&&SAVE.cam!==m){SAVE.cam=m;typeof dirty==='function'&&dirty();}Bus.emit('cam',m);}
+function camName(m){const x=CAM_MODES.find(v=>v[0]===m);return x?x[1]:'';}
+function camLabel(){const l=$('camLbl'),b=$('bCam');if(l)l.textContent=camName(CAM.mode);if(b)b.setAttribute('aria-label','Camera angle: '+camName(CAM.mode)+'. Tap for next angle');}
+function camNext(){const i=CAM_MODES.findIndex(v=>v[0]===CAM.mode);const m=CAM_MODES[(i+1)%CAM_MODES.length][0];camSet(m,false,true);}
 function camTarget(dt,o){const A=G.anch;if(!A)return;const t=CAM.t,portrait=G.H>G.W;let p=_cp,l=_cl;
   switch(CAM.mode){
    case 'foh':p.set(Math.sin(t*0.07)*1.2,6.2,A.fohZ-2.5);l.set(0,A.ledY*0.62,0);if(portrait)p.z=Math.min(A.fohZ-2.5,A.fohZ*0.82);break;
-   case 'stage':p.set(Math.sin(t*0.05)*A.W*0.7,13+Math.sin(t*0.08)*2,24+Math.cos(t*0.05)*4);l.set(0,4.5,6);break;
+   case 'wide':p.set(Math.sin(t*0.04)*A.W*0.35,24+Math.sin(t*0.07)*1.5,34);l.set(0,2.5,2);if(portrait){p.y+=6;p.z+=10;}break;
+   case 'side':p.set(A.W*0.62+9,5.2+Math.sin(t*0.08)*0.4,9+Math.sin(t*0.06)*2);l.set(-2,A.ledY*0.5,2);if(portrait)p.x+=6;break;
    case 'crowd':{const bob=CRW.jump*Math.max(0,Math.sin((o.beat%1)*Math.PI))*0.18*(ST.reduceMotion?0.2:1);p.set(Math.sin(t*0.11)*3,1.85+bob,G.crowdZ0+9);l.set(0,A.ledY*0.75,0);break;}
-   case 'faces':p.set(Math.sin(t*0.09)*4,2.6+Math.sin(t*0.13)*0.3,G.crowdZ0-1.6);l.set(Math.sin(t*0.09)*2,1.4,G.crowdZ0+12);break;
    case 'dj':p.set(0.6,A.DH+2.5,A.booth.z-4.2);l.set(0,4,30);break;
-   case 'free':{const k=CAM.keys,sp=dt*1.2*ST.camSens;if(k.l)CAM.th-=sp;if(k.r)CAM.th+=sp;if(k.u)CAM.ph+=sp*0.6;if(k.d)CAM.ph-=sp*0.6;if(k.i)CAM.r*=1-dt*0.9;if(k.o)CAM.r*=1+dt*0.9;
-     CAM.ph=clamp(CAM.ph,-0.05,1.35);CAM.r=clamp(CAM.r,5,130);l.copy(CAM.tgt);p.set(Math.sin(CAM.th)*Math.cos(CAM.ph),Math.sin(CAM.ph),Math.cos(CAM.th)*Math.cos(CAM.ph)).multiplyScalar(CAM.r).add(l);p.y=Math.max(0.6,p.y);break;}}}
-function camTick(dt,o){CAM.t+=dt;camTarget(dt,o);CAM.blend=Math.min(1,CAM.blend+dt/0.9);const k=CAM.blend>=1||CAM.mode==='free'&&CAM.blend>0.6?1:1-Math.exp(-dt*5);
+  }}
+function camTick(dt,o){CAM.t+=dt;camTarget(dt,o);CAM.blend=Math.min(1,CAM.blend+dt/0.9);const e=CAM.blend*CAM.blend*(3-2*CAM.blend),k=CAM.blend>=1?1:Math.max(1-Math.exp(-dt*4),e*0.35);
   CAM.pos.lerp(_cp,k);CAM.look.lerp(_cl,k);G.cam.position.copy(CAM.pos);
   CAM.shake=Math.max(0,CAM.shake-dt*1.8);if(CAM.shake>0&&!ST.reduceShake){const s=CAM.shake*0.12;G.cam.position.x+=(Math.random()-0.5)*s;G.cam.position.y+=(Math.random()-0.5)*s;}
   G.cam.lookAt(CAM.look);const bf=G.W<G.H?72:55;const f=bf/CAM.zoom;if(Math.abs(G.cam.fov-f)>0.01){G.cam.fov=f;G.cam.updateProjectionMatrix();}}
 Bus.on('fx',(k)=>{if(k==='fireworks')CAM.shake=Math.min(1,CAM.shake+0.25);else if(k==='flames'||k==='co2')CAM.shake=Math.min(1,CAM.shake+0.12);});
 function camInput(){const cv=$('c');
-  cv.addEventListener('pointerdown',e=>{cv.setPointerCapture&&cv.setPointerCapture(e.pointerId);CAM.ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});if(CAM.ptrs.size===1)CAM.down={x:e.clientX,y:e.clientY,t:performance.now(),moved:0};
-    if(CAM.ptrs.size===2){const [a,b]=[...CAM.ptrs.values()];CAM.pinch0=Math.hypot(a.x-b.x,a.y-b.y);CAM.down=null;}});
-  cv.addEventListener('pointermove',e=>{const p=CAM.ptrs.get(e.pointerId);if(!p)return;const dx=e.clientX-p.x,dy=e.clientY-p.y;p.x=e.clientX;p.y=e.clientY;if(CAM.down)CAM.down.moved+=Math.abs(dx)+Math.abs(dy);
-    if(CAM.ptrs.size===1&&CAM.down&&CAM.down.moved>8){if(CAM.mode!=='free'){camSet('free',true);}CAM.th-=dx*0.006*ST.camSens;CAM.ph=clamp(CAM.ph+dy*0.004*ST.camSens,-0.05,1.35);}
-    else if(CAM.ptrs.size===2){const [a,b]=[...CAM.ptrs.values()];const d=Math.hypot(a.x-b.x,a.y-b.y);if(CAM.pinch0>0){if(CAM.mode!=='free')camSet('free',true);CAM.r=clamp(CAM.r*CAM.pinch0/d,5,130);}CAM.pinch0=d;}});
-  const up=e=>{const d=CAM.down;CAM.ptrs.delete(e.pointerId);if(CAM.ptrs.size<2)CAM.pinch0=0;if(d&&d.moved<=8&&performance.now()-d.t<400&&e.type==='pointerup')camTap(e.clientX,e.clientY);if(!CAM.ptrs.size)CAM.down=null;};
-  cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
-  cv.addEventListener('wheel',e=>{e.preventDefault();if(CAM.mode!=='free')camSet('free',true);CAM.r=clamp(CAM.r*(1+Math.sign(e.deltaY)*0.08),5,130);},{passive:false});
-  const fp=$('freePad');const B=[['↺','Orbit left','l'],['▲','Tilt up','u'],['↻','Orbit right','r'],['＋','Zoom in','i'],['▼','Tilt down','d'],['－','Zoom out','o']];
-  fp.innerHTML=B.map(b=>`<button data-k="${b[2]}" aria-label="${b[1]}" data-help="Free camera: ${b[1]} (hold). You can also drag to orbit and pinch to zoom.">${b[0]}</button>`).join('')+'<button data-k="reset" aria-label="Reset camera" style="grid-column:span 3;font-size:.75rem">Reset view</button>';
-  fp.querySelectorAll('button').forEach(b=>{const k=b.dataset.k;if(k==='reset'){b.onclick=()=>{CAM.th=0;CAM.ph=0.18;CAM.r=46;};return;}
-    const on=e=>{e.preventDefault();CAM.keys[k]=true;},off=()=>{CAM.keys[k]=false;};b.addEventListener('pointerdown',on);b.addEventListener('pointerup',off);b.addEventListener('pointerleave',off);b.addEventListener('pointercancel',off);});
-  const km={KeyA:'l',ArrowLeft:'l',KeyD:'r',ArrowRight:'r',KeyW:'u',ArrowUp:'u',KeyS:'d',ArrowDown:'d',Equal:'i',Minus:'o'};
-  addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||CAM.mode!=='free')return;const k=km[e.code];if(k){CAM.keys[k]=true;e.preventDefault();}});
-  addEventListener('keyup',e=>{const k=km[e.code];if(k)CAM.keys[k]=false;});}
+  // taps on the 3D view still pick fixtures when the console is open; no drag / pinch / wheel camera any more
+  cv.addEventListener('pointerdown',e=>{CAM.ptrs.set(e.pointerId,1);if(CAM.ptrs.size===1)CAM.down={x:e.clientX,y:e.clientY,t:performance.now()};else CAM.down=null;});
+  const up=e=>{const d=CAM.down;CAM.ptrs.delete(e.pointerId);if(d&&e.type==='pointerup'&&Math.hypot(e.clientX-d.x,e.clientY-d.y)<=8&&performance.now()-d.t<400)camTap(e.clientX,e.clientY);if(!CAM.ptrs.size)CAM.down=null;};
+  cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);camLabel();}
 function camTap(x,y){if(!SES||$('panel').classList.contains('hidden'))return;const f=pickFixture(x/G.W*2-1,-(y/G.H)*2+1);if(!f)return;
   const ids=SEL.ids.includes(f.id)?SEL.ids.filter(i=>i!==f.id):SEL.ids.concat(f.id);CMD.run('sel',[ids,'pick']);toast((SEL.ids.includes(f.id)?'Selected ':'Deselected ')+f.id,900);uiClick&&uiClick();}
 
@@ -3471,7 +3462,7 @@ function renderPanel(){if(!CON.open||!SES)return;conTabs();conSelbar();const b=$
       const ev=TR&&SAVE.programs[TR.id]?SAVE.programs[TR.id].ev:[];h+=lbl('Timeline program ('+ev.length+' events)')+ev.map((e,i)=>`<div class="item"><span class="nm">Bar ${Math.floor(e.b/4)+1}: ${esc((cueById(e.cue)||{name:'(deleted cue)'}).name)}</span><button data-a="evDel" data-v="${i}" class="danger">✕</button></div>`).join('')+(ev.length?'<button data-a="evClr" class="danger">Clear program</button>':'<div class="muted">Select a cue with Place, then tap the timeline.</div>');}
     else h+='<div class="muted" style="margin-top:.4rem">Switch to PROG mode to record, rename, delete or place cues.</div>';}
   else if(T==='show'){h+=lbl('Quantize (cues, macros)')+`<div class="row">${chipsH([['off','Off'],['half','½ beat'],['beat','Beat'],['bar','Bar']],ST.quantize,'quant')}</div>`;
-    h+=lbl('Camera (V)')+`<div class="row">${chipsH(CAM_MODES,CAM.mode,'cam')}</div>`;
+    h+=lbl('Camera angle (V)')+`<div class="row">${chipsH(CAM_MODES,CAM.mode,'cam')}</div>`;
     h+=lbl('Song sections')+(TR&&!TR.yt?`<div class="row">${TR.secs.map(s=>`<button class="chip${curSecObj()===s?' sel':''}" data-a="seekSec" data-v="${s.i}"${SES.scored?' disabled':''}>${esc(s.n)}</button>`).join('')}</div>${SES.scored?'<div class="muted">Seeking is disabled in scored shows.</div>':''}`:'<div class="muted">My Song: sections count in 16-bar blocks from your marked DROP.</div>');
     h+=lbl('View')+`<div class="row"><button data-a="cine" class="${document.body.classList.contains('cine')?'sel':''}">Cinematic bars</button><button data-a="clean">Hide HUD (tap to restore)</button><button data-a="compact">Compact (H)</button></div>`;
     h+=lbl('Show file')+`<div class="row"><button data-a="expShow">Export show (JSON)</button><button data-a="impShow">Import show</button>${SES.mode==='free'?`<button data-a="replay"${SES.lastReplay&&SES.lastReplay.log.length?'':' disabled'}>Watch last recording</button>`:''}</div>`;
@@ -3499,7 +3490,7 @@ const CA={
  cueRen:v=>{const c=cueById(v);promptBox('Rename cue',c.name,n=>{c.name=n;dirty();CON.needs=true;});},cueDel:v=>{const i=SAVE.cues.findIndex(c=>c.id===v),c=SAVE.cues[i];SAVE.cues.splice(i,1);dirty();CON.needs=true;toast('Deleted cue '+c.name,3500,{label:'Undo',fn:()=>{SAVE.cues.splice(i,0,c);dirty();CON.needs=true;}});},
  cueT:v=>{CON.cueOpt.trans=v;},cueWave:()=>{CON.cueOpt.wave=!CON.cueOpt.wave;},cueRec:()=>promptBox('Cue name','Cue '+((SAVE.cues||[]).length+1),n=>{SAVE.cues.push(Object.assign({id:uid(),name:n,look:snapshotLook()},CON.cueOpt));dirty();CON.needs=true;toast('Cue recorded');}),
  evDel:v=>{SAVE.programs[TR.id].ev.splice(+v,1);dirty();},evClr:()=>confirmBox('Clear program?','Remove all timeline events for this track.','Clear',()=>{delete SAVE.programs[TR.id];dirty();CON.needs=true;},true),
- quant:v=>{ST.quantize=v;dirty();},cam:v=>camSet(v),seekSec:v=>{if(SES.scored)return;const s=TR.secs[+v];transportSeek(s.a*TR.bar);},
+ quant:v=>{ST.quantize=v;dirty();},cam:v=>camSet(v,false,true),seekSec:v=>{if(SES.scored)return;const s=TR.secs[+v];transportSeek(s.a*TR.bar);},
  cine:()=>document.body.classList.toggle('cine'),clean:()=>{document.body.classList.add('clean');toast('Tap anywhere to bring the HUD back',2000);},compact:()=>{document.body.classList.toggle('compact');},
  expShow:()=>downloadJSON(exportShow(),'festival-control-show.json'),impShow:()=>{FILE_MODE='show';$('fileIn').click();},replay:()=>startReplay(),restart:()=>restartSong(),endShow:()=>finishShow(false)};
 const CS={master:(k,v)=>CMD.run('master',[v],{coalesce:'master'}),speed:(k,v)=>CMD.run('speed',[v],{coalesce:'speed'}),haze:(k,v)=>CMD.run('haze',[v],{coalesce:'haze'}),pR:(k,v)=>CMD.run('p',[tIds(),k,v],{coalesce:'p'+k}),
@@ -3648,7 +3639,7 @@ const TUT_STEPS=[['Welcome, operator! Open the lighting console: tap 🎛 (top r
  ['Hold FLASH right on a beat (watch the beat dot next to the BPM).',(e,n,a)=>e==='cmd'&&n==='flash'&&a[0]],
  ['Tap ARM to arm the pyro, then CO2 or FLAMES on a big moment.',(e,n,a)=>e==='fx'],
  ['Open the LED tab and change the LED wall style.',(e,n,a)=>e==='cmd'&&n==='led'&&a[0]==='style'],
- ['Switch camera: tap 🎥 or press V.',(e)=>e==='cam'],
+ ['Switch camera angle: tap 🎥 (or press V).',(e)=>e==='cam'],
  ['Done! Shows are scored on timing, music sync, variety and the crowd. End the session from the SHOW tab, or play a Career show.',()=>false]];
 function tutShow(){const t=$('tut');if(!TUT.on){t.classList.add('hidden');return;}if(TUT.i===0)TUT.pro=ST.uiMode==='pro';const SS=tutSteps();t.classList.remove('hidden');t.classList.toggle('big',!!ST.tutBig);const s=SS[TUT.i];const last=TUT.i===SS.length-1;
   t.innerHTML=`<b>Step ${TUT.i+1}/${SS.length}</b> ${esc(s[0])} `+(last?`<button class="chip sel tbtn" data-tt="close">Keep playing</button><button class="chip tbtn" data-tt="menu">Main menu</button>`:`<button class="chip tbtn" data-tt="skip">Skip step</button><button class="chip tbtn" data-tt="end">End tutorial</button>`);
@@ -3662,7 +3653,7 @@ const SET_DEF={graphics:[['quality','Quality','sel',[['auto','Auto (adaptive)'],
  audio:[['vol.master','Master','rng',[0,1,0.01]],['vol.music','Music','rng',[0,1,0.01]],['vol.crowd','Crowd','rng',[0,1,0.01]],['vol.env','Environment / ambience','rng',[0,1,0.01]],['vol.fx','Effects (pyro, CO2)','rng',[0,1,0.01]],['vol.ui','Interface clicks','rng',[0,1,0.01]]],
  access:[['reduceFlash','Reduce flashing','chk'],['noStrobe','Disable strobe effects','chk'],['reduceShake','Reduce camera shake','chk'],['reduceMotion','Reduce motion','chk'],['flashWarn','Show photosensitivity warning','chk'],['colorBlind','Colour-blind friendly HUD','chk'],
    ['uiScale','Interface size','rng',[0.8,1.4,0.05]],['textScale','Text size','rng',[0.8,1.5,0.05]],['tutBig','Large tutorial text','chk'],['tutSpeak','Read tutorial aloud','chk'],['haptics','Vibration (where supported)','chk']],
- gameplay:[['uiMode','Console','sel',[['simple','Simple (big pads)'],['pro','Pro (full console)']]],['hints','Hints & drop countdown','chk'],['autoArm','Auto-arm pyro in Simple mode','chk'],['beginner','Beginner suggestions (Pro)','chk'],['quantize','Quantize cues/macros','sel',[['off','Off'],['half','½ beat'],['beat','Beat'],['bar','Bar']]],['camSens','Camera sensitivity','rng',[0.3,2,0.05]],['maxFx','Max simultaneous FX','rng',[2,12,1]]]};
+ gameplay:[['uiMode','Console','sel',[['simple','Simple (big pads)'],['pro','Pro (full console)']]],['hints','Hints & drop countdown','chk'],['autoArm','Auto-arm pyro in Simple mode','chk'],['beginner','Beginner suggestions (Pro)','chk'],['quantize','Quantize cues/macros','sel',[['off','Off'],['half','½ beat'],['beat','Beat'],['bar','Bar']]],['maxFx','Max simultaneous FX','rng',[2,12,1]]]};
 const getS=k=>k.startsWith('vol.')?ST.vol[k.slice(4)]:ST[k];
 function setS(k,v){if(k.startsWith('vol.'))ST.vol[k.slice(4)]=v;else ST[k]=v;dirty();applySettings();}
 function settingsScreen(){const T=UI.setTab;const tabs=[['graphics','Graphics'],['audio','Audio'],['access','Accessibility'],['gameplay','Gameplay'],['keys','Controls'],['data','Data']];let h='';
@@ -3682,7 +3673,7 @@ function helpScreen(){scr(`<h2>Help</h2><div style="font-size:.9rem;line-height:
  <p><b>Console (🎛 / Q):</b> LIGHTS = groups, intensity, chases, presets · COLOR = palettes, swatches, wheel · MOVE = patterns, XY position, gobos, lasers · FX = pyro, CO2, confetti, sequences · LED = wall content and transitions · CUES = record/fire cues, timeline programming · SHOW = quantize, camera, sections.</p>
  <p><b>Selection:</b> group chips or tap fixtures in the 3D view while the console is open. With nothing selected, edits apply to all fixtures. <b>Release</b> returns to the base/automated look.</p>
  <p><b>Pads:</b> FLASH and STROBE are hold buttons. Pyro (flames, sparks, fireworks) needs ARM first; it auto-disarms when you pause. Fireworks are outdoor-only.</p>
- <p><b>Camera:</b> 🎥 cycles FOH booth, stage, crowd, DJ and free. Drag to orbit, pinch / wheel to zoom, WASD to move in free camera.</p>
+ <p><b>Camera:</b> tap 🎥 (top right) to switch angle: Front, Crowd POV, DJ booth, Wide, Side. The small label shows the current angle and it is remembered. Keyboard: V.</p>
  <p><b>Help mode:</b> tap ? (or press /) and then tap any control to see what it does.</p>
  <p><b>Keys:</b> ${ACTIONS.slice(0,22).map(a=>`<span class="kbd">${esc((SAVE.bind[a[0]]||'').replace(/^Key|^Digit/,''))}</span> ${esc(a[1])}`).join(' · ')}</p></div>
  <div class="row">${backBtn(SES?'pause':'menu')}<button data-u="helpMode">? Help mode</button></div>`);}
@@ -4248,7 +4239,7 @@ function startSession(cfg){try{initAudio();}catch(e){}hideScr();if(SES)endSessio
   resetShowState();AUTO.mode=cfg.auto||'manual';SHOW.haze=G.env.haze;const g=GMAP[TR.g&&TR.g.id||'bigroom']||GENRES[1];SHOW.pal=PALMAP[g.pal]?g.pal:'main';
   CMD.run('pal',[SHOW.pal,null],{auto:true,norec:true});CMD.run('preset',['blue'],{auto:true,norec:true});if(AUTO.mode==='assisted')autoSection(true);
   setAmbience(G.env);scoreReset(SES.scored);ENG.e=0.35;CMD.rec=SES.scored?{track:TR.id,start:0,log:[]}:null;RUN.replay=null;
-  camSet('foh',true);conOpen(false);$('panel').classList.remove('full');CON.progCue=null;CON.tab='lights';$('hud').classList.remove('hidden');document.body.classList.add('insession');
+  camSet(SAVE.cam||'foh',true);conOpen(false);$('panel').classList.remove('full');CON.progCue=null;CON.tab='lights';$('hud').classList.remove('hidden');document.body.classList.add('insession');
   TUT.on=cfg.mode==='tutorial';TUT.i=0;tutShow();if(cfg.mode==='tutorial')ST.beginner=ST.beginner;
   transportPlay();toast((SES.scored?'Show: ':'')+TR.title+(TR.artist?' – '+TR.artist:'')+' @ '+V.name,1800);
   setTimeout(()=>{if(!SES||!TR)return;const k=VENUES.findIndex(v=>v===V),nv=VENUES[k+1];preloadTrack(nv&&nv.track||'');},5000);Bus.emit('session',SES);}
@@ -4298,7 +4289,7 @@ function boot(){try{initScene();}catch(e){scr(`<h2>Can't start 3D</h2><p>${esc(e
   document.addEventListener('visibilitychange',()=>{if(document.hidden&&SES&&SEQ.playing&&!TR.yt&&!UI.scr)pauseScreen();});
   try{mpInit();}catch(e){reportError(e,'mp');}
   if(!chalFromHash()){if(!SAVE.welcomed&&!SAVE.tutorialDone&&!SAVE.career.shows)welcomeScreen();else menuScreen();}RUN.booted=true;requestAnimationFrame(frame);
-  window.__fc={rand:()=>Math.random(),MP,chalEncode,chalDecode,chalUrl,chalFromHash,showPoints,lbRecord,mpName,rngSeed,fnv32,FILE,REAL_TRACKS,songPos,transportSeek,transportPlay,loadTrack,preloadTrack,transportPause,SIM,setUiMode,simTick,simHint,simAct,TUT,welcomeScreen,UA_,nextMarker,curSecObj,beatPos,SHOW,CMD,FIX,FXS,SCORE:()=>SCORE,ENG,SEQ,SAVE:()=>SAVE,ST,TR:()=>TR,SES:()=>SES,CRW,DJ,CAM,AN,A,G,CON,UI,LEDRT,AUTO,SEL,YT,computeScore,startSession,finishShow,menuScreen,careerRig,careerFx,transportSeek,songPos,beatPos,ERRORS,persist,UA:UA_,CA,padAct,conOpen,renderPanel,camSet,keyAct,TUT,VERSION,Bus,curSec,liveScore,TRACKS,SHOP,VENUES,secAt,musBar,Store,FUN,DUEL,ACH,funStars,dailyCfg,dayKey,dailyRecord,funAch,funFever,funFinish,judgeCore,duelStart,duelPress,duelHud,duelJudge,duelFinish,duelReset,packX,unpackX,sanitizeSave:typeof sanitizeSave!=="undefined"?sanitizeSave:null,freshFun,SAVE_VERSION,reqSpawn,reqHit,loadSave:typeof loadSave!=="undefined"?loadSave:null};}
+  window.__fc={rand:()=>Math.random(),MP,chalEncode,chalDecode,chalUrl,chalFromHash,showPoints,lbRecord,mpName,rngSeed,fnv32,FILE,REAL_TRACKS,songPos,transportSeek,transportPlay,loadTrack,preloadTrack,transportPause,SIM,setUiMode,toast,simTick,simHint,simAct,TUT,welcomeScreen,UA_,nextMarker,curSecObj,beatPos,SHOW,CMD,FIX,FXS,SCORE:()=>SCORE,ENG,SEQ,SAVE:()=>SAVE,ST,TR:()=>TR,SES:()=>SES,CRW,DJ,CAM,AN,A,G,CON,UI,LEDRT,AUTO,SEL,YT,computeScore,startSession,finishShow,menuScreen,careerRig,careerFx,transportSeek,songPos,beatPos,ERRORS,persist,UA:UA_,CA,padAct,conOpen,renderPanel,camSet,keyAct,TUT,VERSION,Bus,curSec,liveScore,TRACKS,SHOP,VENUES,secAt,musBar,Store,FUN,DUEL,ACH,funStars,dailyCfg,dayKey,dailyRecord,funAch,funFever,funFinish,judgeCore,duelStart,duelPress,duelHud,duelJudge,duelFinish,duelReset,packX,unpackX,sanitizeSave:typeof sanitizeSave!=="undefined"?sanitizeSave:null,freshFun,SAVE_VERSION,reqSpawn,reqHit,loadSave:typeof loadSave!=="undefined"?loadSave:null};}
 boot();
 
 })();</script>
